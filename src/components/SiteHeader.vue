@@ -2,7 +2,7 @@
   import { computed } from 'vue';
   import { useRoute } from 'vue-router';
   const route = useRoute();
-  const routeName = computed(() => route.name)
+  const routeName = computed(() => route.name);
 </script>
 
 <template>
@@ -26,6 +26,8 @@ nav {
   position: relative;
   font-size: 1.2rem;
   gap: 4rem;
+  padding: 1.5rem 3rem;
+  z-index: 10;
 
   .wrapper {
     flex: 1;

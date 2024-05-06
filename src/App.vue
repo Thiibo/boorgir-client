@@ -4,9 +4,14 @@ import SiteHeader from './components/SiteHeader.vue';
 </script>
 
 <template>
-  <SiteHeader />
-  <RouterView />
+  <div>
+    <SiteHeader />
+    <RouterView />
+  </div>
 </template>
 
 <style lang="scss" scoped>
+  div {
+    position: relative;
+  }
 </style>
