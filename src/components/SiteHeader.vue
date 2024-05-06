@@ -1,16 +1,23 @@
+<script setup>
+  import { computed } from 'vue';
+  import { useRoute } from 'vue-router';
+  const route = useRoute();
+  const routeName = computed(() => route.name)
+</script>
+
 <template>
-    <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/order">Order</RouterLink>
-        <div class="wrapper">
-          <h1>Boorgir</h1>
-        </div>
-        <!-- Language button -->
-        <RouterLink to="/register">Register</RouterLink>
-        <RouterLink to="/login" class="button">Login</RouterLink>
-      </nav>
-    </header>
+  <header>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/order">Order</RouterLink>
+      <div class="wrapper">
+        <h1 :class="{ enlarge: routeName === 'home' }">Boorgir</h1>
+      </div>
+      <!-- Language button -->
+      <RouterLink to="/register">Register</RouterLink>
+      <RouterLink to="/login" class="button">Login</RouterLink>
+    </nav>
+  </header>
 </template>
 
 <style lang="scss" scoped>
@@ -30,6 +37,12 @@ nav {
       transform: translateX(-50%) translateY(-50%);
       font-size: 2em;
       font-weight: bold;
+      transition: transform .3s ease-in-out, font-size .3s ease-in-out;
+
+      &.enlarge {
+        transform: translateX(-50%);
+        font-size: 3.5em;
+      }
     }
   }
 
