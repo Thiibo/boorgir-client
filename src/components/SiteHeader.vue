@@ -27,6 +27,7 @@ nav {
   font-size: 1.2rem;
   gap: 4rem;
   padding: 1.5rem 3rem;
+  margin-bottom: 2rem;
   z-index: 10;
 
   .wrapper {

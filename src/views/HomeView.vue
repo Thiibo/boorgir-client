@@ -22,7 +22,7 @@
   #intro {
     text-align: center;
     font-size: 1.2rem;
-    background-image: url('../assets/images/home-background.jpg');
+    background-image: url('../assets/images/background.jpg');
     background-size: cover;
     border-radius: 1rem;
     overflow: hidden;
