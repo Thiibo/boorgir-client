@@ -13,3 +13,34 @@ a,
   text-decoration: none;
   padding: 3px;
 }
+
+button, .button {
+  position: relative;
+  padding: .3rem 1.4rem;
+  border-radius: .3rem;
+  overflow: hidden;
+}
+
+button::before, .button::before,
+button::after, .button::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-theme);
+  transition: transform .2s ease-in-out;
+  z-index: -1;
+}
+
+button::after, .button::after {
+  background-color: var(--color-theme-darker);
+  transform: translateX(-100%) translateY(100%);
+  z-index: -1;
+}
+
+button:hover::after, .button:hover::after, a.button.router-link-active::after {
+  transform: none;
+}
