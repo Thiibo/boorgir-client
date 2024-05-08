@@ -1,22 +1,31 @@
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 const AVAILABLE_LOCALES = {
-    "en": "English",
-    "nl": "Nederlands",
-    "fr": "Français",
+    "en": {
+        name: "English",
+        unicodeFlag: "🇬🇧"
+    },
+    "nl": {
+        name: "Nederlands",
+        unicodeFlag: "🇳🇱"
+    },
+    "fr": {
+        name: "Français",
+        unicodeFlag: "🇫🇷"
+    },
 };
 
 type Locale = keyof typeof AVAILABLE_LOCALES;
 
-let currentLocale: Locale = "en";
+let currentLocale = ref<Locale>("en");
 let staticTranslations: StringKeyValueObject = {};
 refreshStaticTranslations();
 
 function setLocale(locale: Locale) {
-    currentLocale = locale;
+    currentLocale.value = locale;
 }
 
-function getLocale(): Locale {
+function getLocale() {
     return currentLocale;
 }
 
@@ -28,4 +37,4 @@ function translate(key: string) {
     return computed(() => staticTranslations[key]);
 }
 
-export { AVAILABLE_LOCALES, setLocale, getLocale, translate };
+export { AVAILABLE_LOCALES, type Locale, setLocale, getLocale, translate };

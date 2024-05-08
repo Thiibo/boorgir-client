@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import LocaleButton from './LocaleButton.vue';
   import { computed } from 'vue';
   import { useRoute } from 'vue-router';
   const route = useRoute();
@@ -13,7 +14,7 @@
       <div class="wrapper">
         <h1 :class="{ enlarge: routeName === 'home' }">Boorgir</h1>
       </div>
-      <!-- Language button -->
+      <LocaleButton />
       <RouterLink to="/register">Register</RouterLink>
       <RouterLink to="/login" class="button">Login</RouterLink>
     </nav>
@@ -64,4 +65,4 @@ nav {
     }
   }
 }
-</style>
+</style>./LocaleButton.vue

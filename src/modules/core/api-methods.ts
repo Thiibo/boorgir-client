@@ -4,7 +4,7 @@ import { ValidationError } from "./validation-error";
 const API_URL = "http://localhost:8000/api";
 
 function request(endpoint: string, queryParams: StringKeyValueObject = {}, method: string = 'GET', body?: Object): Promise<Object> {
-    const searchParams = createSearchParams({...queryParams, lang: getLocale()});
+    const searchParams = createSearchParams({...queryParams, lang: getLocale().value});
     const fetchUrl = `${API_URL}/${endpoint}?${searchParams}`;
     const fetchOptions = createFetchOptions(method, body);
 

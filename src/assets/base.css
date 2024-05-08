@@ -41,6 +41,8 @@
 
   --color-theme: rgb(182, 58, 37);
   --color-theme-darker: rgb(167, 52, 31);
+
+  --outline-style: .2rem solid rgb(173, 228, 230);
 }
 
 @media (prefers-color-scheme: dark) {
