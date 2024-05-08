@@ -48,7 +48,7 @@
 
         <div class="control-group">
             <label for="perPage">Per page:</label>
-            <input type="number" name="perPage" id="perPage" min="1" :value="perPage" @input="$emit('update:perPage', parseInt(($event.target as HTMLInputElement).value))">
+            <input type="number" name="perPage" id="perPage" min="1" :value="perPage" @input="$emit('update:perPage', Math.max(1, parseInt(($event.target as HTMLInputElement).value)) || 1)">
         </div>
 
         <div class="control-group">
