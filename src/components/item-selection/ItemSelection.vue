@@ -1,6 +1,8 @@
 <script setup lang="ts">
     import { onMounted, ref, watch } from 'vue';
     import ControlBar from './ControlBar.vue';
+    import ItemSelectionGrid from './ItemSelectionGrid.vue';
+    import ItemSelectionTable from './ItemSelectionTable.vue';
 
     const props = defineProps<{
         itemGetter: (perPage: number, page: number) => Promise<PaginatedApiResult>
@@ -37,6 +39,7 @@
             @prev-page="page -= 1"
             @next-page="page += 1"
         />
-        {{ data }}
+        <ItemSelectionGrid :data="data" v-if="data && isGridView" />
+        <ItemSelectionTable :data="data" v-if="data && !isGridView" />
     </div>
 </template>
