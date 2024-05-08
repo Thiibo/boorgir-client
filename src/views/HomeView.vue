@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { translate } from '@/modules/core/localization';
-
+  import { translate } from '@/modules/core/localization';
 </script>
 
 <template>

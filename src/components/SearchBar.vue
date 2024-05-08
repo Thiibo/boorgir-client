@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { translate } from '@/modules/core/localization';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+    import { faSearch } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
     defineProps<{
