@@ -1,4 +1,4 @@
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import API from '../core/api-methods';
 
 const AVAILABLE_LOCALES = {
