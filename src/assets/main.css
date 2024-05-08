@@ -24,6 +24,7 @@ button, .button {
   color: white;
   overflow: hidden;
   cursor: pointer;
+  outline-offset: .1rem;
 }
 
 button::before, .button::before,
@@ -56,4 +57,11 @@ input {
   padding: .5rem;
   background-color: var(--color-background-surface);
   color: white;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: .2rem solid rgb(173, 228, 230);
+  z-index: 100;
 }
