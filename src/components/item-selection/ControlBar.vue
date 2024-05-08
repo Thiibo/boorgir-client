@@ -1,27 +1,37 @@
 <script setup lang="ts">
     import { faAngleLeft, faAngleRight, faFilter, faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import { computed, ref } from 'vue';
+    import { computed } from 'vue';
     import SearchBar from '@/components/SearchBar.vue';
 
-    const isGrid = ref(true);
-    const page = ref(0);
-    const maxPage = ref(2);
-    const perPage = ref(10);
-    const searchQuery = ref("");
+    const props = defineProps<{
+        isGridView: boolean,
+        page: number,
+        maxPage: number,
+        perPage: number,
+        searchQuery: string
+    }>();
 
-    const viewButtonIcon = computed(() => isGrid.value ? faTableCellsLarge : faList);
+    defineEmits([
+        "toggleView",
+        "update:page",
+        "update:maxPage",
+        "update:perPage",
+        "update:searchQuery"
+    ]);
+
+    const viewButtonIcon = computed(() => props.isGridView ? faTableCellsLarge : faList);
 </script>
 
 <template>
     <div id="control-bar">
-        <button @click="isGrid = !isGrid">
+        <button @click="$emit('toggleView')">
             <FontAwesomeIcon :icon="viewButtonIcon" />
         </button>
 
         <div class="control-group">
             <label for="page">Page:</label>
-            <input type="number" name="page" id="page" v-model="page">
+            <input type="number" name="page" id="page" :value="page" @input="$emit('update:page', parseInt(($event.target as HTMLInputElement).value))">
             <span>/ {{ maxPage }}</span>
         </div>
 
@@ -36,14 +46,14 @@
 
         <div class="control-group">
             <label for="perPage">Per page:</label>
-            <input type="number" name="perPage" id="perPage" v-model="perPage">
+            <input type="number" name="perPage" id="perPage" :value="perPage" @input="$emit('update:perPage', parseInt(($event.target as HTMLInputElement).value))">
         </div>
 
         <div class="control-group">
             <button>
                 <FontAwesomeIcon :icon="faFilter" />
             </button>
-            <SearchBar id="search-bar" v-model="searchQuery" />
+            <SearchBar id="search-bar" :model-value="searchQuery" @input="$emit('update:searchQuery', ($event.target as HTMLInputElement).value)" />
         </div>
     </div>
 </template>
