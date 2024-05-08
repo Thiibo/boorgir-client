@@ -3,6 +3,7 @@
     import ControlBar from './ControlBar.vue';
     import ItemSelectionGrid from './ItemSelectionGrid.vue';
     import ItemSelectionTable from './ItemSelectionTable.vue';
+    import { currentLocale } from '@/modules/core/localization';
 
     const props = defineProps<{
         itemGetter: (perPage: number, page: number) => Promise<PaginatedApiResult>,
@@ -28,7 +29,7 @@
         }
     }
 
-    watch([page, perPage, searchQuery], refreshPage);
+    watch([page, perPage, searchQuery, currentLocale], refreshPage);
     onMounted(refreshPage);
 </script>
 
