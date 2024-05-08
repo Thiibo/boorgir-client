@@ -1,4 +1,5 @@
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
+import API from '../core/api-methods';
 
 const AVAILABLE_LOCALES = {
     "en": {
@@ -17,9 +18,8 @@ const AVAILABLE_LOCALES = {
 
 type Locale = keyof typeof AVAILABLE_LOCALES;
 
-let currentLocale = ref<Locale>("en");
-let staticTranslations: StringKeyValueObject = {};
-refreshStaticTranslations();
+const currentLocale = ref<Locale>("en");
+const staticTranslations = ref<StringKeyValueObject>({});
 
 function setLocale(locale: Locale) {
     currentLocale.value = locale;
@@ -29,12 +29,14 @@ function getLocale() {
     return currentLocale;
 }
 
-function refreshStaticTranslations() {
-    staticTranslations = {};
+async function refreshStaticTranslations() {
+    staticTranslations.value = await API.get('translations') as StringKeyValueObject;
 }
+refreshStaticTranslations();
+watch(currentLocale, refreshStaticTranslations);
 
 function translate(key: string) {
-    return computed(() => staticTranslations[key]);
+    return computed(() => staticTranslations.value[key]);
 }
 
 export { AVAILABLE_LOCALES, type Locale, setLocale, getLocale, translate };
