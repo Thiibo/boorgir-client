@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, watch } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import ControlBar from './ControlBar.vue';
 
     const props = defineProps<{
@@ -18,6 +18,7 @@
     }
 
     watch([page, perPage, searchQuery], refreshPage);
+    onMounted(refreshPage);
 </script>
 
 <template>
