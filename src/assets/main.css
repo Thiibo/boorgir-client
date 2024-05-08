@@ -54,6 +54,6 @@ input {
   border: none;
   border-radius: .3rem;
   padding: .5rem;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--color-background-surface);
   color: white;
 }
