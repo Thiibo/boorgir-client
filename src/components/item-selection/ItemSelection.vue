@@ -18,6 +18,8 @@
             v-model:max-page="maxPage"
             v-model:per-page="perPage"
             v-model:search-query="searchQuery"
+            @prev-page="page -= 1"
+            @next-page="page += 1"
         />
     </div>
 </template>

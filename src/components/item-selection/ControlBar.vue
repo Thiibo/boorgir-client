@@ -17,7 +17,9 @@
         "update:page",
         "update:maxPage",
         "update:perPage",
-        "update:searchQuery"
+        "update:searchQuery",
+        "prevPage",
+        "nextPage"
     ]);
 
     const viewButtonIcon = computed(() => props.isGridView ? faTableCellsLarge : faList);
@@ -31,15 +33,15 @@
 
         <div class="control-group">
             <label for="page">Page:</label>
-            <input type="number" name="page" id="page" :value="page" @input="$emit('update:page', parseInt(($event.target as HTMLInputElement).value))">
+            <input type="number" name="page" id="page" :value="page" min="1" :max="maxPage" @input="$emit('update:page', parseInt(($event.target as HTMLInputElement).value))">
             <span>/ {{ maxPage }}</span>
         </div>
 
         <div class="control-group">
-            <button>
+            <button :disabled="page < 2" @click="$emit('prevPage')">
                 <FontAwesomeIcon :icon="faAngleLeft" />
             </button>
-            <button>
+            <button :disabled="page >= maxPage" @click="$emit('nextPage')">
                 <FontAwesomeIcon :icon="faAngleRight" />
             </button>
         </div>
@@ -97,6 +99,11 @@
 
         &:hover {
             background-color: var(--color-background-surface-hover);
+        }
+
+        &:disabled {
+            opacity: .3;
+            pointer-events: none;
         }
     }
 
