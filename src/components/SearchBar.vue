@@ -38,6 +38,7 @@
         padding: .5rem 1rem;
         padding-left: $icon-width;
         width: 100%;
+        height: 100%;
         min-width: 10rem;
     }
 </style>
