@@ -1,4 +1,5 @@
 import { getLocale } from "./localization";
+import { ValidationError } from "./validation-error";
 
 const API_URL = "http://localhost:8000/api";
 
@@ -7,7 +8,22 @@ function request(endpoint: string, queryParams: StringKeyValueObject = {}, metho
     const fetchUrl = `${API_URL}/${endpoint}?${searchParams}`;
     const fetchOptions = createFetchOptions(method, body);
 
-    return fetch(fetchUrl, fetchOptions).then(res => res.json());
+    return fetch(fetchUrl, fetchOptions).then(handleRequestSuccess).catch(handleRequestFetchError);
+}
+
+async function handleRequestSuccess(res: Response) {
+    let json = await res.json();
+    if ('errors' in json) throw new ValidationError(json.errors);
+
+    return json;
+}
+
+function handleRequestFetchError(err: Error) {
+    // Ignore validation errors
+    if (err instanceof ValidationError) throw err;
+
+    // todo: show message on screen
+    console.error("An API error occured");
 }
 
 function createSearchParams(queryParams: StringKeyValueObject): URLSearchParams {
