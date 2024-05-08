@@ -1,13 +1,14 @@
 <script setup lang="ts">
   import ItemSelection from '@/components/item-selection/ItemSelection.vue';
   import { getAll as getAllIngredients } from '@/modules/api-services/ingredients';
+  import { translate } from '@/modules/core/localization';
 </script>
 
 <template>
   <main>
     <ItemSelection id="item-selection" :item-getter="getAllIngredients" />
     <div id="order">
-      <h2>Your order</h2>
+      <h2>{{ translate('front.page.order.receipttitle') }}</h2>
     </div>
   </main>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { translate } from '@/modules/core/localization';
   import LocaleButton from './LocaleButton.vue';
   import { computed } from 'vue';
   import { useRoute } from 'vue-router';
@@ -9,14 +10,14 @@
 <template>
   <header>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/order">Order</RouterLink>
+      <RouterLink to="/">{{ translate('front.page.home') }}</RouterLink>
+      <RouterLink to="/order">{{ translate('front.page.order') }}</RouterLink>
       <div class="wrapper">
         <h1 :class="{ enlarge: routeName === 'home' }">Boorgir</h1>
       </div>
       <LocaleButton />
-      <RouterLink to="/register">Register</RouterLink>
-      <RouterLink to="/login" class="button">Login</RouterLink>
+      <RouterLink to="/register">{{ translate('front.page.register') }}</RouterLink>
+      <RouterLink to="/login" class="button">{{ translate('front.page.login') }}</RouterLink>
     </nav>
   </header>
 </template>

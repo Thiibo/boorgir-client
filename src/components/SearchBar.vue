@@ -1,5 +1,6 @@
 <script setup lang="ts">
-    import { faSearch } from '@fortawesome/free-solid-svg-icons';
+    import { translate } from '@/modules/core/localization';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
     defineProps<{
@@ -12,7 +13,14 @@
 <template>
     <div>
         <FontAwesomeIcon class="icon" :icon="faSearch" />
-        <input type="text" name="query" id="query" placeholder="Search..." :value="modelValue" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
+        <input
+            type="text"
+            name="query"
+            id="query"
+            :placeholder="translate('general.placeholder.searchbar')"
+            value="modelValue"
+            @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        >
     </div>
 </template>
 

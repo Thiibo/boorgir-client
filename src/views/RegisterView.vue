@@ -4,6 +4,7 @@
   import SideForm from '../components/SideForm.vue';
   import ValidationErrors from '@/components/ValidationErrors.vue';
   import type { ValidationError } from '@/modules/core/validation-error';
+  import { translate } from '@/modules/core/localization';
 
   const validationErrors = ref<StringArrayKeyValueObject>();
 
@@ -20,25 +21,25 @@
 
 <template>
   <div>
-    <SideForm title="Register">
+    <SideForm :title="translate('front.page.register')">
       <form @submit.prevent="submit">
-        <label for="name">Name:</label>
+        <label for="name">{{ translate('general.form.name') }}</label>
         <input id="name" name="name" type="text" required v-model="name">
         <ValidationErrors :errors="validationErrors?.name" />
 
-        <label for="email">Email address:</label>
+        <label for="email">{{ translate('general.form.email') }}</label>
         <input id="email" name="email" type="email" required v-model="email">
         <ValidationErrors :errors="validationErrors?.email" />
 
-        <label for="password">Password:</label>
+        <label for="password">{{ translate('general.form.password') }}</label>
         <input id="password" name="password" type="password" required v-model="password">
         <ValidationErrors :errors="validationErrors?.password" />
 
-        <label for="password-confirm">Repeat Password:</label>
+        <label for="password-confirm">{{ translate('general.form.passwordconfirmation') }}</label>
         <input id="password-confirm" name="password-confirm" type="password" required v-model="passwordConfirmation">
         <ValidationErrors :errors="validationErrors?.password" />
 
-        <button>Register</button>
+        <button>{{ translate('front.page.register.submit') }}</button>
         <ValidationErrors :errors="validationErrors?.general" />
       </form>
     </SideForm>

@@ -1,12 +1,14 @@
 <script setup lang="ts">
+import { translate } from '@/modules/core/localization';
+
 </script>
 
 <template>
   <main>
     <section id="intro">
       <div class="wrapper">
-        <p>I would love a...</p>
-        <RouterLink to="/order" class="button">Continue</RouterLink>
+        <p>{{ translate('front.page.home.intro') }}</p>
+        <RouterLink to="/order" class="button">{{ translate('front.page.home.cta') }}</RouterLink>
       </div>
     </section>
   </main>

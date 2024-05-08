@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { faEarthAmerica } from '@fortawesome/free-solid-svg-icons';
-    import { AVAILABLE_LOCALES, getLocale, type Locale } from '@/modules/core/localization';
+    import { AVAILABLE_LOCALES, getLocale, translate, type Locale } from '@/modules/core/localization';
     import { computed } from 'vue';
 
     const currentLocale = getLocale();
@@ -15,6 +15,7 @@
             <FontAwesomeIcon :icon="faEarthAmerica" />
             <span>{{ currentLocaleInformation.unicodeFlag }}</span>
         </div>
+        <label for="locale">{{ translate('general.setting.locale') }}</label>
         <select name="locale" id="locale" v-model="currentLocale">
             <option v-for="localeCode in availableLocaleCodes" :value="localeCode" :selected="localeCode === currentLocale">{{ AVAILABLE_LOCALES[localeCode].name }}</option>
         </select>
@@ -64,5 +65,10 @@
         width: 100%;
         z-index: 20;
         pointer-events: all;
+    }
+
+    label {
+        opacity: 0;
+        pointer-events: none;
     }
 </style>

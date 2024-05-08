@@ -3,6 +3,7 @@
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed } from 'vue';
     import SearchBar from '@/components/SearchBar.vue';
+    import { translate } from '@/modules/core/localization';
 
     const props = defineProps<{
         isGridView: boolean,
@@ -32,27 +33,27 @@
         </button>
 
         <div class="control-group">
-            <label for="page">Page:</label>
+            <label for="page">{{ translate('general.itemselection.controlbar.page') }}</label>
             <input type="number" name="page" id="page" :value="page" min="1" :max="maxPage" @input="$emit('update:page', parseInt(($event.target as HTMLInputElement).value))">
             <span>/ {{ maxPage }}</span>
         </div>
 
         <div class="control-group">
-            <button :disabled="page < 2" @click="$emit('prevPage')">
+            <button :disabled="page < 2" @click="$emit('prevPage')" :aria-label="translate('general.itemselection.controlbar.previousPage')">
                 <FontAwesomeIcon :icon="faAngleLeft" />
             </button>
-            <button :disabled="page >= maxPage" @click="$emit('nextPage')">
+            <button :disabled="page >= maxPage" @click="$emit('nextPage')" :aria-label="translate('general.itemselection.controlbar.nextPage')">
                 <FontAwesomeIcon :icon="faAngleRight" />
             </button>
         </div>
 
         <div class="control-group">
-            <label for="perPage">Per page:</label>
+            <label for="perPage">{{ translate('general.itemselection.controlbar.perPage') }}</label>
             <input type="number" name="perPage" id="perPage" min="1" :value="perPage" @input="$emit('update:perPage', Math.max(1, parseInt(($event.target as HTMLInputElement).value)) || 1)">
         </div>
 
         <div class="control-group">
-            <button>
+            <button :aria-label="translate('general.itemselection.controlbar.filter')">
                 <FontAwesomeIcon :icon="faFilter" />
             </button>
             <SearchBar id="search-bar" :model-value="searchQuery" @input="$emit('update:searchQuery', ($event.target as HTMLInputElement).value)" />

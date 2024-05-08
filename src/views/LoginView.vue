@@ -4,6 +4,7 @@
   import SideForm from '@/components/SideForm.vue';
   import ValidationErrors from '@/components/ValidationErrors.vue';
   import type { ValidationError } from '@/modules/core/validation-error';
+  import { translate } from '@/modules/core/localization';
 
   const validationErrors = ref<StringArrayKeyValueObject>();
 
@@ -18,17 +19,17 @@
 
 <template>
   <div>
-    <SideForm title="Log in">
+    <SideForm :title="translate('front.page.login')">
       <form @submit.prevent="submit">
-        <label for="email">Email address:</label>
+        <label for="email">{{ translate('general.form.email') }}</label>
         <input id="email" name="email" type="email" required v-model="email">
         <ValidationErrors :errors="validationErrors?.email" />
 
-        <label for="password">Password:</label>
+        <label for="password">{{ translate('general.form.password') }}</label>
         <input id="password" name="password" type="password" required v-model="password">
         <ValidationErrors :errors="validationErrors?.password" />
 
-        <button>Log in</button>
+        <button>{{ translate('front.page.login.submit') }}</button>
         <ValidationErrors :errors="validationErrors?.general" />
       </form>
     </SideForm>
