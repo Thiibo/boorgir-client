@@ -2,20 +2,12 @@ import { getLocale } from "./localization";
 
 const API_URL = "http://localhost:8000/api";
 
-async function request(endpoint: string, queryParams: StringKeyValueObject = {}, method: string = 'GET', body?: Object): Promise<string> {
+function request(endpoint: string, queryParams: StringKeyValueObject = {}, method: string = 'GET', body?: Object): Promise<string> {
     const searchParams = createSearchParams({...queryParams, lang: getLocale()});
+    const fetchUrl = `${API_URL}/${endpoint}?${searchParams}`;
+    const fetchOptions = createFetchOptions(method, body);
 
-    const result = await fetch(`${API_URL}/${endpoint}?${searchParams}`, {
-        method: method,
-        credentials: "include",
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(body)
-    });
-    
-    return await result.json();
+    return fetch(fetchUrl, fetchOptions).then(res => res.json());
 }
 
 function createSearchParams(queryParams: StringKeyValueObject): URLSearchParams {
@@ -25,6 +17,18 @@ function createSearchParams(queryParams: StringKeyValueObject): URLSearchParams 
     }
 
     return searchParams;
+}
+
+function createFetchOptions(httpMethod: string, body?: Object): Object {
+    return {
+        method: httpMethod,
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(body)
+    };
 }
 
 async function get(endpoint: string, queryParams: StringKeyValueObject = {}) {
