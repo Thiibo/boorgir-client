@@ -6,7 +6,7 @@
 
     const props = defineProps<{
         itemGetter: (perPage: number, page: number) => Promise<PaginatedApiResult>,
-        defaultViewIsGrid: boolean
+        defaultViewIsGrid?: boolean
     }>();
 
     const isGridView = ref(props.defaultViewIsGrid);
