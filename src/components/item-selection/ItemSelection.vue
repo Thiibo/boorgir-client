@@ -11,6 +11,13 @@
 
 <template>
     <div>
-        <ControlBar v-model:is-grid-view="isGridView" v-model:page="page" v-model:max-page="maxPage" v-model:per-page="perPage" v-model:search-query="searchQuery" />
+        <ControlBar
+            :is-grid-view="isGridView"
+            @toggle-view="isGridView = !isGridView"
+            v-model:page="page"
+            v-model:max-page="maxPage"
+            v-model:per-page="perPage"
+            v-model:search-query="searchQuery"
+        />
     </div>
 </template>
