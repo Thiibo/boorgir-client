@@ -1,10 +1,9 @@
 <script setup lang="ts">
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { faEarthAmerica } from '@fortawesome/free-solid-svg-icons';
-    import { AVAILABLE_LOCALES, getLocale, translate, type Locale } from '@/modules/core/localization';
+    import { AVAILABLE_LOCALES, currentLocale, translate, type Locale } from '@/modules/core/localization';
     import { computed } from 'vue';
 
-    const currentLocale = getLocale();
     const currentLocaleInformation = computed(() => AVAILABLE_LOCALES[currentLocale.value]);
     const availableLocaleCodes = computed(() => Object.keys(AVAILABLE_LOCALES) as Locale[]);
 </script>

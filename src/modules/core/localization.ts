@@ -21,14 +21,6 @@ type Locale = keyof typeof AVAILABLE_LOCALES;
 const currentLocale = ref<Locale>("en");
 const staticTranslations = ref<StringKeyValueObject>({});
 
-function setLocale(locale: Locale) {
-    currentLocale.value = locale;
-}
-
-function getLocale() {
-    return currentLocale;
-}
-
 async function refreshStaticTranslations() {
     staticTranslations.value = await API.get('translations') as StringKeyValueObject;
 }
@@ -39,4 +31,4 @@ function translate(key: string) {
     return staticTranslations.value[key];
 }
 
-export { AVAILABLE_LOCALES, type Locale, setLocale, getLocale, translate };
+export { AVAILABLE_LOCALES, type Locale, currentLocale, translate };
