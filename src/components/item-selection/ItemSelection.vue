@@ -5,10 +5,11 @@
     import ItemSelectionTable from './ItemSelectionTable.vue';
 
     const props = defineProps<{
-        itemGetter: (perPage: number, page: number) => Promise<PaginatedApiResult>
+        itemGetter: (perPage: number, page: number) => Promise<PaginatedApiResult>,
+        defaultViewIsGrid: boolean
     }>();
 
-    const isGridView = ref(true);
+    const isGridView = ref(props.defaultViewIsGrid);
     const page = ref(1);
     const maxPage = ref(1);
     const perPage = ref(10);
