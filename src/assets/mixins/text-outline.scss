@@ -1,0 +1,6 @@
+@mixin textOutline($outline-thickness, $outline-color) {
+    text-shadow: (-$outline-thickness) (-$outline-thickness) 0 $outline-color,
+                 ($outline-thickness) (-$outline-thickness) 0 $outline-color,
+                 (-$outline-thickness) ($outline-thickness) 0 $outline-color,
+                 ($outline-thickness) ($outline-thickness) 0 $outline-color;
+}
