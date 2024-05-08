@@ -55,4 +55,8 @@
     margin-top: 3rem;
     z-index: 1;
   }
+
+  input {
+    width: 100%;
+  }
 </style>
