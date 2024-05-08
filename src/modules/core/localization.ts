@@ -36,7 +36,7 @@ refreshStaticTranslations();
 watch(currentLocale, refreshStaticTranslations);
 
 function translate(key: string) {
-    return computed(() => staticTranslations.value[key]);
+    return staticTranslations.value[key];
 }
 
 export { AVAILABLE_LOCALES, type Locale, setLocale, getLocale, translate };
