@@ -39,6 +39,7 @@
         <ValidationErrors :errors="validationErrors?.password" />
 
         <button>Register</button>
+        <ValidationErrors :errors="validationErrors?.general" />
       </form>
     </SideForm>
   </main>
