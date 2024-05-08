@@ -18,9 +18,13 @@
 
     async function refreshPage() {
         const results = await props.itemGetter(perPage.value, page.value);
-
-        maxPage.value = results.last_page;
-        data.value = results.data;
+        
+        if (results.last_page < page.value) {
+            page.value = maxPage.value;
+            maxPage.value = results.last_page;
+        } else {
+            data.value = results.data;
+        }
     }
 
     watch([page, perPage, searchQuery], refreshPage);
