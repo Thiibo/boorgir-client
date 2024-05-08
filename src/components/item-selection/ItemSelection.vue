@@ -8,13 +8,17 @@
 
     const isGridView = ref(true);
     const page = ref(1);
-    const maxPage = ref(2);
+    const maxPage = ref(1);
     const perPage = ref(10);
     const searchQuery = ref("");
 
-    function refreshPage() {
-        props.itemGetter(perPage.value, page.value)
-            .then(res => console.log(res));
+    const data = ref();
+
+    async function refreshPage() {
+        const results = await props.itemGetter(perPage.value, page.value);
+
+        maxPage.value = results.last_page;
+        data.value = results.data;
     }
 
     watch([page, perPage, searchQuery], refreshPage);
@@ -33,5 +37,6 @@
             @prev-page="page -= 1"
             @next-page="page += 1"
         />
+        {{ data }}
     </div>
 </template>
