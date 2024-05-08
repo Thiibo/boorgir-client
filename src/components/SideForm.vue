@@ -7,10 +7,10 @@
 <template>
     <div id="component">
         <img src="../assets/images/background.jpg" alt="Atmospheric photo">
-        <div id="form">
+        <main id="form">
             <h2>{{ title }}</h2>
             <slot></slot>
-        </div>
+        </main>
     </div>    
 </template>
 

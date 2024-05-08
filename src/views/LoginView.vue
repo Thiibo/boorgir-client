@@ -17,7 +17,7 @@
 </script>
 
 <template>
-  <main>
+  <div>
     <SideForm title="Log in">
       <form @submit.prevent="submit">
         <label for="email">Email address:</label>
@@ -32,7 +32,7 @@
         <ValidationErrors :errors="validationErrors?.general" />
       </form>
     </SideForm>
-  </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>

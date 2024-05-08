@@ -19,7 +19,7 @@
 </script>
 
 <template>
-  <main>
+  <div>
     <SideForm title="Register">
       <form @submit.prevent="submit">
         <label for="name">Name:</label>
@@ -42,7 +42,7 @@
         <ValidationErrors :errors="validationErrors?.general" />
       </form>
     </SideForm>
-  </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>
