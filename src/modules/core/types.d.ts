@@ -1,5 +1,5 @@
-type StringKeyValueObject = { [key: string]: string };
-type StringArrayKeyValueObject = {[key: string]: string[]};
+type StringKeyValueObject = { [key: string]: string }
+type StringArrayKeyValueObject = {[key: string]: string[]}
 
 type PaginatedApiResult = {
     current_page: number,
@@ -19,4 +19,11 @@ type PaginatedApiResult = {
     prev_page_url: string?,
     to: number,
     total: number
+}
+
+type ProfileApiResult = {
+    name: string,
+    email: string,
+    email_verified_at: Date,
+    is_admin: boolean
 }
