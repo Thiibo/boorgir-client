@@ -12,7 +12,7 @@ function request(endpoint: string, queryParams: StringKeyValueObject = {}, metho
 }
 
 async function handleRequestSuccess(res: Response) {
-    let json = await res.json();
+    const json = await res.json();
     if ('errors' in json) throw new ValidationError(json.errors);
 
     return json;
@@ -28,7 +28,7 @@ function handleRequestFetchError(err: Error) {
 
 function createSearchParams(queryParams: StringKeyValueObject): URLSearchParams {
     const searchParams = new URLSearchParams();
-    for (let [key, value] of Object.entries(queryParams)) {
+    for (const [key, value] of Object.entries(queryParams)) {
         searchParams.append(key, value);
     }
 
