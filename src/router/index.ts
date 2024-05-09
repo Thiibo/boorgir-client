@@ -6,8 +6,7 @@ function defineRoutes(routes: RouteRecordRaw[], globalRouteProperties: (route: R
     return routes;
 }
 
-const frontRoutes: RouteRecordRaw[] = defineRoutes(
-  // Routes
+const frontRoutes = defineRoutes(
   [
     {
       path: '/',
@@ -42,8 +41,7 @@ const frontRoutes: RouteRecordRaw[] = defineRoutes(
   })
 );
 
-const backOfficeRoutes: RouteRecordRaw[] = defineRoutes(
-  // Routes
+const backOfficeRoutes = defineRoutes(
   [
     {
       path: '/ingredients',
