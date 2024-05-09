@@ -4,7 +4,7 @@ type ItemType = 'ingredients' | 'burgers';
 class ItemService {
     private itemType: ItemType;
     private isAdmin: boolean;
-    get endpoint(): string {
+    private get endpoint(): string {
         return (this.isAdmin ? 'admin/' : '') + this.itemType;
     }
 
