@@ -16,7 +16,8 @@
 <style lang="scss" scoped>
   main {
     position: absolute;
-    top: 0;
+    top: 2rem;
+    left: 0;
     width: 100%;
   }
 
