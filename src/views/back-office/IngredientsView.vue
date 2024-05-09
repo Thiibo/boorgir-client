@@ -1,11 +1,13 @@
 <script setup lang="ts">
     import ItemSelection from '@/components/item-selection/ItemSelection.vue';
-    import { getAllAdmin as getAllIngredientsAdmin } from '@/modules/api-services/ingredients';
+    import { ItemService } from '@/modules/api-services/items';
+
+    const itemService = new ItemService('ingredients', true);
 </script>
 
 <template>
     <main>
-        <ItemSelection :item-getter="getAllIngredientsAdmin" />
+        <ItemSelection :item-service="itemService" />
     </main>
 </template>
 

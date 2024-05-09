@@ -4,9 +4,10 @@
     import ItemSelectionGrid from './ItemSelectionGrid.vue';
     import ItemSelectionTable from './ItemSelectionTable.vue';
     import { currentLocale } from '@/modules/core/localization';
+    import type { ItemService } from '@/modules/api-services/items';
 
     const props = defineProps<{
-        itemGetter: (perPage: number, page: number) => Promise<PaginatedApiResult>,
+        itemService: ItemService,
         defaultViewIsGrid?: boolean
     }>();
 
@@ -19,7 +20,7 @@
     const data = ref();
 
     async function refreshPage() {
-        const results = await props.itemGetter(perPage.value, page.value);
+        const results = await props.itemService.getItems(perPage.value, page.value);
         
         maxPage.value = results.last_page;
         if (results.last_page < page.value) {
