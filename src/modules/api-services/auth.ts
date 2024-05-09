@@ -8,4 +8,8 @@ async function register(name: string, email: string, password: string, passwordC
     return API.post('register', { name, email, password, password_confirmation: passwordConfirmation });
 }
 
-export { login, register };
+async function profile() {
+    return API.get('profile') as Promise<ProfileApiResult>;
+}
+
+export { login, register, profile };

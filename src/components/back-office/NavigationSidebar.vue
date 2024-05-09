@@ -1,6 +1,11 @@
 <script setup lang="ts">
+    import { profile } from '@/modules/api-services/auth';
     import { faArrowRightFromBracket, faBurger, faCarrot } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+    import { ref } from 'vue';
+
+    const username = ref("");
+    profile().then(res => username.value = res.name);
 </script>
 
 <template>
@@ -26,7 +31,7 @@
         </nav>
         <div id="profile">
             <p>
-                Logged in as <strong>Bert Gurr</strong>
+                Logged in as <strong>{{ username }}</strong>
             </p>
             <button>
                 <FontAwesomeIcon :icon="faArrowRightFromBracket" />
