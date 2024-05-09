@@ -1,9 +1,14 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/front/HomeView.vue'
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
+function defineRoutes(routes: RouteRecordRaw[], globalRouteProperties: (route: RouteRecordRaw) => Object): RouteRecordRaw[] {
+    routes.forEach(route => Object.assign(route, globalRouteProperties(route)));
+    return routes;
+}
+
+const frontRoutes: RouteRecordRaw[] = defineRoutes(
+  // Routes
+  [
     {
       path: '/',
       name: 'home',
@@ -27,7 +32,46 @@ const router = createRouter({
       name: 'login',
       component: () => import('@/views/front/LoginView.vue')
     }
+  ],
+  
+  // Properties that are applied to all routes
+  () => ({
+    meta: {
+      isFront: true
+    }
+  })
+);
+
+const backOfficeRoutes: RouteRecordRaw[] = defineRoutes(
+  // Routes
+  [
+    {
+      path: '/ingredients',
+      name: 'ingredients',
+      component: () => import('@/views/back-office/IngredientsView.vue')
+    },
+    {
+      path: '/burgers',
+      name: 'burgers',
+      component: () => import('@/views/back-office/BurgersView.vue')
+    }
+  ],
+  
+  // Properties that are applied to all routes
+  route => ({
+    path: "/admin" + (route.path as string), // Prefix all with '/admin'
+    meta: {
+      isFront: false
+    }
+  })
+);
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    ...frontRoutes,
+    ...backOfficeRoutes
   ]
-})
+});
 
 export default router
