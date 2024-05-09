@@ -1,5 +1,6 @@
 <script setup lang="ts">
-    import { profile } from '@/modules/api-services/auth';
+    import { logout, profile } from '@/modules/api-services/auth';
+    import router from '@/router';
     import { faArrowRightFromBracket, faBurger, faCarrot } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { ref } from 'vue';
@@ -33,7 +34,7 @@
             <p>
                 Logged in as <strong>{{ username }}</strong>
             </p>
-            <button>
+            <button @click="logout().then(() => router.push('/'))">
                 <FontAwesomeIcon :icon="faArrowRightFromBracket" />
             </button>
         </div>

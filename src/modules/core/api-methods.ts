@@ -51,7 +51,7 @@ async function get(endpoint: string, queryParams: StringKeyValueObject = {}) {
     return request(endpoint, queryParams)
 }
 
-async function post(endpoint: string, body: Object) {
+async function post(endpoint: string, body?: Object) {
     return request(endpoint, {}, 'POST', body);
 }
 

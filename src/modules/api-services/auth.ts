@@ -12,4 +12,8 @@ async function profile() {
     return API.get('profile') as Promise<ProfileApiResult>;
 }
 
-export { login, register, profile };
+async function logout() {
+    return API.post('logout');
+}
+
+export { login, register, profile, logout };
