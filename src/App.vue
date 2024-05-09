@@ -36,6 +36,8 @@
       display: flex;
       flex-direction: row;
       height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
     }
   }
 </style>

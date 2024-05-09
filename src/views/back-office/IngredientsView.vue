@@ -15,5 +15,6 @@
     main {
         flex: 1;
         padding: 3rem;
+        overflow: scroll;
     }
 </style>
