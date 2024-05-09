@@ -5,6 +5,7 @@
   import ValidationErrors from '@/components/ValidationErrors.vue';
   import type { ValidationError } from '@/modules/core/validation-error';
   import { translate } from '@/modules/core/localization';
+  import router from '@/router';
 
   const validationErrors = ref<StringArrayKeyValueObject>();
 
@@ -12,7 +13,7 @@
   const password = ref("");
   function submit() {
     login(email.value, password.value)
-      .then(res => console.log(res))
+      .then(res => router.push(res.is_admin ? '/admin/ingredients' : '/order'))
       .catch((error: ValidationError) => validationErrors.value = error.errors);
   }
 </script>
