@@ -2,7 +2,7 @@
     import { faAngleLeft, faAngleRight, faFilter, faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed } from 'vue';
-    import SearchBar from '@/components/SearchBar.vue';
+    import SearchBar from '@/components/item-selection/SearchBar.vue';
     import { translate } from '@/modules/core/localization';
 
     const props = defineProps<{

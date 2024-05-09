@@ -8,7 +8,7 @@
 
 <template>
     <div id="component">
-        <img src="../assets/images/background.jpg" :alt="translate('front.alt.atmosphericphoto')">
+        <img src="@/assets/images/background.jpg" :alt="translate('front.alt.atmosphericphoto')">
         <main id="form">
             <h2>{{ title }}</h2>
             <slot></slot>
