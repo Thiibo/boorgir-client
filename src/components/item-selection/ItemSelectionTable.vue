@@ -1,11 +1,21 @@
 <script setup lang="ts">
+    import type { ItemType } from '@/modules/api-services/items';
+    import { translate } from '@/modules/core/localization';
     import { computed } from 'vue';
 
     const props = defineProps<{
-        data: Object[]
+        data: Object[],
+        itemType: ItemType
     }>();
 
-    const columns = computed(() => Object.keys(props.data[0]));
+    const columns = computed(() => {
+        const dataKeys = Object.keys(props.data[0]);
+
+        return dataKeys.map(key => {
+            const translationKey = `general.itemselection.column.${props.itemType}.${key}`;
+            return translate(translationKey);
+        })
+    });
 
     function formatCell(data: any) {
         if (typeof data === 'boolean') {

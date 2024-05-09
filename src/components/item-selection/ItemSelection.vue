@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { onMounted, ref, watch } from 'vue';
+    import { computed, onMounted, ref, watch } from 'vue';
     import ControlBar from './ControlBar.vue';
     import ItemSelectionGrid from './ItemSelectionGrid.vue';
     import ItemSelectionTable from './ItemSelectionTable.vue';
@@ -10,6 +10,8 @@
         itemService: ItemService,
         defaultViewIsGrid?: boolean
     }>();
+
+    const itemType = computed(() => props.itemService.getItemType());
 
     const isGridView = ref(props.defaultViewIsGrid);
     const page = ref(1);
@@ -47,6 +49,6 @@
             @next-page="page += 1"
         />
         <ItemSelectionGrid :data="data" v-if="data && isGridView" />
-        <ItemSelectionTable :data="data" v-if="data && !isGridView" />
+        <ItemSelectionTable :data="data" :item-type="itemType" v-if="data && !isGridView" />
     </div>
 </template>

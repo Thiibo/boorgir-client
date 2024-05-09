@@ -22,9 +22,9 @@ class ItemService {
         return API.get(this.endpoint, body) as Promise<PaginatedApiResult>;
     }
 
-    public getItemType(): string {
+    public getItemType(): ItemType {
         return this.itemType;
     }
 }
 
-export { ItemService };
+export { ItemService, type ItemType };
