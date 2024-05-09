@@ -28,7 +28,7 @@ refreshStaticTranslations();
 watch(currentLocale, refreshStaticTranslations);
 
 function translate(key: string) {
-    return staticTranslations.value[key];
+    return staticTranslations.value[key] ?? '';
 }
 
 export { AVAILABLE_LOCALES, type Locale, currentLocale, translate };
