@@ -34,6 +34,10 @@
 
     watch([page, perPage, searchQuery, loadedLocale], refreshPage);
     onMounted(refreshPage);
+
+    defineEmits([
+        "clickItem"
+    ]);
 </script>
 
 <template>
@@ -48,7 +52,9 @@
             @prev-page="page -= 1"
             @next-page="page += 1"
         />
-        <ItemSelectionGrid :data="data" v-if="data && isGridView" />
-        <ItemSelectionTable :data="data" :item-type="itemType" v-if="data && !isGridView" />
+        <div v-if="data">
+            <ItemSelectionGrid :data="data" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-if="isGridView" />
+            <ItemSelectionTable :data="data" :item-type="itemType" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-else />
+        </div>
     </div>
 </template>

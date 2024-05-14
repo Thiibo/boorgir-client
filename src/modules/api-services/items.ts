@@ -27,6 +27,10 @@ class ItemService {
         return this.itemType;
     }
 
+    public getActionName(): string {
+        return this.isAdmin ? 'Edit' : 'Order';
+    }
+
     public async getItems(perPage: number, page: number, query: string): Promise<GetItemsApiRequestData> {
         const body = this.createGetItemsBody(perPage, page, query);
         const requestData = await API.get(this.endpoint, body) as PaginatedApiResult;

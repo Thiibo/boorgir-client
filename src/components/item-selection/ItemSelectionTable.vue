@@ -3,7 +3,8 @@
     import { computed } from 'vue';
 
     const props = defineProps<{
-        data: Object[],
+        data: StringKeyValueObject[],
+        actionName: string,
         itemType: ItemType
     }>();
 
@@ -16,17 +17,25 @@
 
         return data;
     }
+
+    defineEmits([
+        "clickItem"
+    ]);
 </script>
 
 <template>
     <table v-if="data.length > 0">
         <thead>
             <th v-for="column in tableColumns">{{ column }}</th>
+            <th>Action</th>
         </thead>
         <tbody>
             <tr v-for="item in data">
                 <td v-for="columnValue in Object.values(item)">
                     {{ formatCell(columnValue) }}
+                </td>
+                <td>
+                    <button @click="$emit('clickItem', item.ID)">{{ actionName }}</button>
                 </td>
             </tr>
         </tbody>
@@ -53,6 +62,10 @@
 
         td {
             padding: .2rem .3rem;
+
+            button {
+                z-index: 1;
+            }
         }
     }
 

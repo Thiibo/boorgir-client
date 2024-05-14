@@ -7,7 +7,7 @@
 
 <template>
     <main>
-        <ItemSelection :item-service="itemService" />
+        <ItemSelection :item-service="itemService" @click-item="id => console.log(id)" />
     </main>
 </template>
 
