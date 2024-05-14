@@ -12,7 +12,10 @@ function request(endpoint: string, queryParams: StringKeyValueObject = {}, metho
 }
 
 async function handleRequestSuccess(res: Response) {
-    const json = await res.json();
+    const data = await res.text();
+    if (data === '') return;
+
+    const json = JSON.parse(data);
     if ('errors' in json) throw new ValidationError(json.errors);
 
     return json;
