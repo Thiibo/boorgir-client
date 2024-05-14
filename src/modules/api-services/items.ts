@@ -3,20 +3,24 @@ import { AVAILABLE_LOCALES, translate, type Locale } from '../core/localization'
 
 type GetItemsApiRequestData = {
     lastPage: number,
-    data: Object[]
+    data: StringKeyValueObject[]
 }
+
+type GetItemsDataExtraColumnGenerators = {[untranslatedColumnName: string]: (rowId: number) => any}
 
 type ItemType = 'ingredients' | 'burgers';
 class ItemService {
     private itemType: ItemType;
     private isAdmin: boolean;
+    private extraColumnGenerators: GetItemsDataExtraColumnGenerators;
     private get endpoint(): string {
         return (this.isAdmin ? 'admin/' : '') + this.itemType;
     }
 
-    constructor(itemType: ItemType, isAdmin: boolean = false) {
+    constructor(itemType: ItemType, isAdmin: boolean, extraColumnGenerators: GetItemsDataExtraColumnGenerators = {}) {
         this.itemType = itemType;
         this.isAdmin = isAdmin;
+        this.extraColumnGenerators = extraColumnGenerators;
     }
 
     public getItemType(): ItemType {
@@ -44,8 +48,9 @@ class ItemService {
         return body;
     }
 
-    private transformGetItemsRequestData(data: Object[]): Object[] {
+    private transformGetItemsRequestData(data: StringKeyValueObject[]): StringKeyValueObject[] {
         data.forEach((item) => this.transformAllColumns(item));
+        this.addExtraColumns(data);
         return data;
     }
 
@@ -79,6 +84,14 @@ class ItemService {
 
     private translateColumnName(columnName: string): string {
         return translate(`general.itemselection.column.${this.itemType}.${columnName}`);
+    }
+
+    private addExtraColumns(data: StringKeyValueObject[]): void {
+        for (let [untranslatedColumnName, generator] of Object.entries(this.extraColumnGenerators)) {
+            data.forEach(item => {
+                item[untranslatedColumnName] = generator(parseInt(item.ID));
+            });
+        }
     }
     // ======================
 }

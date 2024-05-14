@@ -3,7 +3,7 @@ type StringArrayKeyValueObject = {[key: string]: string[]}
 
 type PaginatedApiResult = {
     current_page: number,
-    data: Object[],
+    data: StringKeyValueObject[],
     first_page_url: string,
     from: number,
     last_page: number,
