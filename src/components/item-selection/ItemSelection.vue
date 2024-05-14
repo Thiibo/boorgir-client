@@ -24,9 +24,9 @@
     async function refreshPage() {
         const results = await props.itemService.getItems(perPage.value, page.value, searchQuery.value);
         
-        maxPage.value = results.last_page;
-        if (results.last_page < page.value) {
-            page.value = results.last_page;
+        maxPage.value = results.lastPage;
+        if (results.lastPage < page.value) {
+            page.value = results.lastPage;
         } else {
             data.value = results.data;
         }
