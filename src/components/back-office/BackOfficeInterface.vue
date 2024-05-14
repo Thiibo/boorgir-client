@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import ItemSelection from '@/components/item-selection/ItemSelection.vue';
     import ItemDialog from '@/components/back-office/ItemDialog.vue';
+    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { ItemService, type ItemType } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { faPlus } from '@fortawesome/free-solid-svg-icons';
