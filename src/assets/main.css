@@ -48,7 +48,7 @@ button:hover::after, .button:hover::after, a.button.router-link-active::after {
   transform: none;
 }
 
-input {
+input, textarea {
   border: none;
   border-radius: .3rem;
   padding: .5rem;

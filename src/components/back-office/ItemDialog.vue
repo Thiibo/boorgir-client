@@ -107,11 +107,11 @@
                         <tr v-for="property in itemTranslationProperties">
                             <th scope="row">{{ property }}</th>
                             <td v-for="lang in Object.keys(AVAILABLE_LOCALES)">
-                                <input
-                                    type="text"
+                                <textarea
                                     :value="getTranslationProperty(lang as Locale, property)"
+                                    :lang="lang"
                                     @input="e => setTranslationProperty(lang as Locale, property, (e.target as HTMLInputElement).value)"
-                                >
+                                ></textarea>
                             </td>
                         </tr>
                     </tbody>
@@ -209,6 +209,11 @@
 
             td {
                 padding: .3rem;
+                vertical-align: top;
+
+                textarea {
+                    resize: vertical;
+                }
             }
         }
 
