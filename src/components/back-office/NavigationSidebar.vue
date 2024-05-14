@@ -50,7 +50,7 @@
     header {
         position: relative;
         display: inline-block;
-        width: 20rem;
+        width: 23rem;
         height: 100%;
         background-color: var(--color-background-mute);
     }
@@ -116,16 +116,20 @@
         display: flex;
         position: absolute;
         align-items: center;
-        justify-content: space-between;
+        gap: 1.3rem;
         bottom: 0;
         width: 100%;
         padding: $padding;
 
-        strong {
-            display: block;
-            font-weight: bold;
-            font-size: 1.6rem;
-            line-height: 1.6rem;
+        p {
+            flex: 1;
+
+            strong {
+                display: block;
+                font-weight: bold;
+                font-size: 1.6rem;
+                line-height: 1.6rem;
+            }
         }
         button {
             font-size: 2rem;
