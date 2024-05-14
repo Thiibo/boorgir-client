@@ -95,7 +95,6 @@
                 <h2>{{ itemName }}</h2>
             </div>
             <form>
-
                 <table class="translations" v-if="itemTranslations">
                     <thead>
                         <th></th>
@@ -152,8 +151,8 @@
         right: 0;
         bottom: unset;
         left: unset;
-        width: 40%;
         height: 100%;
+        max-height: unset;
         border: none;
         padding: 0;
         background-color: var(--color-background-mute);
@@ -186,4 +185,48 @@
             }
         }
     }
+
+    form {
+        padding: 1rem;
+
+        table {
+            thead th {
+                padding-bottom: .5rem;
+            }
+
+            tr th {
+                padding-top: .5rem;
+            }
+
+            td {
+                padding: .3rem;
+            }
+        }
+
+        table tr th, label {
+            display: inline-block;
+            width: 8rem;
+            text-align: left;
+        }
+
+        > div {
+            margin-top: 2rem;
+        }
+
+        .controls {
+            display: flex;
+            position: absolute;
+            padding: 2rem;
+            bottom: 0;
+            left: 0;
+            gap: 1rem;
+            width: 100%;
+            justify-content: flex-end;
+
+            button:first-child {
+                margin-right: auto;
+            }
+        }
+    }
+
 </style>
