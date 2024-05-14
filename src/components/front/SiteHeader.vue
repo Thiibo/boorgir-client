@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { translate } from '@/modules/core/localization';
-  import LocaleButton from './LocaleButton.vue';
+  import LocaleButton from '@/components/LocaleButton.vue';
   import { computed } from 'vue';
   import { useRoute } from 'vue-router';
   const route = useRoute();
@@ -67,3 +67,4 @@ nav {
   }
 }
 </style>./LocaleButton.vue
+../LocaleButton.vue

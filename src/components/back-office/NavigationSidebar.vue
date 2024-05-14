@@ -4,6 +4,7 @@
     import { faArrowRightFromBracket, faBurger, faCarrot } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { ref } from 'vue';
+    import LocaleButton from '@/components/LocaleButton.vue';
 
     const username = ref("");
     profile().then(res => username.value = res.name);
@@ -31,6 +32,7 @@
             </ul>
         </nav>
         <div id="profile">
+            <LocaleButton />
             <p>
                 Logged in as <strong>{{ username }}</strong>
             </p>
@@ -128,4 +130,4 @@
             font-size: 2rem;
         }
     }
-</style>
+</style>../LocaleButton.vue

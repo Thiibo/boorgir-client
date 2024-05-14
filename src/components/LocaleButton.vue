@@ -28,6 +28,7 @@
         position: relative;
         width: 2.5rem;
         height: 2.5rem;
+        z-index: 5;
         pointer-events: none;
 
         div {
