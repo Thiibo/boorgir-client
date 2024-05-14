@@ -151,21 +151,27 @@
         right: 0;
         bottom: unset;
         left: unset;
+        width: 50rem;
         height: 100%;
         max-height: unset;
-        border: none;
         padding: 0;
+        border: none;
+        box-shadow: 0 0 0 100vw rgba(0, 0, 0, .3);
         background-color: var(--color-background-mute);
         color: var(--color-text);
-
-        &::backdrop {
-            background-color: rgba(0, 0, 0, .6);
-        }
+        animation: slide-in-right .6s cubic-bezier(0.19, 1, 0.22, 1);
 
         > div {
             width: 100%;
             height: 100%;
             padding: 1rem;
+        }
+    }
+
+    @keyframes slide-in-right {
+        from {
+            opacity: 0;
+            transform: translateX(20%);
         }
     }
 
