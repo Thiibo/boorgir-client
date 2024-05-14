@@ -13,11 +13,13 @@ class ItemService {
         this.isAdmin = isAdmin;
     }
 
-    public getItems(perPage: number, page: number) {
-        const body = {
+    public getItems(perPage: number, page: number, query: string) {
+        const body: StringKeyValueObject = {
             per_page: perPage.toString(),
             page: page.toString()
         };
+
+        if (query != '') body["query"] = query;
 
         return API.get(this.endpoint, body) as Promise<PaginatedApiResult>;
     }

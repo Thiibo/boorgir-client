@@ -22,7 +22,7 @@
     const data = ref();
 
     async function refreshPage() {
-        const results = await props.itemService.getItems(perPage.value, page.value);
+        const results = await props.itemService.getItems(perPage.value, page.value, searchQuery.value);
         
         maxPage.value = results.last_page;
         if (results.last_page < page.value) {
