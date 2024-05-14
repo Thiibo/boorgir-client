@@ -60,7 +60,7 @@
 </script>
 
 <template>
-    <table>
+    <table v-if="displayData.length > 0">
         <thead>
             <th v-for="column in tableColumns">{{ column }}</th>
         </thead>
@@ -72,6 +72,7 @@
             </tr>
         </tbody>
     </table>
+    <p v-else>No data to display.</p>
 </template>
 
 <style lang="scss" scoped>
@@ -94,5 +95,10 @@
         td {
             padding: .2rem .3rem;
         }
+    }
+
+    p {
+        margin: 2rem 0;
+        text-align: center;
     }
 </style>
