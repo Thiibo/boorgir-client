@@ -8,6 +8,7 @@
 
     const props = defineProps<{
         itemService: ItemService,
+        itemIdEditing: number | null,
         defaultViewIsGrid?: boolean
     }>();
 
@@ -22,6 +23,7 @@
     const data = ref();
 
     async function refreshPage() {
+        if (props.itemIdEditing !== null) return;
         const results = await props.itemService.getItems(perPage.value, page.value, searchQuery.value);
         
         maxPage.value = results.lastPage;
@@ -32,7 +34,7 @@
         }
     }
 
-    watch([page, perPage, searchQuery, loadedLocale], refreshPage);
+    watch([page, perPage, searchQuery, loadedLocale, () => props.itemIdEditing], refreshPage);
     onMounted(refreshPage);
 
     defineEmits([

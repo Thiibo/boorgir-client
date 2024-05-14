@@ -12,7 +12,7 @@
 
 <template>
     <main>
-        <ItemSelection :item-service="itemService" @click-item="id => itemIdEditing = id" />
+        <ItemSelection :item-service="itemService" :item-id-editing="itemIdEditing" @click-item="id => itemIdEditing = id" />
         <ItemDialog :item-id="itemIdEditing" :item-service="itemService" @close="itemIdEditing = null" v-if="itemIdEditing" />
         <button id="new-item" @click="itemIdEditing = -1">
             <FontAwesomeIcon :icon="faPlus" />
