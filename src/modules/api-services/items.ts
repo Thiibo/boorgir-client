@@ -60,6 +60,18 @@ class ItemService {
         return item;
     }
 
+    public updateItem(id: number, data: Object) {
+        return API.put(`${this.endpoint}/${id}`, data);
+    }
+
+    public createItem(data: Object) {
+        return API.post(this.endpoint, data);
+    }
+
+    public deleteItem(id: number) {
+        return API.del(`${this.endpoint}/${id}`);
+    }
+
     // === Helper methods ===
     private createGetItemsBody(perPage: number, page: number, query: string): StringKeyValueObject {
         const body: StringKeyValueObject = {

@@ -12,7 +12,9 @@
 
     const dialogElement = ref<HTMLDialogElement | null>(null);
 
-    const itemData = ref<{[key: string]: any}>();
+    const itemData = ref<{[key: string]: any}>({});
+    const isNewItem = ref(false);
+
     const itemTranslations = computed(() => itemData.value?.translations as StringKeyValueObject[]);
     const itemTranslationProperties = computed(() => Object.keys(itemTranslations.value ? itemTranslations.value[0] : []).filter(property => property !== 'lang'));
     const itemNonTranslationData = computed(() => {
@@ -23,7 +25,7 @@
     });
     const itemName = computed(() => {
         const name = itemTranslations.value?.find(item => item.lang === currentLocale.value)?.name;
-        return name === '' ? translate("general.itemselection.itemUnnamed") : name;
+        return name === '' ? translate("backoffice.itemselection.title.unnamed") : name;
     });
 
     function getTranslationProperty(lang: Locale, property: string) {
@@ -41,14 +43,31 @@
         itemData.value = { ...itemData.value, [property]: correctlyTypedValue}
     }
 
+    function deleteItem() {
+        props.itemService.deleteItem(props.itemId);
+        closeDialog();
+    }
+
+    function saveItem() {
+        if (isNewItem.value) {
+            props.itemService.createItem(itemData.value);
+        } else {
+            props.itemService.updateItem(props.itemId, itemData.value);
+        }
+
+        closeDialog();
+    }
+
     onMounted(async () => {
         dialogElement.value?.showModal();
         dialogElement.value?.focus();
 
         if (props.itemId === -1) {
             itemData.value = props.itemService.getBlankItem();
+            isNewItem.value = true;
         } else {
             itemData.value = await props.itemService.getItem(props.itemId);
+            isNewItem.value = false;
         }
     });
 
@@ -118,9 +137,9 @@
                     </div>
                 </div>
                 <div class="controls">
-                    <button>Delete</button>
-                    <button>Cancel</button>
-                    <button>Save</button>
+                    <button @click.prevent="deleteItem">{{ translate('backoffice.itemselection.action.delete') }}</button>
+                    <button @click.prevent="closeDialog">{{ translate('backoffice.itemselection.action.cancel') }}</button>
+                    <button @click.prevent="saveItem">{{ translate('backoffice.itemselection.action.save') }}</button>
                 </div>
             </form>
         </div>
