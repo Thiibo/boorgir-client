@@ -28,7 +28,7 @@ class ItemService {
     }
 
     public getActionName(): string {
-        return this.isAdmin ? 'Edit' : 'Order';
+        return translate(`${this.isAdmin ? 'backoffice' : 'front'}.itemselection.action.item`);
     }
 
     public async getItems(perPage: number, page: number, query: string): Promise<GetItemsApiRequestData> {
