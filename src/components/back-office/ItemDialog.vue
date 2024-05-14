@@ -71,8 +71,11 @@
         }
     });
 
-    function preventClosing(e: KeyboardEvent) {
-        if (e.key === "Escape") e.preventDefault();
+    function closeWithEscape(e: KeyboardEvent) {
+        if (e.key === "Escape") {
+            e.preventDefault();
+            closeDialog();
+        };
     }
 
     const emit = defineEmits([
@@ -86,7 +89,7 @@
 </script>
 
 <template>
-    <dialog ref="dialogElement" @keydown="preventClosing" @click.self="closeDialog">
+    <dialog ref="dialogElement" @keydown="closeWithEscape" @click.self="closeDialog">
         <div>
             <div class="title">
                 <button @click="closeDialog">
