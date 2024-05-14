@@ -5,6 +5,7 @@
     import { ref } from 'vue';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { faPlus } from '@fortawesome/free-solid-svg-icons';
+    import { translate } from '@/modules/core/localization';
 
     const itemIdEditing = ref<number | null>(null);
     const itemService = new ItemService('ingredients', true);
@@ -14,7 +15,7 @@
     <main>
         <ItemSelection :item-service="itemService" :item-id-editing="itemIdEditing" @click-item="id => itemIdEditing = id" />
         <ItemDialog :item-id="itemIdEditing" :item-service="itemService" @close="itemIdEditing = null" v-if="itemIdEditing" />
-        <button id="new-item" @click="itemIdEditing = -1">
+        <button id="new-item" :aria-label="translate('backoffice.itemselection.action.new')" @click="itemIdEditing = -1">
             <FontAwesomeIcon :icon="faPlus" />
         </button>
     </main>

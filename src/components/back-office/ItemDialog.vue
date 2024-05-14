@@ -105,7 +105,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="property in itemTranslationProperties">
-                            <th scope="row">{{ property }}</th>
+                            <th scope="row">{{ itemService.translateColumnName(property) }}</th>
                             <td v-for="lang in Object.keys(AVAILABLE_LOCALES)">
                                 <textarea
                                     :value="getTranslationProperty(lang as Locale, property)"

@@ -5,6 +5,7 @@
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { ref } from 'vue';
     import LocaleButton from '@/components/LocaleButton.vue';
+    import { translate } from '@/modules/core/localization';
 
     const username = ref("");
     profile().then(res => username.value = res.name);
@@ -20,13 +21,13 @@
                 <li>
                     <RouterLink to="/admin/ingredients">
                         <FontAwesomeIcon :icon="faCarrot" />
-                        <span>Ingredients</span>
+                        <span>{{ translate("backoffice.sidebar.nav.ingredients") }}</span>
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/admin/burgers">
                         <FontAwesomeIcon :icon="faBurger" />
-                        <span>Burgers</span>
+                        <span>{{ translate("backoffice.sidebar.nav.burgers") }}</span>
                     </RouterLink>
                 </li>
             </ul>
@@ -34,9 +35,9 @@
         <div id="profile">
             <LocaleButton />
             <p>
-                Logged in as <strong>{{ username }}</strong>
+                {{ translate("backoffice.sidebar.profile.text") }} <strong>{{ username }}</strong>
             </p>
-            <button @click="logout().then(() => router.push('/'))">
+            <button :aria-label="translate('backoffice.sidebar.profile.logout')" @click="logout().then(() => router.push('/'))">
                 <FontAwesomeIcon :icon="faArrowRightFromBracket" />
             </button>
         </div>
