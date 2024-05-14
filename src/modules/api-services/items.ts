@@ -89,7 +89,8 @@ class ItemService {
     private addExtraColumns(data: StringKeyValueObject[]): void {
         for (let [untranslatedColumnName, generator] of Object.entries(this.extraColumnGenerators)) {
             data.forEach(item => {
-                item[untranslatedColumnName] = generator(parseInt(item.ID));
+                const columnName = translate(untranslatedColumnName);
+                item[columnName] = generator(parseInt(item.ID));
             });
         }
     }

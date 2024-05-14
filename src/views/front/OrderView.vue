@@ -2,8 +2,10 @@
   import ItemSelection from '@/components/item-selection/ItemSelection.vue';
   import { ItemService } from '@/modules/api-services/items';
   import { translate } from '@/modules/core/localization';
+  import { ref } from 'vue';
 
-  const itemService = new ItemService('ingredients');
+  const itemAmounts = ref<{[id: number]: number}>({})
+  const itemService = new ItemService('ingredients', false, { "front.page.order.amountColumn": (id) => itemAmounts.value[id] ?? 0 });
 </script>
 
 <template>
