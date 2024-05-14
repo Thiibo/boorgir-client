@@ -45,6 +45,22 @@ class ItemService {
         return API.get(`${this.endpoint}/${id}`) as Promise<StringKeyValueObject>;
     }
 
+    public getBlankItem() {
+        const translations = Object.keys(AVAILABLE_LOCALES).map(locale => ({ name: '', description: '', lang: locale }));
+        const item: {[key: string]: any} = {
+            name: '',
+            vegetarian: false,
+            price: 0,
+            translations: translations
+        }
+
+        if (this.itemType === 'burgers') {
+            item['ingredients'] = [];
+        }
+
+        return item;
+    }
+
     // === Helper methods ===
     private createGetItemsBody(perPage: number, page: number, query: string): StringKeyValueObject {
         const body: StringKeyValueObject = {

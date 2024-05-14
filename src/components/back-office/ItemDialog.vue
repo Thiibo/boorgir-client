@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { ItemService } from '@/modules/api-services/items';
-    import { currentLocale } from '@/modules/core/localization';
+    import { AVAILABLE_LOCALES, currentLocale, type Locale } from '@/modules/core/localization';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
@@ -13,12 +13,40 @@
     const dialogElement = ref<HTMLDialogElement | null>(null);
 
     const itemData = ref<{[key: string]: any}>();
-    const itemName = computed(() => (itemData.value?.translations as StringKeyValueObject[])?.find(item => item.lang === currentLocale.value)?.name)
+    const itemTranslations = computed(() => itemData.value?.translations as StringKeyValueObject[]);
+    const itemTranslationProperties = computed(() => Object.keys(itemTranslations.value ? itemTranslations.value[0] : []).filter(property => property !== 'lang'));
+    const itemNonTranslationData = computed(() => {
+        const data = Object.assign({}, itemData.value);
+        delete data['id'];
+        delete data['translations'];
+        return data;
+    });
+    const itemName = computed(() => itemTranslations.value?.find(item => item.lang === currentLocale.value)?.name);
+
+    function getTranslationProperty(lang: Locale, property: string) {
+        const translationData = itemTranslations.value.find(translation => translation.lang === lang);
+        return translationData ? translationData[property] : "";
+    }
+
+    function setTranslationProperty(lang: Locale, property: string, value: any) {
+        const translationData = itemTranslations.value.find(translation => translation.lang === lang);
+        translationData![property] = value;
+    }
+
+    function setRegularProperty(property: string, value: any) {
+        const correctlyTypedValue = typeof itemData.value![property] === 'number' ? parseInt(value) : value;
+        itemData.value = { ...itemData.value, [property]: correctlyTypedValue}
+    }
 
     onMounted(async () => {
         dialogElement.value?.showModal();
         dialogElement.value?.focus();
-        itemData.value = await props.itemService.getItem(props.itemId);
+
+        if (props.itemId === -1) {
+            itemData.value = props.itemService.getBlankItem();
+        } else {
+            itemData.value = await props.itemService.getItem(props.itemId);
+        }
     });
 
     function preventClosing(e: KeyboardEvent) {
@@ -44,7 +72,54 @@
                 </button>
                 <h2>{{ itemName }}</h2>
             </div>
-            {{ itemData }}
+            <form>
+
+                <table class="translations" v-if="itemTranslations">
+                    <thead>
+                        <th></th>
+                        <th scope="col" v-for="lang in AVAILABLE_LOCALES">{{ lang.name }}</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="property in itemTranslationProperties">
+                            <th scope="row">{{ property }}</th>
+                            <td v-for="lang in Object.keys(AVAILABLE_LOCALES)">
+                                <input
+                                    type="text"
+                                    :value="getTranslationProperty(lang as Locale, property)"
+                                    @input="e => setTranslationProperty(lang as Locale, property, (e.target as HTMLInputElement).value)"
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div v-for="key in Object.keys(itemNonTranslationData)">
+                    <div v-if="typeof itemNonTranslationData[key] === 'boolean'">
+                        <label :for="key">{{ key }}</label>
+                        <input
+                            type="checkbox"
+                            :name="key"
+                            :id="key"
+                            :checked="itemNonTranslationData[key]"
+                            @input="e => setRegularProperty(key, (e.target as HTMLInputElement).checked)"
+                        >
+                    </div>
+                    <div v-else>
+                        <label :for="key">{{ key }}</label>
+                        <input
+                            :type="typeof itemNonTranslationData[key] === 'number' ? 'number' : 'text'"
+                            :name="key"
+                            :id="key"
+                            :value="itemNonTranslationData[key]"
+                            @input="e => setRegularProperty(key, (e.target as HTMLInputElement).value)"
+                        >
+                    </div>
+                </div>
+                <div class="controls">
+                    <button>Delete</button>
+                    <button>Cancel</button>
+                    <button>Save</button>
+                </div>
+            </form>
         </div>
     </dialog>
 </template>
