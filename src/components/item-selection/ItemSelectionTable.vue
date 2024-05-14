@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import type { ItemType } from '@/modules/api-services/items';
+    import { translate } from '@/modules/core/localization';
     import { computed } from 'vue';
 
     const props = defineProps<{
@@ -27,7 +28,7 @@
     <table v-if="data.length > 0">
         <thead>
             <th v-for="column in tableColumns">{{ column }}</th>
-            <th>Action</th>
+            <th>{{ translate("general.itemselection.column.action") }}</th>
         </thead>
         <tbody>
             <tr v-for="item in data">
