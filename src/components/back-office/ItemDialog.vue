@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { ItemService } from '@/modules/api-services/items';
-    import { AVAILABLE_LOCALES, currentLocale, type Locale } from '@/modules/core/localization';
+    import { AVAILABLE_LOCALES, currentLocale, translate, type Locale } from '@/modules/core/localization';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
@@ -21,7 +21,10 @@
         delete data['translations'];
         return data;
     });
-    const itemName = computed(() => itemTranslations.value?.find(item => item.lang === currentLocale.value)?.name);
+    const itemName = computed(() => {
+        const name = itemTranslations.value?.find(item => item.lang === currentLocale.value)?.name;
+        return name === '' ? translate("general.itemselection.itemUnnamed") : name;
+    });
 
     function getTranslationProperty(lang: Locale, property: string) {
         const translationData = itemTranslations.value.find(translation => translation.lang === lang);
@@ -94,7 +97,7 @@
                 </table>
                 <div v-for="key in Object.keys(itemNonTranslationData)">
                     <div v-if="typeof itemNonTranslationData[key] === 'boolean'">
-                        <label :for="key">{{ key }}</label>
+                        <label :for="key">{{ itemService.translateColumnName(key) }}</label>
                         <input
                             type="checkbox"
                             :name="key"
@@ -104,7 +107,7 @@
                         >
                     </div>
                     <div v-else>
-                        <label :for="key">{{ key }}</label>
+                        <label :for="key">{{ itemService.translateColumnName(key) }}</label>
                         <input
                             :type="typeof itemNonTranslationData[key] === 'number' ? 'number' : 'text'"
                             :name="key"

@@ -106,7 +106,7 @@ class ItemService {
         delete item['translations'];
     }
 
-    private translateColumnName(columnName: string): string {
+    public translateColumnName(columnName: string): string {
         return translate(`general.itemselection.column.${this.itemType}.${columnName}`);
     }
 
