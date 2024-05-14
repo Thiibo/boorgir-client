@@ -96,8 +96,9 @@ class ItemService {
                 this.transformTranslationsColumn(item);
             } else {
                 const translatedColumnName = this.translateColumnName(columnName);
-                item[translatedColumnName] = item[columnName];
-                if (translatedColumnName !== columnName) delete item[columnName];
+                const columnValue = item[columnName];
+                delete item[columnName];
+                item[translatedColumnName] = columnValue;
             }
         }
     }
