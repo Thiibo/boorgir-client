@@ -11,7 +11,7 @@
 <template>
     <main>
         <ItemSelection :item-service="itemService" @click-item="id => itemIdEditing = id" />
-        <ItemDialog :item-id="itemIdEditing" @close="itemIdEditing = null" v-if="itemIdEditing" />
+        <ItemDialog :item-id="itemIdEditing" :item-service="itemService" @close="itemIdEditing = null" v-if="itemIdEditing" />
     </main>
 </template>
 

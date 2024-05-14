@@ -41,6 +41,10 @@ class ItemService {
         };
     }
 
+    public async getItem(id: number) {
+        return API.get(`${this.endpoint}/${id}`) as Promise<StringKeyValueObject>;
+    }
+
     // === Helper methods ===
     private createGetItemsBody(perPage: number, page: number, query: string): StringKeyValueObject {
         const body: StringKeyValueObject = {
