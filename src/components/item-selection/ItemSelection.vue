@@ -3,7 +3,7 @@
     import ControlBar from './ControlBar.vue';
     import ItemSelectionGrid from './ItemSelectionGrid.vue';
     import ItemSelectionTable from './ItemSelectionTable.vue';
-    import { currentLocale } from '@/modules/core/localization';
+    import { loadedLocale } from '@/modules/core/localization';
     import type { ItemService } from '@/modules/api-services/items';
 
     const props = defineProps<{
@@ -32,7 +32,7 @@
         }
     }
 
-    watch([page, perPage, searchQuery, currentLocale], refreshPage);
+    watch([page, perPage, searchQuery, loadedLocale], refreshPage);
     onMounted(refreshPage);
 </script>
 

@@ -19,10 +19,12 @@ const AVAILABLE_LOCALES = {
 type Locale = keyof typeof AVAILABLE_LOCALES;
 
 const currentLocale = ref<Locale>("en");
+const loadedLocale = ref<Locale>();
 const staticTranslations = ref<StringKeyValueObject>({});
 
 async function refreshStaticTranslations() {
     staticTranslations.value = await API.get('translations') as StringKeyValueObject;
+    loadedLocale.value = currentLocale.value;
 }
 refreshStaticTranslations();
 watch(currentLocale, refreshStaticTranslations);
@@ -31,4 +33,4 @@ function translate(key: string) {
     return staticTranslations.value[key] ?? key;
 }
 
-export { AVAILABLE_LOCALES, type Locale, currentLocale, translate };
+export { AVAILABLE_LOCALES, type Locale, currentLocale, loadedLocale, translate };
