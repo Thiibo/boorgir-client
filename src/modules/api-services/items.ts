@@ -54,7 +54,7 @@ class ItemService {
         }
 
         if (this.itemType === 'burgers') {
-            item['ingredients'] = [];
+            delete item['vegetarian'];
         }
 
         return item;
