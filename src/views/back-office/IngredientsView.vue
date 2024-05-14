@@ -15,7 +15,7 @@
     <main>
         <ItemSelection :item-service="itemService" :item-id-editing="itemIdEditing" @click-item="id => itemIdEditing = id" />
         <ItemDialog :item-id="itemIdEditing" :item-service="itemService" @close="itemIdEditing = null" v-if="itemIdEditing" />
-        <button id="new-item" :aria-label="translate('backoffice.itemselection.action.new')" @click="itemIdEditing = -1">
+        <button id="new-item" :title="translate('backoffice.itemselection.action.new')" @click="itemIdEditing = -1">
             <FontAwesomeIcon :icon="faPlus" />
         </button>
     </main>
