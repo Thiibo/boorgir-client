@@ -94,7 +94,7 @@
                 </button>
                 <h2>{{ itemName }}</h2>
             </div>
-            <form>
+            <form @submit.prevent="saveItem">
                 <table class="translations" v-if="itemTranslations">
                     <thead>
                         <th></th>
@@ -136,9 +136,9 @@
                     </div>
                 </div>
                 <div class="controls">
-                    <button @click.prevent="deleteItem">{{ translate('backoffice.itemselection.action.delete') }}</button>
-                    <button @click.prevent="closeDialog">{{ translate('backoffice.itemselection.action.cancel') }}</button>
-                    <button @click.prevent="saveItem">{{ translate('backoffice.itemselection.action.save') }}</button>
+                    <button @click.prevent="deleteItem" type="button">{{ translate('backoffice.itemselection.action.delete') }}</button>
+                    <button @click.prevent="closeDialog" type="button">{{ translate('backoffice.itemselection.action.cancel') }}</button>
+                    <button>{{ translate('backoffice.itemselection.action.save') }}</button>
                 </div>
             </form>
         </div>
