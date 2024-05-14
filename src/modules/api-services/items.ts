@@ -48,7 +48,6 @@ class ItemService {
     public getBlankItem() {
         const translations = Object.keys(AVAILABLE_LOCALES).map(locale => ({ name: '', description: '', lang: locale }));
         const item: {[key: string]: any} = {
-            name: '',
             vegetarian: false,
             price: 0,
             translations: translations
