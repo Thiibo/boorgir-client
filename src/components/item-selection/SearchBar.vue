@@ -18,7 +18,7 @@
             name="query"
             id="query"
             :placeholder="translate('general.placeholder.searchbar')"
-            value="modelValue"
+            :value="modelValue"
             @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         >
     </div>

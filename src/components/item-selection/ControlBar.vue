@@ -56,7 +56,7 @@
             <button :aria-label="translate('general.itemselection.controlbar.filter')">
                 <FontAwesomeIcon :icon="faFilter" />
             </button>
-            <SearchBar id="search-bar" :model-value="searchQuery" @input="$emit('update:searchQuery', ($event.target as HTMLInputElement).value)" />
+            <SearchBar id="search-bar" :model-value="searchQuery" @update:model-value="value => $emit('update:searchQuery', value)" />
         </div>
     </div>
 </template>
