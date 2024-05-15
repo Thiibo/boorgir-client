@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { type ItemService } from '@/modules/api-services/items';
+    import { ItemService } from '@/modules/api-services/items';
     import ItemImage from './ItemImage.vue';
     import { onMounted, ref } from 'vue';
     import { AVAILABLE_LOCALES, currentLocale, translate } from '@/modules/core/localization';
@@ -19,8 +19,14 @@
             .then(res => thumbnails.value = res as File[]);
     })
 
-    function getItemName(item: StringKeyValueObject) {
-        return item.name ?? item[`name (${AVAILABLE_LOCALES[currentLocale.value].name})`];
+    function getItemName(item: {[key: string]: any}) {
+        const nameColumnTranslated = props.itemService.translateColumnName('name');
+        return item[nameColumnTranslated] ?? item[`name (${AVAILABLE_LOCALES[currentLocale.value].name})`];
+    }
+
+    function getItemAmount(item: {[key: string]: any}) {
+        const nameColumnTranslated = translate('front.page.order.amountColumn');
+        return item[nameColumnTranslated] as number;
     }
 
     defineEmits([
@@ -31,12 +37,15 @@
 <template>
     <div class="selection-grid" v-if="data">
         <div v-for="(item, key) in data">
-            <ItemImage class="item-image" :file="thumbnails[key]" :alt="getItemName(item)" />
-            <h3>{{ getItemName(item) }}</h3>
-            <span class="price">€ {{ item.price.toFixed(2) }}</span>
-            <div class="vegetarian" :title="translate('general.itemselection.column.ingredients.vegetarian')" v-if="item.vegetarian">
-                <FontAwesomeIcon :icon="faAppleWhole" />
+            <div class="top">
+                <ItemImage class="item-image" :file="thumbnails[key]" :alt="getItemName(item)" />
+                <span class="price">€ {{ item.price.toFixed(2) }}</span>
+                <div class="vegetarian" :title="translate('general.itemselection.column.ingredients.vegetarian')" v-if="item.vegetarian">
+                    <FontAwesomeIcon :icon="faAppleWhole" />
+                </div>
+                <span class="order-amount" v-if="getItemAmount(item) > 0">x{{ getItemAmount(item) }}</span>
             </div>
+            <h3>{{ getItemName(item) }}</h3>
             <button @click="$emit('clickItem', item.ID)">{{ actionName }}</button>
         </div>
     </div>
@@ -74,7 +83,11 @@
                 font-size: 1.4rem;
             }
 
-            .price, .vegetarian {
+            .top {
+                position: relative;
+            }
+
+            .price, .vegetarian, .order-amount {
                 position: absolute;
                 top: 1rem;
                 left: 1rem;
@@ -84,9 +97,14 @@
                 background-color: var(--color-background-soft);
             }
 
-            .vegetarian {
+            .vegetarian, .order-amount {
                 left: unset;
                 right: 1rem;
+            }
+
+            .order-amount {
+                top: unset;
+                bottom: 1rem;
             }
 
             button {
