@@ -2,16 +2,16 @@
     import { translate } from '@/modules/core/localization';
     import { faUpload } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import { computed, ref } from 'vue';
+    import { ref } from 'vue';
+    import ItemImage from '@/components/item-selection/ItemImage.vue';
 
     const ALLOWED_UPLOAD_CONTENT_TYPES = ['jpg', 'png', 'jpeg', 'gif', 'svg'];
 
-    const props = defineProps<{
+    defineProps<{
         file?: File,
         alt: string
     }>();
 
-    const imagePreviewURL = computed(() => props.file ? URL.createObjectURL(props.file) : '');
     const isDragging = ref(false);
 
     const emit = defineEmits([
@@ -43,10 +43,7 @@
 
 <template>
     <div class="image-upload" @dragover.prevent="isDragging = true" @dragleave.stop="isDragging = false" @drop.prevent="dropFile">
-        <img :src="imagePreviewURL" :alt="alt" v-if="imagePreviewURL !== ''">
-        <div class="image-not-provided" v-else>
-            <span>{{ translate('general.itemselection.image.unavailable') }}</span>
-        </div>
+        <ItemImage class="item-image" :file="file" :alt="alt" />
         <div>
             <p><FontAwesomeIcon :icon="faUpload" />{{ translate('backoffice.itemselection.image.dragdropupload') }}</p>
             <label for="image">
@@ -69,17 +66,9 @@
         border-radius: 1rem;
         border: .2rem solid var(--color-background-surface);
 
-        img, .image-not-provided {
+        .item-image {
             height: 10rem;
-            border-radius: .3rem;
-            pointer-events: none;
-        }
-
-        .image-not-provided {
-            position: relative;
-            width: 10rem;
-            font-style: italic;
-            background: var(--color-background-surface);
+            min-width: 10rem;
         }
 
         div {
@@ -116,7 +105,7 @@
             pointer-events: none;
         }
 
-        .image-not-provided span, .drag-overlay span {
+        .drag-overlay span {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
