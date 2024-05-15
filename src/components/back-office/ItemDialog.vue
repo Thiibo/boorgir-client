@@ -5,6 +5,7 @@
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
     import ImageInput from './ImageInput.vue';
+    import type { ValidationError } from '@/modules/core/validation-error';
 
     const props = defineProps<{
         itemId: number,
@@ -57,6 +58,10 @@
             props.itemService.updateItem(props.itemId, itemData.value);
         }
 
+        if (thumbnail.value) {
+            props.itemService.uploadThumbnail(props.itemId, thumbnail.value);
+        }
+
         closeDialog();
     }
 
@@ -69,7 +74,9 @@
             isNewItem.value = true;
         } else {
             itemData.value = await props.itemService.getItem(props.itemId);
-            thumbnail.value = await props.itemService.getThumbnail(props.itemId) as File;
+            props.itemService.getThumbnail(props.itemId)
+                .then(res => thumbnail.value = res as File)
+                .catch(validationErrors => { if (!(validationErrors as ValidationError).errors.file) throw validationErrors; })
             isNewItem.value = false;
         }
     });
