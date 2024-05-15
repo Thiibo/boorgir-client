@@ -40,7 +40,7 @@
             <div class="top" v-if="getItemTranslatedColumn(item, 'name')">
                 <ItemImage class="item-image" :file="thumbnails[key]" :alt="getItemTranslatedColumn(item, 'name')" />
                 <span class="price">€ {{ (getItemTranslatedColumn(item, 'price') ?? 0).toFixed(2) }}</span>
-                <div class="vegetarian" :title="translate('general.itemselection.column.ingredients.vegetarian')">
+                <div class="vegetarian" :title="translate('general.itemselection.column.ingredients.vegetarian')" v-if="getItemTranslatedColumn(item, 'vegetarian')">
                     <FontAwesomeIcon :icon="faAppleWhole" />
                 </div>
                 <span class="order-amount" v-if="getItemAmount(item) > 0">x{{ getItemAmount(item) }}</span>
