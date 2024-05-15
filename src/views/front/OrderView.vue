@@ -3,17 +3,22 @@
   import ItemSelection from '@/components/item-selection/ItemSelection.vue';
   import { ItemService } from '@/modules/api-services/items';
   import { translate } from '@/modules/core/localization';
-  import { ref } from 'vue';
+  import { computed, ref } from 'vue';
 
-  const itemAmounts = ref<{[id: string]: { data: StringKeyValueObject, amount: number }}>({})
+  const itemAmounts = ref<{[id: string]: { data: {[key: string]: any}, amount: number }}>({})
   const itemIdOpen = ref<number | null>(null);
   const itemService = new ItemService('burgers', false, { "front.page.order.amountColumn": (id) => itemAmounts.value[id]?.amount ?? 0 });
+  const subTotal = computed(() => Object.values(itemAmounts.value).reduce((acc, curr) => acc + curr.amount * curr.data.price, 0));
 
   function setToOrderAmount(itemData: {[key: string]: any}, amount: number) {
-    itemAmounts.value[itemData.id] = {
-      data: itemData,
-      amount: amount
-    };
+    if (amount > 0) {
+      itemAmounts.value[itemData.id] = {
+        data: itemData,
+        amount: amount
+      };
+    } else {
+      delete itemAmounts.value[itemData.id]
+    }
   }
 </script>
 
@@ -23,6 +28,18 @@
     <OrderDialog :item-service="itemService" :item-id="itemIdOpen" :order-amount="itemAmounts[itemIdOpen]?.amount ?? 0" @close="itemIdOpen = null" @set-order-amount="setToOrderAmount" v-if="itemIdOpen" />
     <div id="order">
       <h2>{{ translate('front.page.order.receipttitle') }}</h2>
+      <ul>
+        <li v-for="itemAmount in itemAmounts">
+          {{ itemAmount.data.name }}:
+          {{ itemAmount.amount }}x
+          € {{ itemAmount.data.price.toFixed(2) }}
+          = € {{ (itemAmount.amount * itemAmount.data.price).toFixed(2) }}
+        </li>
+      </ul>
+      <div class="subtotal">
+        Subtotal: € {{ subTotal.toFixed(2) }}
+      </div>
+      <button>Order</button>
     </div>
   </main>
 </template>
@@ -32,7 +49,7 @@
     display: flex;
     gap: 3rem;
 
-    div {
+    > div {
       height: 80vh;
     }
   }
@@ -52,6 +69,23 @@
       text-align: center;
       font-size: 2rem;
       font-weight: bold;
+    }
+
+    ul {
+      padding-left: 1rem;
+      margin-top: 1rem;
+    }
+
+    .subtotal {
+      border-top: .1rem solid gray;
+      margin-top: 2rem;
+      padding: 1rem;
+    }
+
+    button {
+      display: block;
+      z-index: 5;
+      margin: 2rem auto 0;
     }
   }
 </style>
