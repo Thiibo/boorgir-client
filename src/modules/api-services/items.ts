@@ -72,6 +72,14 @@ class ItemService {
         return API.del(`${this.endpoint}/${id}`);
     }
 
+    public getThumbnail(id: number) {
+        return API.get(`${this.itemType}/${id}/thumbnail`) as Promise<Blob>;
+    }
+
+    public uploadThumbnail(id: number, file: File) {
+        return API.post(`${this.endpoint}/${id}/thumbnail`, file);
+    }
+
     // === Helper methods ===
     private createGetItemsBody(perPage: number, page: number, query: string): StringKeyValueObject {
         const body: StringKeyValueObject = {

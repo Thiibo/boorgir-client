@@ -3,7 +3,8 @@ import { ValidationError } from "./validation-error";
 
 const API_URL = "http://localhost:8000/api";
 
-function request(endpoint: string, queryParams: StringKeyValueObject = {}, method: string = 'GET', body?: Object): Promise<Object> {
+type RequestBody = {[key: string]: any} | File;
+function request(endpoint: string, queryParams: StringKeyValueObject = {}, method: string = 'GET', body?: RequestBody) {
     const searchParams = createSearchParams({...queryParams, lang: currentLocale.value});
     const fetchUrl = `${API_URL}/${endpoint}?${searchParams}`;
     const fetchOptions = createFetchOptions(method, body);
@@ -12,13 +13,20 @@ function request(endpoint: string, queryParams: StringKeyValueObject = {}, metho
 }
 
 async function handleRequestSuccess(res: Response) {
-    const data = await res.text();
-    if (data === '') return;
+    const contentType = res.headers.get('Content-Type');
 
-    const json = JSON.parse(data);
-    if ('errors' in json) throw new ValidationError(json.errors);
+    if (contentType?.startsWith('image/')) {
+        return res.blob();
 
-    return json;
+    } else if (contentType === 'application/json') {
+        const json = await res.json() as {[key: string]: any};
+        if ('errors' in json) throw new ValidationError(json.errors);
+        return json;
+
+    } else {
+        return res.text();
+
+    }
 }
 
 function handleRequestFetchError(err: Error) {
@@ -38,7 +46,15 @@ function createSearchParams(queryParams: StringKeyValueObject): URLSearchParams 
     return searchParams;
 }
 
-function createFetchOptions(httpMethod: string, body?: Object): Object {
+function createFetchOptions(httpMethod: string, body?: RequestBody): Object {
+    let fetchBody: BodyInit;
+    if (body instanceof File) {
+        fetchBody = new FormData();
+        fetchBody.append('file', body);
+    } else {
+        fetchBody = JSON.stringify(body);
+    }
+
     return {
         method: httpMethod,
         credentials: "include",
@@ -46,7 +62,7 @@ function createFetchOptions(httpMethod: string, body?: Object): Object {
             'Content-Type': 'application/json; charset=utf-8',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(body)
+        body: fetchBody
     };
 }
 
@@ -54,11 +70,11 @@ async function get(endpoint: string, queryParams: StringKeyValueObject = {}) {
     return request(endpoint, queryParams)
 }
 
-async function post(endpoint: string, body?: Object) {
+async function post(endpoint: string, body?: RequestBody) {
     return request(endpoint, {}, 'POST', body);
 }
 
-async function put(endpoint: string, body: Object) {
+async function put(endpoint: string, body: RequestBody) {
     return request(endpoint, {}, 'PUT', body);
 }
 
