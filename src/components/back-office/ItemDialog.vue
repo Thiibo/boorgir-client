@@ -5,6 +5,7 @@
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
     import ImageInput from './ImageInput.vue';
+    import ValidationErrors from '../ValidationErrors.vue';
     import type { ValidationError } from '@/modules/core/validation-error';
 
     const props = defineProps<{
@@ -18,6 +19,7 @@
     const isNewItem = ref(false);
     const thumbnail = ref<File>();
     const thumbnailChanged = ref(false);
+    const validationErrors = ref<StringArrayKeyValueObject>();
 
     const itemTranslations = computed(() => itemData.value?.translations as StringKeyValueObject[]);
     const itemTranslationProperties = computed(() => Object.keys(itemTranslations.value ? itemTranslations.value[0] : []).filter(property => property !== 'lang'));
@@ -53,17 +55,20 @@
     }
 
     function saveItem() {
+        const promises = [];
         if (isNewItem.value) {
-            props.itemService.createItem(itemData.value);
+            promises.push(props.itemService.createItem(itemData.value));
         } else {
-            props.itemService.updateItem(props.itemId, itemData.value);
+            promises.push(props.itemService.updateItem(props.itemId, itemData.value));
         }
 
         if (thumbnailChanged.value && thumbnail.value) {
-            props.itemService.uploadThumbnail(props.itemId, thumbnail.value);
+            promises.push(props.itemService.uploadThumbnail(props.itemId, thumbnail.value));
         }
 
-        closeDialog();
+        Promise.all(promises)
+            .then(() => closeDialog())
+            .catch(errors => validationErrors.value = (errors as ValidationError).errors)
     }
 
     function uploadThumbnail(file: File) {
@@ -155,11 +160,13 @@
                             @input="e => setRegularProperty(key, (e.target as HTMLInputElement).value)"
                         >
                     </div>
+                    <ValidationErrors :errors="validationErrors ? validationErrors[key] : undefined" />
                 </div>
                 <div class="thumbnail">
                     <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
                     <ImageInput :file="thumbnail" :alt="itemName" @upload="uploadThumbnail" />
                 </div>
+                <ValidationErrors :errors="validationErrors?.file" />
                 <div class="controls">
                     <button @click.prevent="deleteItem" type="button">{{ translate('backoffice.itemselection.action.delete') }}</button>
                     <button @click.prevent="closeDialog" type="button">{{ translate('backoffice.itemselection.action.cancel') }}</button>
