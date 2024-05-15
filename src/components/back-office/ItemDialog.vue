@@ -4,6 +4,7 @@
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
+    import ImageInput from './ImageInput.vue';
 
     const props = defineProps<{
         itemId: number,
@@ -14,6 +15,7 @@
 
     const itemData = ref<{[key: string]: any}>({});
     const isNewItem = ref(false);
+    const thumbnail = ref<File>();
 
     const itemTranslations = computed(() => itemData.value?.translations as StringKeyValueObject[]);
     const itemTranslationProperties = computed(() => Object.keys(itemTranslations.value ? itemTranslations.value[0] : []).filter(property => property !== 'lang'));
@@ -24,7 +26,7 @@
         return data;
     });
     const itemName = computed(() => {
-        const name = itemTranslations.value?.find(item => item.lang === currentLocale.value)?.name;
+        const name = itemTranslations.value?.find(item => item.lang === currentLocale.value)?.name ?? '';
         return name === '' ? translate("backoffice.itemselection.title.unnamed") : name;
     });
 
@@ -67,6 +69,7 @@
             isNewItem.value = true;
         } else {
             itemData.value = await props.itemService.getItem(props.itemId);
+            thumbnail.value = await props.itemService.getThumbnail(props.itemId) as File;
             isNewItem.value = false;
         }
     });
@@ -137,6 +140,10 @@
                             @input="e => setRegularProperty(key, (e.target as HTMLInputElement).value)"
                         >
                     </div>
+                </div>
+                <div class="thumbnail" v-if="thumbnail">
+                    <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
+                    <ImageInput :file="thumbnail" :alt="itemName" @upload="file => thumbnail = file" />
                 </div>
                 <div class="controls">
                     <button @click.prevent="deleteItem" type="button">{{ translate('backoffice.itemselection.action.delete') }}</button>
@@ -225,6 +232,10 @@
 
         > div {
             margin-top: 2rem;
+        }
+
+        .thumbnail label {
+            vertical-align: top;
         }
 
         .controls {
