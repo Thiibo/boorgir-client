@@ -17,6 +17,7 @@
     const itemData = ref<{[key: string]: any}>({});
     const isNewItem = ref(false);
     const thumbnail = ref<File>();
+    const thumbnailChanged = ref(false);
 
     const itemTranslations = computed(() => itemData.value?.translations as StringKeyValueObject[]);
     const itemTranslationProperties = computed(() => Object.keys(itemTranslations.value ? itemTranslations.value[0] : []).filter(property => property !== 'lang'));
@@ -58,11 +59,16 @@
             props.itemService.updateItem(props.itemId, itemData.value);
         }
 
-        if (thumbnail.value) {
+        if (thumbnailChanged.value && thumbnail.value) {
             props.itemService.uploadThumbnail(props.itemId, thumbnail.value);
         }
 
         closeDialog();
+    }
+
+    function uploadThumbnail(file: File) {
+        thumbnail.value = file;
+        thumbnailChanged.value = true;
     }
 
     onMounted(async () => {
@@ -152,7 +158,7 @@
                 </div>
                 <div class="thumbnail">
                     <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
-                    <ImageInput :file="thumbnail" :alt="itemName" @upload="file => thumbnail = file" />
+                    <ImageInput :file="thumbnail" :alt="itemName" @upload="uploadThumbnail" />
                 </div>
                 <div class="controls">
                     <button @click.prevent="deleteItem" type="button">{{ translate('backoffice.itemselection.action.delete') }}</button>
