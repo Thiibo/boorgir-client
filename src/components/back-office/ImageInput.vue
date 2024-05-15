@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { translate } from '@/modules/core/localization';
     import { faUpload } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, ref } from 'vue';
@@ -44,15 +45,15 @@
     <div class="image-upload" @dragover.prevent="isDragging = true" @dragleave.stop="isDragging = false" @drop.prevent="dropFile">
         <img :src="imagePreviewURL" :alt="alt" v-if="imagePreviewURL !== ''">
         <div class="image-not-provided" v-else>
-            <span>No image available</span>
+            <span>{{ translate('general.itemselection.image.unavailable') }}</span>
         </div>
         <div>
-            <p><FontAwesomeIcon :icon="faUpload" /> Drag and drop to upload</p>
+            <p><FontAwesomeIcon :icon="faUpload" />{{ translate('backoffice.itemselection.image.dragdropupload') }}</p>
             <label for="image">
                 <span class="drag-overlay" v-if="isDragging">
-                    <span><FontAwesomeIcon :icon="faUpload" /> Drop to upload</span>
+                    <span><FontAwesomeIcon :icon="faUpload" />{{ translate('backoffice.itemselection.image.dropupload') }}</span>
                 </span>
-                <span class="button" v-else>Select file</span>
+                <span class="button" v-else>{{ translate('backoffice.itemselection.image.select') }}</span>
             </label>
             <input type="file" name="image" id="image" :accept="`.${ALLOWED_UPLOAD_CONTENT_TYPES.join(',.')}`" @change="selectFile">
         </div>
