@@ -3,7 +3,7 @@
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, ref } from 'vue';
 
-    const ALLOWED_UPLOAD_CONTENT_TYPES = ['image/jpg', 'image/png', 'image/jpeg', 'image/gif', 'image/svg'];
+    const ALLOWED_UPLOAD_CONTENT_TYPES = ['jpg', 'png', 'jpeg', 'gif', 'svg'];
 
     const props = defineProps<{
         file?: File,
@@ -36,7 +36,7 @@
     }
 
     function isValidType(file: File) {
-        return ALLOWED_UPLOAD_CONTENT_TYPES.includes(file.type);
+        return ALLOWED_UPLOAD_CONTENT_TYPES.map(type => `image/${type}`).includes(file.type);
     }
 </script>
 
@@ -54,7 +54,7 @@
                 </span>
                 <span class="button" v-else>Select file</span>
             </label>
-            <input type="file" name="image" id="image" @change="selectFile">
+            <input type="file" name="image" id="image" :accept="`.${ALLOWED_UPLOAD_CONTENT_TYPES.join(',.')}`" @change="selectFile">
         </div>
     </div>
 </template>
