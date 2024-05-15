@@ -21,7 +21,7 @@
 
     function getItemTranslatedColumn(item: {[key: string]: any}, column: string) {
         const nameColumnTranslated = props.itemService.translateColumnName(column);
-        return item[nameColumnTranslated] ?? item[`${column} (${AVAILABLE_LOCALES[currentLocale.value].name})`];
+        return item[nameColumnTranslated] ?? item[`${nameColumnTranslated} (${AVAILABLE_LOCALES[currentLocale.value].name})`];
     }
 
     function getItemAmount(item: {[key: string]: any}) {
