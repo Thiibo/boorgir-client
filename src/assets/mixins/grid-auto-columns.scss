@@ -1,0 +1,3 @@
+@mixin gridAutoColumns($staticWidth, $incrementalWidth) {
+    grid-template-columns: repeat(auto-fill, minmax(calc($staticWidth + $incrementalWidth), 1fr));
+}

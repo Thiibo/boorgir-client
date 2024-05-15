@@ -55,7 +55,7 @@
             @next-page="page += 1"
         />
         <div v-if="data">
-            <ItemSelectionGrid :data="data" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-if="isGridView" />
+            <ItemSelectionGrid :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-if="isGridView" />
             <ItemSelectionTable :data="data" :item-type="itemType" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-else />
         </div>
     </div>
