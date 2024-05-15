@@ -19,9 +19,9 @@
             .then(res => thumbnails.value = res as File[]);
     })
 
-    function getItemName(item: {[key: string]: any}) {
-        const nameColumnTranslated = props.itemService.translateColumnName('name');
-        return item[nameColumnTranslated] ?? item[`name (${AVAILABLE_LOCALES[currentLocale.value].name})`];
+    function getItemTranslatedColumn(item: {[key: string]: any}, column: string) {
+        const nameColumnTranslated = props.itemService.translateColumnName(column);
+        return item[nameColumnTranslated] ?? item[`${column} (${AVAILABLE_LOCALES[currentLocale.value].name})`];
     }
 
     function getItemAmount(item: {[key: string]: any}) {
@@ -37,15 +37,15 @@
 <template>
     <div class="selection-grid" v-if="data">
         <div v-for="(item, key) in data">
-            <div class="top">
-                <ItemImage class="item-image" :file="thumbnails[key]" :alt="getItemName(item)" />
-                <span class="price">€ {{ item.price.toFixed(2) }}</span>
-                <div class="vegetarian" :title="translate('general.itemselection.column.ingredients.vegetarian')" v-if="item.vegetarian">
+            <div class="top" v-if="getItemTranslatedColumn(item, 'name')">
+                <ItemImage class="item-image" :file="thumbnails[key]" :alt="getItemTranslatedColumn(item, 'name')" />
+                <span class="price">€ {{ (getItemTranslatedColumn(item, 'price') ?? 0).toFixed(2) }}</span>
+                <div class="vegetarian" :title="translate('general.itemselection.column.ingredients.vegetarian')">
                     <FontAwesomeIcon :icon="faAppleWhole" />
                 </div>
                 <span class="order-amount" v-if="getItemAmount(item) > 0">x{{ getItemAmount(item) }}</span>
             </div>
-            <h3>{{ getItemName(item) }}</h3>
+            <h3>{{ getItemTranslatedColumn(item, 'name') }}</h3>
             <button @click="$emit('clickItem', item.ID)">{{ actionName }}</button>
         </div>
     </div>
