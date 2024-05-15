@@ -91,6 +91,7 @@
         height: $button-height;
         width: $button-height;
         padding: 0;
+        color: var(--color-text);
         z-index: 10;
         transition: background-color .2s ease-in-out;
 
@@ -110,6 +111,7 @@
 
     input, #search-bar {
         height: $button-height;
+        color: var(--color-text);
     }
 
     input[type=number] {

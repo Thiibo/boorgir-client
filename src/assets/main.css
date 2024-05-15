@@ -53,7 +53,7 @@ input, textarea {
   border-radius: .3rem;
   padding: .5rem;
   background-color: var(--color-background-surface);
-  color: white;
+  color: var(--color-text);
 }
 
 a:focus-visible,

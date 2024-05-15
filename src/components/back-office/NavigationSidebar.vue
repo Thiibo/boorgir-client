@@ -133,6 +133,7 @@
         }
         button {
             font-size: 2rem;
+            color: var(--color-text);
         }
     }
-</style>../LocaleButton.vue
+</style>

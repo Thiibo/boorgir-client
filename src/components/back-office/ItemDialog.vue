@@ -217,6 +217,7 @@
             width: 4rem;
             height: 4rem;
             padding: 0;
+            color: var(--color-text);
 
             &::before, &::after {
                 display: none;

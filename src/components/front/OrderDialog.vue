@@ -100,6 +100,7 @@
 
             button {
                 font-size: 2rem;
+                color: var(--color-text);
 
                 &::before, &::after {
                     display: none;

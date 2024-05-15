@@ -62,7 +62,7 @@
 
         > div {
             position: relative;
-            background-color: var(--color-background-soft);
+            background-color: var(--color-background-mute);
             border: .1rem solid gray;
             border-radius: 1rem;
             overflow: hidden;
@@ -94,7 +94,7 @@
                 font-size: .8rem;
                 padding: .2rem .4rem;
                 border-radius: .6rem;
-                background-color: var(--color-background-soft);
+                background-color: var(--color-background-mute);
             }
 
             .vegetarian, .order-amount {
