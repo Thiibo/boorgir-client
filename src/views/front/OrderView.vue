@@ -37,9 +37,9 @@
         </li>
       </ul>
       <div class="subtotal">
-        Subtotal: € {{ subTotal.toFixed(2) }}
+        {{ translate('front.itemselection.subtotal') }}: € {{ subTotal.toFixed(2) }}
       </div>
-      <button>Order</button>
+      <button>{{ translate('front.itemselection.action.order') }}</button>
     </div>
   </main>
 </template>

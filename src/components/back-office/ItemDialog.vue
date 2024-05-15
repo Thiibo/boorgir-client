@@ -113,7 +113,7 @@
     <dialog ref="dialogElement" @keydown="closeWithEscape" @click.self="closeDialog">
         <div>
             <div class="title">
-                <button @click="closeDialog">
+                <button @click="closeDialog" :title="translate('general.action.closedialog')">
                     <FontAwesomeIcon :icon="faClose" />
                 </button>
                 <h2>{{ itemName }}</h2>

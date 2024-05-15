@@ -1,8 +1,9 @@
 <script setup lang="ts">
     import type { ItemService } from '@/modules/api-services/items';
+    import { translate } from '@/modules/core/localization';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import { onMounted, ref } from 'vue';
+    import { computed, onMounted, ref } from 'vue';
 
     const props = defineProps<{
         itemService: ItemService,
@@ -10,6 +11,7 @@
         orderAmount: number
     }>();
 
+    const itemType = computed(() => props.itemService.getItemType());
     const itemData = ref<{[key: string]: any}>();
     const itemAmount = ref(props.orderAmount);
     const dialogElement = ref();
@@ -47,23 +49,23 @@
         <div>
             <div class="title">
                 <h2>{{ itemData?.name }}</h2>
-                <button @click="closeDialog">
+                <button @click="closeDialog" :title="translate('general.action.closedialog')">
                     <FontAwesomeIcon :icon="faClose" />
                 </button>
             </div>
-            <h3>Description:</h3>
+            <h3>{{ translate('general.itemselection.column.burgers.description') }}:</h3>
             <p>{{ itemData?.description }}</p>
-            <h3>Ingredients:</h3>
+            <h3>{{ translate('general.itemselection.column.burgers.ingredients') }}:</h3>
             <ul v-if="itemData?.ingredients.length > 0">
                 <li v-for="ingredient in itemData?.ingredients">{{ ingredient }}</li>
             </ul>
-            <p v-else>None.</p>
+            <p v-else>{{ translate('front.itemselection.noingredients') }}</p>
             <div class="order-amount">
                 <span>€ {{ itemData?.price.toFixed(2) }} x</span>
                 <input type="number" name="amount" id="amount" min="0" max="99" v-model="itemAmount">
                 <span>= € {{ (itemData?.price * itemAmount).toFixed(2) }}</span>
             </div>
-            <button class="continue" @click="setOrderAmount">Continue</button>
+            <button class="continue" @click="setOrderAmount">{{ translate('front.itemselection.continue') }}</button>
         </div>
     </dialog>
 </template>
@@ -107,6 +109,7 @@
 
         h3 {
             margin: 1rem 0;
+            text-transform: capitalize;
         }
 
         .order-amount {
