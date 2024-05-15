@@ -6,11 +6,11 @@
     const ALLOWED_UPLOAD_CONTENT_TYPES = ['image/jpg', 'image/png', 'image/jpeg', 'image/gif', 'image/svg'];
 
     const props = defineProps<{
-        file: File,
+        file?: File,
         alt: string
     }>();
 
-    const imagePreviewURL = computed(() => URL.createObjectURL(props.file));
+    const imagePreviewURL = computed(() => props.file ? URL.createObjectURL(props.file) : '');
     const isDragging = ref(false);
 
     const emit = defineEmits([
@@ -42,7 +42,10 @@
 
 <template>
     <div class="image-upload" @dragover.prevent="isDragging = true" @dragleave.stop="isDragging = false" @drop.prevent="dropFile">
-        <img :src="imagePreviewURL" :alt="alt">
+        <img :src="imagePreviewURL" :alt="alt" v-if="imagePreviewURL !== ''">
+        <div class="image-not-provided" v-else>
+            <span>No image available</span>
+        </div>
         <div>
             <p><FontAwesomeIcon :icon="faUpload" /> Drag and drop to upload</p>
             <label for="image">
@@ -65,9 +68,17 @@
         border-radius: 1rem;
         border: .2rem solid var(--color-background-surface);
 
-        img {
+        img, .image-not-provided {
             height: 10rem;
+            border-radius: .3rem;
             pointer-events: none;
+        }
+
+        .image-not-provided {
+            position: relative;
+            width: 10rem;
+            font-style: italic;
+            background: var(--color-background-surface);
         }
 
         div {
@@ -102,14 +113,14 @@
             background-color: var(--color-background-surface);
             font-size: 1.4rem;
             pointer-events: none;
+        }
 
-            span {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 100%;
-                text-align: center;
-            }
+        .image-not-provided span, .drag-overlay span {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            text-align: center;
         }
     }
 </style>

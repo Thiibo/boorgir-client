@@ -141,7 +141,7 @@
                         >
                     </div>
                 </div>
-                <div class="thumbnail" v-if="thumbnail">
+                <div class="thumbnail">
                     <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
                     <ImageInput :file="thumbnail" :alt="itemName" @upload="file => thumbnail = file" />
                 </div>
