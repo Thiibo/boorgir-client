@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { ItemService } from '@/modules/api-services/items';
     import ItemImage from './ItemImage.vue';
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import { AVAILABLE_LOCALES, currentLocale, translate } from '@/modules/core/localization';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { faAppleWhole } from '@fortawesome/free-solid-svg-icons';
@@ -14,10 +14,13 @@
 
     const thumbnails = ref<(File | undefined)[]>([]);
 
-    onMounted(() => {
+    function refreshThumbnails() {
         Promise.all(props.data.map(item => props.itemService.getThumbnail(item.ID).catch(() => undefined)))
             .then(res => thumbnails.value = res as File[]);
-    })
+    }
+
+    onMounted(refreshThumbnails);
+    watch(() => props.data, refreshThumbnails);
 
     function getItemTranslatedColumn(item: {[key: string]: any}, column: string) {
         const nameColumnTranslated = props.itemService.translateColumnName(column);
