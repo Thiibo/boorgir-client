@@ -1,7 +1,12 @@
+import { ref } from 'vue';
 import API from '../core/api-methods';
 
+const profileData = ref<ProfileApiResult | null>(null);
+
 async function login(email: string, password: string) {
-    return API.post('login', { email, password }) as Promise<ProfileApiResult>;
+    const profile = await API.post('login', { email, password }) as ProfileApiResult;
+    profileData.value = profile;
+    return profile;
 }
 
 async function register(name: string, email: string, password: string, passwordConfirmation: string) {
@@ -9,11 +14,19 @@ async function register(name: string, email: string, password: string, passwordC
 }
 
 async function profile() {
-    return API.get('profile') as Promise<ProfileApiResult>;
+    if (profileData.value) {
+        return profileData.value;
+    } else {
+        const profile = await API.get('profile') as ProfileApiResult;
+        profileData.value = profile;
+        return profile;
+    }
 }
 
 async function logout() {
-    return API.post('logout');
+    const res = await API.post('logout');
+    profileData.value = null;
+    return res;
 }
 
 export { login, register, profile, logout };
