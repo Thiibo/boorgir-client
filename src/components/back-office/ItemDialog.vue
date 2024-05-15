@@ -120,6 +120,7 @@
                                 <textarea
                                     :value="getTranslationProperty(lang as Locale, property)"
                                     :lang="lang"
+                                    required
                                     @input="e => setTranslationProperty(lang as Locale, property, (e.target as HTMLInputElement).value)"
                                 ></textarea>
                             </td>
@@ -144,6 +145,7 @@
                             :name="key"
                             :id="key"
                             :value="itemNonTranslationData[key]"
+                            required
                             @input="e => setRegularProperty(key, (e.target as HTMLInputElement).value)"
                         >
                     </div>
