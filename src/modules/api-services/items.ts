@@ -73,7 +73,7 @@ class ItemService {
     }
 
     public getThumbnail(id: number) {
-        return API.get(`${this.itemType}/${id}/thumbnail`) as Promise<Blob>;
+        return API.get(`${this.itemType}/${id}/thumbnail`, {}, 'no-cache') as Promise<Blob>;
     }
 
     public uploadThumbnail(id: number, file: File) {
