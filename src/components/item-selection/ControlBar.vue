@@ -90,8 +90,6 @@
         background-color: var(--color-background-surface);
         height: $button-height;
         width: $button-height;
-        padding: 0;
-        color: var(--color-text);
         transition: background-color .2s ease-in-out;
 
         &:hover {
