@@ -7,6 +7,7 @@
     import ImageInput from './ImageInput.vue';
     import ValidationErrors from '../ValidationErrors.vue';
     import type { ValidationError } from '@/modules/core/validation-error';
+    import NonTranslationInput from './NonTranslationInput.vue';
 
     const props = defineProps<{
         itemId: number,
@@ -138,29 +139,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <div v-for="key in Object.keys(itemNonTranslationData)">
-                    <div v-if="typeof itemNonTranslationData[key] === 'boolean'">
-                        <label :for="key">{{ itemService.translateColumnName(key) }}</label>
-                        <input
-                            type="checkbox"
-                            :name="key"
-                            :id="key"
-                            :checked="itemNonTranslationData[key]"
-                            @input="e => setRegularProperty(key, (e.target as HTMLInputElement).checked)"
-                        >
-                    </div>
-                    <div v-else>
-                        <label :for="key">{{ itemService.translateColumnName(key) }}</label>
-                        <input
-                            :type="typeof itemNonTranslationData[key] === 'number' ? 'number' : 'text'"
-                            :name="key"
-                            :id="key"
-                            :value="itemNonTranslationData[key]"
-                            required
-                            @input="e => setRegularProperty(key, (e.target as HTMLInputElement).value)"
-                        >
-                    </div>
-                    <ValidationErrors :errors="validationErrors ? validationErrors[key] : undefined" />
+                <div v-for="column in Object.keys(itemNonTranslationData)">
+                    <NonTranslationInput
+                        :item-service="itemService"
+                        :column="column"
+                        :value="itemNonTranslationData[column]"
+                        @update="value => setRegularProperty(column, value)"
+                    />
+                    <ValidationErrors :errors="validationErrors ? validationErrors[column] : undefined" />
                 </div>
                 <div class="thumbnail">
                     <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
