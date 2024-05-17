@@ -5,11 +5,12 @@ const API_URL = "http://localhost:8000/api";
 
 type RequestBody = {[key: string]: any} | File;
 type CacheOption = 'default' | 'no-cache';
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-function request(endpoint: string, cacheOption?: CacheOption, queryParams: StringKeyValueObject = {}, method: string = 'GET', body?: RequestBody) {
+function request(endpoint: string, cacheOption?: CacheOption, queryParams: StringKeyValueObject = {}, httpMethod: HttpMethod = 'GET', body?: RequestBody) {
     const searchParams = createSearchParams({...queryParams, lang: currentLocale.value});
     const fetchUrl = `${API_URL}/${endpoint}?${searchParams}`;
-    const fetchOptions = createFetchOptions(method, body, cacheOption);
+    const fetchOptions = createFetchOptions(httpMethod, body, cacheOption);
 
     return fetch(fetchUrl, fetchOptions).then(handleRequestSuccess).catch(handleRequestFetchError);
 }
@@ -48,7 +49,7 @@ function createSearchParams(queryParams: StringKeyValueObject): URLSearchParams 
     return searchParams;
 }
 
-function createFetchOptions(httpMethod: string, body?: RequestBody, cacheOption: CacheOption = 'default'): Object {
+function createFetchOptions(httpMethod: HttpMethod, body?: RequestBody, cacheOption: CacheOption = 'default'): Object {
     let fetchBody: BodyInit;
     const fetchHeaders: StringKeyValueObject = { 'Accept': 'application/json' };
 
