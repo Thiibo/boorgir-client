@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { logout, profile } from '@/modules/api-services/auth';
     import router from '@/router';
-    import { faArrowRightFromBracket, faBurger, faCarrot } from '@fortawesome/free-solid-svg-icons';
+    import { faArrowLeft, faArrowRightFromBracket, faBurger, faCarrot } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { ref } from 'vue';
     import LocaleButton from '@/components/LocaleButton.vue';
@@ -13,9 +13,14 @@
 
 <template>
     <header>
-        <h1>
-            <span>Boorgir</span> admin
-        </h1>
+        <div class="title">
+            <RouterLink to="/" :title="translate('backoffice.sidebar.home')">
+                <FontAwesomeIcon :icon="faArrowLeft" />
+            </RouterLink>
+            <h1>
+                <span>Boorgir</span> admin
+            </h1>
+        </div>
         <nav>
             <ul>
                 <li>
@@ -55,9 +60,18 @@
         background-color: var(--color-background-mute);
     }
 
-    h1 {
+    .title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.4rem;
         text-align: center;
         padding: $padding;
+
+        a {
+            display: inline-block;
+            font-size: 1.3rem;
+        }
 
         span {
             font-weight: bold;
