@@ -25,7 +25,7 @@
 </script>
 
 <template>
-    <table v-if="data.length > 0">
+    <table>
         <thead>
             <th v-for="column in tableColumns">{{ column }}</th>
             <th>{{ translate("general.itemselection.column.action") }}</th>
@@ -41,7 +41,6 @@
             </tr>
         </tbody>
     </table>
-    <p v-else>{{ translate("general.itemselection.noitems") }}</p>
 </template>
 
 <style lang="scss" scoped>
@@ -68,10 +67,5 @@
                 z-index: 1;
             }
         }
-    }
-
-    p {
-        margin: 2rem 0;
-        text-align: center;
     }
 </style>

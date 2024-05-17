@@ -3,7 +3,7 @@
     import ControlBar from './ControlBar.vue';
     import ItemSelectionGrid from './ItemSelectionGrid.vue';
     import ItemSelectionTable from './ItemSelectionTable.vue';
-    import { loadedLocale } from '@/modules/core/localization';
+    import { loadedLocale, translate } from '@/modules/core/localization';
     import type { ItemService } from '@/modules/api-services/items';
 
     const props = defineProps<{
@@ -54,9 +54,17 @@
             @prev-page="page -= 1"
             @next-page="page += 1"
         />
-        <div v-if="data">
+        <div v-if="data?.length > 0">
             <ItemSelectionGrid :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-if="isGridView" />
             <ItemSelectionTable :data="data" :item-type="itemType" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-else />
         </div>
+        <p v-else>{{ translate("general.itemselection.noitems") }}</p>
     </div>
 </template>
+
+<style lang="scss" scoped>
+    p {
+        margin: 2rem 0;
+        text-align: center;
+    }
+</style>
