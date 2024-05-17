@@ -20,7 +20,7 @@ const AVAILABLE_LOCALES = {
 type Locale = keyof typeof AVAILABLE_LOCALES;
 
 const currentLocale = ref<Locale>(getFromLocalStorage('locale') ?? 'en');
-const loadedLocale = ref<Locale>();
+const loadedLocale = ref<Locale>(currentLocale.value);
 const staticTranslations = ref<StringKeyValueObject>({});
 
 async function refreshStaticTranslations() {

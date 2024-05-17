@@ -11,7 +11,6 @@
         orderAmount: number
     }>();
 
-    const itemType = computed(() => props.itemService.getItemType());
     const itemData = ref<{[key: string]: any}>();
     const itemAmount = ref(props.orderAmount);
     const dialogElement = ref();

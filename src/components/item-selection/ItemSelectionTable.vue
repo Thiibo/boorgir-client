@@ -41,7 +41,7 @@
             </tr>
         </tbody>
     </table>
-    <p v-else>No data to display.</p>
+    <p v-else>{{ translate("general.itemselection.noitems") }}</p>
 </template>
 
 <style lang="scss" scoped>
