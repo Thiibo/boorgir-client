@@ -46,13 +46,13 @@
         <ItemImage class="item-image" :file="file" :alt="alt" />
         <div>
             <p><FontAwesomeIcon :icon="faUpload" />{{ translate('backoffice.itemselection.image.dragdropupload') }}</p>
+            <input type="file" name="image" id="image" :accept="`.${ALLOWED_UPLOAD_CONTENT_TYPES.join(',.')}`" @change="selectFile">
             <label for="image">
                 <span class="drag-overlay" v-if="isDragging">
                     <span><FontAwesomeIcon :icon="faUpload" />{{ translate('backoffice.itemselection.image.dropupload') }}</span>
                 </span>
                 <span class="button" v-else>{{ translate('backoffice.itemselection.image.select') }}</span>
             </label>
-            <input type="file" name="image" id="image" :accept="`.${ALLOWED_UPLOAD_CONTENT_TYPES.join(',.')}`" @change="selectFile">
         </div>
     </div>
 </template>
@@ -92,6 +92,10 @@
             position: absolute;
             width: 1px;
             height: 1px;
+
+            &:focus-visible + label .button {
+                outline: var(--outline-style);
+            }
         }
 
         .drag-overlay {
