@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { ItemService } from '@/modules/api-services/items';
-    import { AVAILABLE_LOCALES, currentLocale, translate, type Locale } from '@/modules/core/localization';
+    import { currentLocale, translate } from '@/modules/core/localization';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
@@ -8,6 +8,7 @@
     import ValidationErrors from '../ValidationErrors.vue';
     import type { ValidationError } from '@/modules/core/validation-error';
     import NonTranslationInput from './NonTranslationInput.vue';
+    import ItemTranslationsTable from './ItemTranslationsTable.vue';
 
     const props = defineProps<{
         itemId: number,
@@ -23,7 +24,6 @@
     const validationErrors = ref<StringArrayKeyValueObject>();
 
     const itemTranslations = computed(() => itemData.value?.translations as StringKeyValueObject[]);
-    const itemTranslationProperties = computed(() => Object.keys(itemTranslations.value ? itemTranslations.value[0] : []).filter(property => property !== 'lang'));
     const itemNonTranslationData = computed(() => {
         const data = Object.assign({}, itemData.value);
         delete data['id'];
@@ -34,16 +34,6 @@
         const name = itemTranslations.value?.find(item => item.lang === currentLocale.value)?.name ?? '';
         return name === '' ? translate("backoffice.itemselection.title.unnamed") : name;
     });
-
-    function getTranslationProperty(lang: Locale, property: string) {
-        const translationData = itemTranslations.value.find(translation => translation.lang === lang);
-        return translationData ? translationData[property] : "";
-    }
-
-    function setTranslationProperty(lang: Locale, property: string, value: any) {
-        const translationData = itemTranslations.value.find(translation => translation.lang === lang);
-        translationData![property] = value;
-    }
 
     function setRegularProperty(property: string, value: any) {
         const correctlyTypedValue = typeof itemData.value![property] === 'number' ? parseInt(value) : value;
@@ -120,25 +110,7 @@
                 <h2>{{ itemName }}</h2>
             </div>
             <form @submit.prevent="saveItem">
-                <table class="translations" v-if="itemTranslations">
-                    <thead>
-                        <th></th>
-                        <th scope="col" v-for="lang in AVAILABLE_LOCALES">{{ lang.name }}</th>
-                    </thead>
-                    <tbody>
-                        <tr v-for="property in itemTranslationProperties">
-                            <th scope="row">{{ itemService.translateColumnName(property) }}</th>
-                            <td v-for="lang in Object.keys(AVAILABLE_LOCALES)">
-                                <textarea
-                                    :value="getTranslationProperty(lang as Locale, property)"
-                                    :lang="lang"
-                                    required
-                                    @input="e => setTranslationProperty(lang as Locale, property, (e.target as HTMLInputElement).value)"
-                                ></textarea>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <ItemTranslationsTable :item-service="itemService" :itemTranslations="itemTranslations" v-if="itemTranslations" />
                 <div v-for="column in Object.keys(itemNonTranslationData)">
                     <NonTranslationInput
                         :item-service="itemService"
@@ -213,31 +185,6 @@
 
     form {
         padding: 1rem;
-
-        table {
-            thead th {
-                padding-bottom: .5rem;
-            }
-
-            tr th {
-                padding-top: .5rem;
-            }
-
-            td {
-                padding: .3rem;
-                vertical-align: top;
-
-                textarea {
-                    resize: vertical;
-                }
-            }
-        }
-
-        table tr th, label {
-            display: inline-block;
-            width: 8rem;
-            text-align: left;
-        }
 
         > div {
             margin-top: 2rem;
