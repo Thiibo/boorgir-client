@@ -1,14 +1,10 @@
 <script setup lang="ts">
-    import { logout, profile } from '@/modules/api-services/auth';
+    import { logout, profileData } from '@/modules/api-services/auth';
     import router from '@/router';
     import { faArrowLeft, faArrowRightFromBracket, faBurger, faCarrot } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import { ref } from 'vue';
     import LocaleButton from '@/components/LocaleButton.vue';
     import { translate } from '@/modules/core/localization';
-
-    const username = ref("");
-    profile().then(res => username.value = res.name);
 </script>
 
 <template>
@@ -40,9 +36,9 @@
         <div id="profile">
             <LocaleButton />
             <p>
-                {{ translate("backoffice.sidebar.profile.text") }} <strong>{{ username }}</strong>
+                {{ translate("backoffice.sidebar.profile.text") }} <strong>{{ profileData?.name }}</strong>
             </p>
-            <button class="icon-button" :title="translate('backoffice.sidebar.profile.logout')" @click="logout().then(() => router.push('/'))">
+            <button class="icon-button" :title="translate('general.action.profile.logout')" @click="logout().then(() => router.push('/'))">
                 <FontAwesomeIcon :icon="faArrowRightFromBracket" />
             </button>
         </div>

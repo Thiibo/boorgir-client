@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/front/HomeView.vue'
-import { profile } from '@/modules/api-services/auth';
+import { profileData } from '@/modules/api-services/auth';
 
 function defineRoutes(routes: RouteRecordRaw[], globalRouteProperties: (route: RouteRecordRaw) => Object): RouteRecordRaw[] {
     routes.forEach(route => Object.assign(route, globalRouteProperties(route)));
@@ -74,7 +74,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _, next) => {
-  if (!to.meta.isFront && !(await profile()).is_admin) {
+  if (!to.meta.isFront && !profileData.value?.is_admin) {
     next({ path: '/' });
   } else {
     next();
