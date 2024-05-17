@@ -42,7 +42,7 @@
             <p>
                 {{ translate("backoffice.sidebar.profile.text") }} <strong>{{ username }}</strong>
             </p>
-            <button :title="translate('backoffice.sidebar.profile.logout')" @click="logout().then(() => router.push('/'))">
+            <button class="icon-button" :title="translate('backoffice.sidebar.profile.logout')" @click="logout().then(() => router.push('/'))">
                 <FontAwesomeIcon :icon="faArrowRightFromBracket" />
             </button>
         </div>

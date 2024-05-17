@@ -48,6 +48,14 @@ button:hover::after, .button:hover::after, a.button.router-link-active::after {
   transform: none;
 }
 
+button.icon-button {
+  font-size: inherit;
+
+  &::before, &::after {
+    display: none;
+  }
+}
+
 input, textarea {
   border: none;
   border-radius: .3rem;

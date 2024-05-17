@@ -28,7 +28,7 @@
 
 <template>
     <div id="control-bar">
-        <button @click="$emit('toggleView')">
+        <button class="icon-button" @click="$emit('toggleView')">
             <FontAwesomeIcon :icon="viewButtonIcon" />
         </button>
 
@@ -39,10 +39,10 @@
         </div>
 
         <div class="control-group">
-            <button :disabled="page < 2" @click="$emit('prevPage')" :aria-label="translate('general.itemselection.controlbar.previousPage')">
+            <button class="icon-button" :disabled="page < 2" @click="$emit('prevPage')" :aria-label="translate('general.itemselection.controlbar.previousPage')">
                 <FontAwesomeIcon :icon="faAngleLeft" />
             </button>
-            <button :disabled="page >= maxPage" @click="$emit('nextPage')" :aria-label="translate('general.itemselection.controlbar.nextPage')">
+            <button class="icon-button" :disabled="page >= maxPage" @click="$emit('nextPage')" :aria-label="translate('general.itemselection.controlbar.nextPage')">
                 <FontAwesomeIcon :icon="faAngleRight" />
             </button>
         </div>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="control-group">
-            <button :aria-label="translate('general.itemselection.controlbar.filter')">
+            <button class="icon-button" :aria-label="translate('general.itemselection.controlbar.filter')">
                 <FontAwesomeIcon :icon="faFilter" />
             </button>
             <SearchBar id="search-bar" :model-value="searchQuery" @update:model-value="value => $emit('update:searchQuery', value)" />
@@ -92,12 +92,7 @@
         width: $button-height;
         padding: 0;
         color: var(--color-text);
-        z-index: 10;
         transition: background-color .2s ease-in-out;
-
-        &::before, &::after {
-            display: none;
-        }
 
         &:hover {
             background-color: var(--color-background-surface-hover);
