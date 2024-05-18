@@ -3,7 +3,7 @@
     import router from '@/router';
     import { faArrowLeft, faArrowRightFromBracket, faBurger, faCarrot } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import LocaleButton from '@/components/LocaleButton.vue';
+    import LocaleButton from '@/components/general/LocaleButton.vue';
     import { translate } from '@/modules/core/localization';
 </script>
 

@@ -5,7 +5,7 @@
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
     import ImageInput from './ImageInput.vue';
-    import ValidationErrors from '../ValidationErrors.vue';
+    import ValidationErrors from '@/components/general/ValidationErrors.vue';
     import type { ValidationError } from '@/modules/core/validation-error';
     import NonTranslationInput from './NonTranslationInput.vue';
     import ItemTranslationsTable from './ItemTranslationsTable.vue';
@@ -215,4 +215,4 @@
         }
     }
 
-</style>
+</style>../general/ValidationErrors.vue

@@ -2,7 +2,7 @@
   import { ref } from 'vue';
   import { login } from '@/modules/api-services/auth';
   import SideForm from '@/components/front/SideForm.vue';
-  import ValidationErrors from '@/components/ValidationErrors.vue';
+  import ValidationErrors from '@/components/general/ValidationErrors.vue';
   import type { ValidationError } from '@/modules/core/validation-error';
   import { translate } from '@/modules/core/localization';
   import router from '@/router';

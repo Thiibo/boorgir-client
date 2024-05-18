@@ -3,7 +3,7 @@
     import { faUpload } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { ref } from 'vue';
-    import ItemImage from '@/components/item-selection/ItemImage.vue';
+    import ItemImage from '@/components/general/ItemImage.vue';
 
     const ALLOWED_UPLOAD_CONTENT_TYPES = ['jpg', 'png', 'jpeg', 'gif', 'svg'];
 

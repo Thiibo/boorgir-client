@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { translate } from '@/modules/core/localization';
-    import ItemSelectionTable from '../item-selection/ItemSelectionTable.vue';
+    import ItemSelectionTable from '@/components/general/item-selection/ItemSelectionTable.vue';
     import { ItemService, type IngredientData, type ItemData, getItemTranslatedProperties } from '@/modules/api-services/items';
     import { onMounted, ref, watch } from 'vue';
 

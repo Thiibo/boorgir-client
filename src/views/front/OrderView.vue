@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import OrderDialog from '@/components/front/OrderDialog.vue';
-  import ItemSelection from '@/components/item-selection/ItemSelection.vue';
+  import ItemSelection from '@/components/general/item-selection/ItemSelection.vue';
   import { ItemService } from '@/modules/api-services/items';
   import { translate } from '@/modules/core/localization';
   import { computed, ref } from 'vue';

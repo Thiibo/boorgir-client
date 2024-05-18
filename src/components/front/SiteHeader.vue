@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { translate } from '@/modules/core/localization';
-  import LocaleButton from '@/components/LocaleButton.vue';
-  import { computed, onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue';
+  import LocaleButton from '@/components/general/LocaleButton.vue';
+  import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { isLoggedIn, logout, profileData } from '@/modules/api-services/auth';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

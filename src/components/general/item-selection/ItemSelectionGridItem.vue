@@ -1,10 +1,10 @@
 <script setup lang="ts">
     import { computed, onMounted, ref, watch } from 'vue';
-    import { ItemService, type ItemData, getItemTranslatedProperties } from '../../modules/api-services/items';
+    import { ItemService, type ItemData, getItemTranslatedProperties } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { faAppleWhole } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import ItemImage from './ItemImage.vue';
+    import ItemImage from '@/components/general/ItemImage.vue';
 
     const props = defineProps<{
         itemService: ItemService,
@@ -99,4 +99,4 @@
             margin-left: auto;
         }
     }
-</style>
+</style>../ItemImage.vue
