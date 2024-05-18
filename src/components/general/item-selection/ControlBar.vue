@@ -28,7 +28,7 @@
 
 <template>
     <div id="control-bar">
-        <button class="icon-button" @click="$emit('toggleView')">
+        <button class="icon-button" @click="$emit('toggleView')" type="button">
             <FontAwesomeIcon :icon="viewButtonIcon" />
         </button>
 
@@ -39,10 +39,10 @@
         </div>
 
         <div class="control-group">
-            <button class="icon-button" :disabled="page < 2" @click="$emit('prevPage')" :aria-label="translate('general.itemselection.controlbar.previousPage')">
+            <button class="icon-button" :disabled="page < 2" @click="$emit('prevPage')" :aria-label="translate('general.itemselection.controlbar.previousPage')" type="button">
                 <FontAwesomeIcon :icon="faAngleLeft" />
             </button>
-            <button class="icon-button" :disabled="page >= maxPage" @click="$emit('nextPage')" :aria-label="translate('general.itemselection.controlbar.nextPage')">
+            <button class="icon-button" :disabled="page >= maxPage" @click="$emit('nextPage')" :aria-label="translate('general.itemselection.controlbar.nextPage')" type="button">
                 <FontAwesomeIcon :icon="faAngleRight" />
             </button>
         </div>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="control-group">
-            <button class="icon-button" :aria-label="translate('general.itemselection.controlbar.filter')">
+            <button class="icon-button" :aria-label="translate('general.itemselection.controlbar.filter')" type="button">
                 <FontAwesomeIcon :icon="faFilter" />
             </button>
             <SearchBar id="search-bar" :model-value="searchQuery" @update:model-value="value => $emit('update:searchQuery', value)" />

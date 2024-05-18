@@ -33,11 +33,11 @@
 </script>
 
 <template>
-    <dialog ref="dialogElement" @keydown="closeWithEscape" @click.self="close">
+    <dialog ref="dialogElement" @keydown.stop="closeWithEscape" @click.self="close">
         <div>
             <div class="title">
                 <h2>{{ title }}</h2>
-                <button @click="close" :title="translate('general.action.closedialog')">
+                <button @click="close" :title="translate('general.action.closedialog')" type="button">
                     <FontAwesomeIcon :icon="faClose" />
                 </button>
             </div>
