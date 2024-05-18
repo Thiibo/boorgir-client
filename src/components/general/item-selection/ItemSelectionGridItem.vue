@@ -40,7 +40,7 @@
             <span class="order-amount" v-if="extraColumns.amount?.length > 0">x{{ extraColumns.amount }}</span>
         </div>
         <h3>{{ itemName }}</h3>
-        <button v-if="actionNameGenerator" @click="$emit('itemAction', item)">{{ actionNameGenerator(item) }}</button>
+        <button v-if="actionNameGenerator" @click="$emit('itemAction', item)" type="button">{{ actionNameGenerator(item) }}</button>
     </div>
 </template>
 
