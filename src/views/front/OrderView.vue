@@ -7,7 +7,7 @@
 
   const itemAmounts = ref<{[id: string]: { data: AnyKeyValueObject, amount: number }}>({})
   const itemIdOpen = ref<number | null>(null);
-  const itemService = new ItemService('burgers', false, { "front.page.order.amountColumn": (id) => itemAmounts.value[id]?.amount ?? 0 });
+  const itemService = new ItemService('burgers', false, { "front.page.order.amountColumn": item => itemAmounts.value[item.id]?.amount ?? 0 });
   const subTotal = computed(() => Object.values(itemAmounts.value).reduce((acc, curr) => acc + curr.amount * curr.data.price, 0));
 
   function setToOrderAmount(itemData: AnyKeyValueObject, amount: number) {

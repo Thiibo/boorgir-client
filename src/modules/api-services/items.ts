@@ -21,7 +21,7 @@ type GetItemsApiRequestData = {
     data: ItemData[]
 }
 
-type GetItemsDataExtraColumnGenerators = {[untranslatedColumnName: string]: (rowId: number) => any}
+type GetItemsDataExtraColumnGenerators = {[untranslatedColumnName: string]: (item: ItemData) => any}
 
 type ItemType = 'ingredients' | 'burgers';
 class ItemService {
@@ -138,7 +138,7 @@ class ItemService {
         const extraColumns: AnyKeyValueObject = {};
         for (let [untranslatedColumnName, generator] of Object.entries(this.extraColumnGenerators)) {
             const columnName = translate(untranslatedColumnName);
-            extraColumns[columnName] = generator(item.id);
+            extraColumns[columnName] = generator(item);
         }
         return extraColumns;
     }
