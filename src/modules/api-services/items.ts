@@ -145,4 +145,8 @@ class ItemService {
     // ======================
 }
 
-export { ItemService, type ItemType, type IngredientData, type BurgerData, type ItemData };
+function getItemTranslatedProperties(item: ItemData, lang: Locale = currentLocale.value) {
+    return item.translations?.find(translation => translation.lang === lang);
+}
+
+export { ItemService, type ItemType, type IngredientData, type BurgerData, type ItemData, getItemTranslatedProperties };

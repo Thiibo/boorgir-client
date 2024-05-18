@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import type { ItemData, ItemService } from '@/modules/api-services/items';
+    import { getItemTranslatedProperties, type ItemData, type ItemService } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { computed } from 'vue';
 
@@ -21,6 +21,8 @@
     function formatCell(data: any) {
         if (typeof data === 'boolean') {
             return data ? '✅' : '❌';
+        } else if (Array.isArray(data) && data[0]?.hasOwnProperty('translations')) {
+            return (data as ItemData[]).map(item => getItemTranslatedProperties(item)?.name).join(', ');
         }
 
         return data;
