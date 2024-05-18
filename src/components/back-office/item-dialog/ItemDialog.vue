@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ItemService, type ItemData, getItemTranslatedProperties } from '@/modules/api-services/items';
+    import { ItemService, type ItemData, getItemName } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { computed, onMounted, ref } from 'vue';
     import ImageInput from './ImageInput.vue';
@@ -31,8 +31,8 @@
         return data;
     });
     const itemName = computed(() => {
-        const name = getItemTranslatedProperties(item.value!)?.name ?? '';
-        return name === '' ? translate("backoffice.itemselection.title.unnamed") : name;
+        const itemName = getItemName(item.value!);
+        return itemName !== '' ? itemName : translate("backoffice.itemselection.title.unnamed");
     });
 
     function setItemProperty(property: string, value: any) {

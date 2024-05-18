@@ -146,4 +146,8 @@ function getItemTranslatedProperties(item: ItemData, lang: Locale = currentLocal
     return item.translations?.find(translation => translation.lang === lang);
 }
 
-export { ItemService, type ItemActionNameGenerator, type ItemType, type IngredientData, type BurgerData, type ItemData, getItemTranslatedProperties };
+function getItemName(item: ItemData): string {
+    return getItemTranslatedProperties(item)?.name ?? item.name!;
+}
+
+export { ItemService, type ItemActionNameGenerator, type ItemType, type IngredientData, type BurgerData, type ItemData, getItemTranslatedProperties, getItemName };

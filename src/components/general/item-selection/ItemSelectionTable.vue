@@ -2,6 +2,7 @@
     import { getItemTranslatedProperties, type ItemActionNameGenerator, type ItemData, type ItemService } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { computed } from 'vue';
+    import ItemSelectionTableImage from './ItemSelectionTableImage.vue';
 
     const props = defineProps<{
         data: ItemData[],
@@ -42,12 +43,16 @@
 <template>
     <table>
         <thead>
+            <th>Image</th>
             <th v-for="columnName in tableColumnNames">{{ translate(`general.itemselection.column.${itemType}.${columnName}`) }}</th>
             <th v-for="columnName in extraTableColumnNames">{{ columnName }}</th>
             <th v-if="actionNameGenerator">{{ translate("general.itemselection.column.action") }}</th>
         </thead>
         <tbody>
             <tr v-for="item in data">
+                <td>
+                    <ItemSelectionTableImage :item-service="itemService" :item="item" />
+                </td>
                 <td v-for="columnValue in getColumnValues(item)">
                     {{ formatCell(columnValue) }}
                 </td>

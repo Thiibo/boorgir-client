@@ -22,6 +22,7 @@
         height: 100%;
         border-radius: .3rem;
         pointer-events: none;
+        border: .1rem solid var(--color-border);
     }
 
     .image-not-provided {
@@ -31,9 +32,11 @@
 
         span {
             position: absolute;
+            font-size: 80%;
             top: 50%;
+            left: 10%;
+            width: 80%;
             transform: translateY(-50%);
-            width: 100%;
             text-align: center;
         }
     }
