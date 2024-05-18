@@ -4,17 +4,17 @@
     import { ItemService, type ItemData } from '@/modules/api-services/items';
     import ItemSelection from '@/components/general/item-selection/ItemSelection.vue';
     import ItemSelectionTable from '@/components/general/item-selection/ItemSelectionTable.vue';
-    import { translate } from '@/modules/core/localization';
+    import { currentLocale, translate } from '@/modules/core/localization';
 
     const props = defineProps<{
-        ingredients: ItemData[],
+        initialIngredients: ItemData[],
         itemService: ItemService
     }>();
 
     const dialogElement = ref();
     const dialogTitle = computed(() => `d`);
 
-    const ingredients = ref(props.ingredients);
+    const ingredients = ref([...props.initialIngredients]);
     const service = new ItemService('ingredients', false);
     const data = ref<ItemData[]>();
     const searchQuery = ref('');
@@ -29,6 +29,21 @@
     function closeDialog() {
         if (dialogElement.value.open) dialogElement.value.close();
         emit('close');
+    }
+
+    function toggleItem(item: ItemData) {
+        const ingredientIndex = ingredients.value.findIndex(ingredient => ingredient.id === item.id);
+        if (ingredientIndex > -1) {
+            ingredients.value.splice(ingredientIndex, 1);
+        } else {
+            const itemToAdd = Object.assign({}, item);
+            itemToAdd.translations = [{
+                name: item.name!,
+                description: item.description!,
+                lang: currentLocale.value
+            }];
+            ingredients.value.push(itemToAdd);
+        }
     }
 
     function save() {
@@ -48,7 +63,7 @@
             <ItemSelection
                 :item-service="service"
                 class="item-selection"
-                @item-action="item => console.log(item)"
+                @item-action="toggleItem"
             />
             <div class="current-items">
                 <h2>Current items:</h2>

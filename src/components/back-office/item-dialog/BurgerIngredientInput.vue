@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { translate } from '@/modules/core/localization';
     import ItemSelectionTable from '@/components/general/item-selection/ItemSelectionTable.vue';
-    import { ItemService, type IngredientData, type ItemData, getItemTranslatedProperties } from '@/modules/api-services/items';
+    import { ItemService, type IngredientData, getItemTranslatedProperties } from '@/modules/api-services/items';
     import { ref } from 'vue';
     import BurgerIngredientDialog from './BurgerIngredientDialog.vue';
 
@@ -32,7 +32,7 @@
             />
             <button type="button" @click="editDialogOpen = !editDialogOpen">{{ translate('backoffice.itemselection.action.editingredients') }}</button>
             <BurgerIngredientDialog
-                :ingredients="ingredients"
+                :initial-ingredients="ingredients"
                 :item-service="service"
                 @update="newIngredients => $emit('update', newIngredients)"
                 @close="editDialogOpen = false" v-if="editDialogOpen"
