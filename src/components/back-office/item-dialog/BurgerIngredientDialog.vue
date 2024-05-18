@@ -45,14 +45,18 @@
 <template>
     <AppDialog :title="dialogTitle" @close="closeDialog" class="dialog" ref="dialogElement">
         <div class="content">
-            <ItemSelection :item-service="service" class="item-selection" />
+            <ItemSelection
+                :item-service="service"
+                class="item-selection"
+                @item-action="item => console.log(item)"
+            />
             <div class="current-items">
                 <h2>Current items:</h2>
                 <ItemSelectionTable
                     :data="ingredients"
                     :item-service="itemService"
                     :action-name="translate('backoffice.itemselection.action.delete')"
-                    @item-action="id => ingredients = ingredients.filter(item => item.id !== id)"
+                    @item-action="item => ingredients = ingredients.filter(ingredient => ingredient.id !== item.id)"
                 />
                 <div class="controls">
                     <button @click.prevent="closeDialog" type="button">{{ translate('backoffice.itemselection.action.cancel') }}</button>

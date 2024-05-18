@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { computed, onMounted, ref, watch } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import ControlBar from './ControlBar.vue';
     import ItemSelectionGrid from './ItemSelectionGrid.vue';
     import ItemSelectionTable from './ItemSelectionTable.vue';
@@ -53,8 +53,8 @@
             @next-page="page += 1"
         />
         <div v-if="data && data.length > 0">
-            <ItemSelectionGrid class="grid" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @item-action="id => $emit('itemAction', id)" v-if="isGridView" />
-            <ItemSelectionTable class="table" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @item-action="id => $emit('itemAction', id)" v-else />
+            <ItemSelectionGrid class="grid" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @item-action="item => $emit('itemAction', item)" v-if="isGridView" />
+            <ItemSelectionTable class="table" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @item-action="item => $emit('itemAction', item)" v-else />
         </div>
         <p v-else>{{ translate("general.itemselection.noitems") }}</p>
     </div>

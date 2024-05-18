@@ -15,7 +15,7 @@
 
 <template>
     <div class="selection-grid" v-if="data">
-        <ItemSelectionGridItem v-for="item in data" :item-service="itemService" :item="item" :action-name="actionName" @item-action="id => $emit('itemAction', id)" />
+        <ItemSelectionGridItem v-for="item in data" :item-service="itemService" :item="item" :action-name="actionName" @item-action="item => $emit('itemAction', item)" />
     </div>
 </template>
 

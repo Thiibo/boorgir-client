@@ -55,7 +55,7 @@
                     {{ formatCell(columnValue) }}
                 </td>
                 <td v-if="actionName">
-                    <button @click="$emit('itemAction', item.id)" type="button">{{ actionName }}</button>
+                    <button @click="$emit('itemAction', item)" type="button">{{ actionName }}</button>
                 </td>
             </tr>
         </tbody>
