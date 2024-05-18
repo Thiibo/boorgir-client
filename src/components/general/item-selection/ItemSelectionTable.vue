@@ -43,7 +43,7 @@
 <template>
     <table>
         <thead>
-            <th>Image</th>
+            <th>{{ translate('general.itemselection.column.thumbnail') }}</th>
             <th v-for="columnName in tableColumnNames">{{ translate(`general.itemselection.column.${itemType}.${columnName}`) }}</th>
             <th v-for="columnName in extraTableColumnNames">{{ columnName }}</th>
             <th v-if="actionNameGenerator">{{ translate("general.itemselection.column.action") }}</th>
