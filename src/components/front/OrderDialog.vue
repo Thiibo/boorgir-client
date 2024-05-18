@@ -1,8 +1,9 @@
 <script setup lang="ts">
-    import type { ItemService } from '@/modules/api-services/items';
+    import { ItemService } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { onMounted, ref } from 'vue';
     import AppDialog from '../general/AppDialog.vue';
+    import ItemSelectionTable from '../general/item-selection/ItemSelectionTable.vue';
 
     const props = defineProps<{
         itemService: ItemService,
@@ -13,6 +14,8 @@
     const itemData = ref<AnyKeyValueObject>();
     const itemAmount = ref(props.orderAmount);
     const dialogElement = ref();
+
+    const ingredientService = new ItemService('ingredients', false);
 
     onMounted(async () => {
         itemData.value = await props.itemService.getItem(props.itemId);
@@ -39,9 +42,13 @@
         <h3>{{ translate('general.itemselection.column.burgers.description') }}:</h3>
         <p>{{ itemData?.description }}</p>
         <h3>{{ translate('general.itemselection.column.burgers.ingredients') }}:</h3>
-        <ul v-if="itemData?.ingredients.length > 0">
-            <li v-for="ingredient in itemData?.ingredients">{{ ingredient }}</li>
-        </ul>
+        <ItemSelectionTable
+            class="ingredient-table"
+            :data="itemData.ingredients"
+            :item-service="ingredientService"
+            :column-names-to-hide="['id', 'price']"
+            v-if="itemData?.ingredients.length > 0"
+        />
         <p v-else>{{ translate('general.itemselection.noingredients') }}</p>
         <div class="order-amount">
             <span>€ {{ itemData?.price.toFixed(2) }} x</span>
@@ -56,6 +63,12 @@
     h3 {
         margin: 1rem 0;
         text-transform: capitalize;
+    }
+
+    .ingredient-table {
+        display: block;
+        max-height: 40vh;
+        overflow: auto;
     }
 
     .order-amount {
