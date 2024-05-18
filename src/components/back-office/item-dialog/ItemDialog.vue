@@ -1,8 +1,6 @@
 <script setup lang="ts">
     import { ItemService, type ItemData, getItemTranslatedProperties } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
-    import { faClose } from '@fortawesome/free-solid-svg-icons';
-    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
     import ImageInput from './ImageInput.vue';
     import ValidationErrors from '@/components/general/ValidationErrors.vue';
@@ -10,13 +8,14 @@
     import NonTranslationInput from './NonTranslationInput.vue';
     import ItemTranslationsTable from './ItemTranslationsTable.vue';
     import BurgerIngredientInput from './BurgerIngredientInput.vue';
+    import AppDialog from '@/components/general/AppDialog.vue';
 
     const props = defineProps<{
         itemId: number,
         itemService: ItemService
     }>();
 
-    const dialogElement = ref<HTMLDialogElement | null>(null);
+    const dialogElement = ref();
 
     const item = ref<ItemData | null>(null);
     const isNewItem = ref(false);
@@ -70,9 +69,6 @@
     }
 
     onMounted(async () => {
-        dialogElement.value?.showModal();
-        dialogElement.value?.focus();
-
         if (props.itemId === -1) {
             item.value = props.itemService.getBlankItem();
             isNewItem.value = true;
@@ -85,104 +81,59 @@
         }
     });
 
-    function closeWithEscape(e: KeyboardEvent) {
-        if (e.key === "Escape") {
-            e.preventDefault();
-            closeDialog();
-        };
-    }
-
     const emit = defineEmits([
         "close"
     ]);
 
     function closeDialog() {
-        dialogElement.value?.close();
+        if (dialogElement.value.open) dialogElement.value.close();
         emit('close');
     }
 </script>
 
 <template>
-    <dialog ref="dialogElement" @keydown="closeWithEscape" @click.self="closeDialog">
-        <div v-if="item">
-            <div class="title">
-                <button @click="closeDialog" :title="translate('general.action.closedialog')">
-                    <FontAwesomeIcon :icon="faClose" />
-                </button>
-                <h2>{{ itemName }}</h2>
+    <AppDialog :title="itemName" @close="closeDialog" ref="dialogElement" class="dialog" v-if="item">
+        <form @submit.prevent="saveItem">
+            <ItemTranslationsTable :item-service="itemService" :item="item" />
+            <div v-for="column in Object.keys(itemNonTranslationData)">
+                <NonTranslationInput
+                    :item-service="itemService"
+                    :column="column"
+                    :value="itemNonTranslationData[column]"
+                    @update="value => setItemProperty(column, value)"
+                />
+                <ValidationErrors :errors="validationErrors ? validationErrors[column] : undefined" />
             </div>
-            <form @submit.prevent="saveItem">
-                <ItemTranslationsTable :item-service="itemService" :item="item" />
-                <div v-for="column in Object.keys(itemNonTranslationData)">
-                    <NonTranslationInput
-                        :item-service="itemService"
-                        :column="column"
-                        :value="itemNonTranslationData[column]"
-                        @update="value => setItemProperty(column, value)"
-                    />
-                    <ValidationErrors :errors="validationErrors ? validationErrors[column] : undefined" />
-                </div>
-                <BurgerIngredientInput :ingredients="item['ingredients']" @update="newIngredients => setItemProperty('ingredients', newIngredients)" v-if="'ingredients' in item" />
-                <div class="thumbnail">
-                    <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
-                    <ImageInput :file="thumbnail" :alt="itemName" @upload="uploadThumbnail" />
-                </div>
-                <ValidationErrors :errors="validationErrors?.file" />
-                <div class="controls">
-                    <button @click.prevent="deleteItem" type="button">{{ translate('backoffice.itemselection.action.delete') }}</button>
-                    <button @click.prevent="closeDialog" type="button">{{ translate('backoffice.itemselection.action.cancel') }}</button>
-                    <button>{{ translate('backoffice.itemselection.action.save') }}</button>
-                </div>
-            </form>
-        </div>
-    </dialog>
+            <BurgerIngredientInput :ingredients="item['ingredients']" @update="newIngredients => setItemProperty('ingredients', newIngredients)" v-if="'ingredients' in item" />
+            <div class="thumbnail">
+                <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
+                <ImageInput :file="thumbnail" :alt="itemName" @upload="uploadThumbnail" />
+            </div>
+            <ValidationErrors :errors="validationErrors?.file" />
+            <div class="controls">
+                <button @click.prevent="deleteItem" type="button">{{ translate('backoffice.itemselection.action.delete') }}</button>
+                <button @click.prevent="closeDialog" type="button">{{ translate('backoffice.itemselection.action.cancel') }}</button>
+                <button>{{ translate('backoffice.itemselection.action.save') }}</button>
+            </div>
+        </form>
+    </AppDialog>
 </template>
 
 <style lang="scss" scoped>
-    dialog {
+    .dialog {
         top: 0;
         right: 0;
-        bottom: unset;
         left: unset;
-        width: 50rem;
         height: 100%;
         max-height: unset;
-        padding: 0;
-        border: none;
-        box-shadow: 0 0 0 100vw rgba(0, 0, 0, .3);
-        background-color: var(--color-background-mute);
-        color: var(--color-text);
+        transform: unset;
         animation: slide-in-right .6s cubic-bezier(0.19, 1, 0.22, 1);
-
-        > div {
-            width: 100%;
-            height: 100%;
-            padding: 1rem;
-        }
     }
 
     @keyframes slide-in-right {
         from {
             opacity: 0;
             transform: translateX(20%);
-        }
-    }
-
-    .title {
-        display: flex;
-        align-items: center;
-        border-bottom: .1rem solid var(--color-text);
-
-        button {
-            font-size: 2rem;
-            width: 4rem;
-            height: 4rem;
-            padding: 0;
-            color: var(--color-text);
-
-            &::before, &::after {
-                display: none;
-            }
         }
     }
 
