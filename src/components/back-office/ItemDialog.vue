@@ -18,28 +18,28 @@
 
     const dialogElement = ref<HTMLDialogElement | null>(null);
 
-    const itemData = ref<ItemData | null>(null);
+    const item = ref<ItemData | null>(null);
     const isNewItem = ref(false);
     const thumbnail = ref<File>();
     const thumbnailChanged = ref(false);
     const validationErrors = ref<StringArrayKeyValueObject>();
 
     const itemNonTranslationData = computed(() => {
-        const data: AnyKeyValueObject = Object.assign({}, itemData.value);
+        const data: AnyKeyValueObject = Object.assign({}, item.value);
         delete data['id'];
         delete data['translations'];
         delete data['ingredients'];
         return data;
     });
     const itemName = computed(() => {
-        const name = getItemTranslatedProperties(itemData.value!)?.name ?? '';
+        const name = getItemTranslatedProperties(item.value!)?.name ?? '';
         return name === '' ? translate("backoffice.itemselection.title.unnamed") : name;
     });
 
     function setItemProperty(property: string, value: any) {
-        const oldValue = (itemData.value as AnyKeyValueObject)[property];
+        const oldValue = (item.value as AnyKeyValueObject)[property];
         const correctlyTypedValue = typeof oldValue === 'number' ? parseInt(value) : value;
-        itemData.value = { ...itemData.value!, [property]: correctlyTypedValue}
+        item.value = { ...item.value!, [property]: correctlyTypedValue}
     }
 
     function deleteItem() {
@@ -50,9 +50,9 @@
     function saveItem() {
         const promises = [];
         if (isNewItem.value) {
-            promises.push(props.itemService.createItem(itemData.value!));
+            promises.push(props.itemService.createItem(item.value!));
         } else {
-            promises.push(props.itemService.updateItem(props.itemId, itemData.value!));
+            promises.push(props.itemService.updateItem(props.itemId, item.value!));
         }
 
         if (thumbnailChanged.value && thumbnail.value) {
@@ -74,10 +74,10 @@
         dialogElement.value?.focus();
 
         if (props.itemId === -1) {
-            itemData.value = props.itemService.getBlankItem();
+            item.value = props.itemService.getBlankItem();
             isNewItem.value = true;
         } else {
-            itemData.value = await props.itemService.getItem(props.itemId);
+            item.value = await props.itemService.getItem(props.itemId);
             props.itemService.getThumbnail(props.itemId)
                 .then(res => thumbnail.value = res as File)
                 .catch(validationErrors => { if (!(validationErrors as ValidationError).errors.file) throw validationErrors; })
@@ -104,7 +104,7 @@
 
 <template>
     <dialog ref="dialogElement" @keydown="closeWithEscape" @click.self="closeDialog">
-        <div v-if="itemData">
+        <div v-if="item">
             <div class="title">
                 <button @click="closeDialog" :title="translate('general.action.closedialog')">
                     <FontAwesomeIcon :icon="faClose" />
@@ -112,7 +112,7 @@
                 <h2>{{ itemName }}</h2>
             </div>
             <form @submit.prevent="saveItem">
-                <ItemTranslationsTable :item-service="itemService" :item="itemData" />
+                <ItemTranslationsTable :item-service="itemService" :item="item" />
                 <div v-for="column in Object.keys(itemNonTranslationData)">
                     <NonTranslationInput
                         :item-service="itemService"
@@ -122,7 +122,7 @@
                     />
                     <ValidationErrors :errors="validationErrors ? validationErrors[column] : undefined" />
                 </div>
-                <BurgerIngredientInput :ingredients="itemData['ingredients']" @update="newIngredients => setItemProperty('ingredients', newIngredients)" v-if="'ingredients' in itemData" />
+                <BurgerIngredientInput :ingredients="item['ingredients']" @update="newIngredients => setItemProperty('ingredients', newIngredients)" v-if="'ingredients' in item" />
                 <div class="thumbnail">
                     <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
                     <ImageInput :file="thumbnail" :alt="itemName" @upload="uploadThumbnail" />
