@@ -64,7 +64,8 @@
         gap: 1rem;
         padding: 1rem;
         border-radius: 1rem;
-        border: .2rem solid var(--color-background-surface);
+        border: .2rem solid var(--color-border);
+        overflow: hidden;
 
         .item-image {
             height: 10rem;

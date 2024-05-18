@@ -48,7 +48,7 @@
         .current-ingredients-table {
             display: inline-block;
             width: unset;
-            border: .1rem solid gray;
+            border: .1rem solid var(--color-border);
         }
 
         button {
