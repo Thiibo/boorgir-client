@@ -36,7 +36,7 @@
     onMounted(refreshPage);
 
     defineEmits([
-        "clickItem"
+        "itemAction"
     ]);
 </script>
 
@@ -53,8 +53,8 @@
             @next-page="page += 1"
         />
         <div v-if="data && data.length > 0">
-            <ItemSelectionGrid class="grid" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-if="isGridView" />
-            <ItemSelectionTable class="table" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-else />
+            <ItemSelectionGrid class="grid" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @item-action="id => $emit('itemAction', id)" v-if="isGridView" />
+            <ItemSelectionTable class="table" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @item-action="id => $emit('itemAction', id)" v-else />
         </div>
         <p v-else>{{ translate("general.itemselection.noitems") }}</p>
     </div>

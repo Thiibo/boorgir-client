@@ -24,7 +24,7 @@
 
 <template>
   <main>
-    <ItemSelection id="item-selection" :item-service="itemService" :item-id-editing="itemIdOpen" :default-view-is-grid="true" @click-item="itemId => itemIdOpen = itemId" />
+    <ItemSelection id="item-selection" :item-service="itemService" :item-id-editing="itemIdOpen" :default-view-is-grid="true" @item-action="itemId => itemIdOpen = itemId" />
     <OrderDialog :item-service="itemService" :item-id="itemIdOpen" :order-amount="itemAmounts[itemIdOpen]?.amount ?? 0" @close="itemIdOpen = null" @set-order-amount="setToOrderAmount" v-if="itemIdOpen" />
     <div id="order">
       <h2>{{ translate('front.page.order.receipttitle') }}</h2>

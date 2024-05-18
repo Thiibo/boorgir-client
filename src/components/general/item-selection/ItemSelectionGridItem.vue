@@ -25,7 +25,7 @@
     watch(() => props.item, refreshThumbnail);
 
     defineEmits([
-        "clickItem"
+        "itemAction"
     ]);
 </script>
 
@@ -40,7 +40,7 @@
             <span class="order-amount" v-if="extraColumns.amount?.length > 0">x{{ extraColumns.amount }}</span>
         </div>
         <h3>{{ itemName }}</h3>
-        <button v-if="actionName" @click="$emit('clickItem', item.id)">{{ actionName }}</button>
+        <button v-if="actionName" @click="$emit('itemAction', item.id)">{{ actionName }}</button>
     </div>
 </template>
 
