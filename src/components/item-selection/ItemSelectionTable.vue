@@ -58,7 +58,6 @@
     table {
         width: 100%;
         background-color: var(--color-background-mute);
-        margin-top: 1rem;
         border-radius: 1rem;
         padding: .5rem;
 

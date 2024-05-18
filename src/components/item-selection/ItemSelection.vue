@@ -55,8 +55,8 @@
             @next-page="page += 1"
         />
         <div v-if="data && data.length > 0">
-            <ItemSelectionGrid :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-if="isGridView" />
-            <ItemSelectionTable :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-else />
+            <ItemSelectionGrid class="grid" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-if="isGridView" />
+            <ItemSelectionTable class="table" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-else />
         </div>
         <p v-else>{{ translate("general.itemselection.noitems") }}</p>
     </div>
@@ -66,5 +66,13 @@
     p {
         margin: 2rem 0;
         text-align: center;
+    }
+
+    .grid {
+        margin: 2rem;
+    }
+
+    .table {
+        margin-top: 1rem;
     }
 </style>
