@@ -31,7 +31,12 @@
                 v-if="ingredients.length > 0"
             />
             <button type="button" @click="editDialogOpen = !editDialogOpen">{{ translate('backoffice.itemselection.action.editingredients') }}</button>
-            <BurgerIngredientDialog :ingredients="ingredients" :item-service="service" @close="editDialogOpen = false" v-if="editDialogOpen" />
+            <BurgerIngredientDialog
+                :ingredients="ingredients"
+                :item-service="service"
+                @update="newIngredients => $emit('update', newIngredients)"
+                @close="editDialogOpen = false" v-if="editDialogOpen"
+            />
         </div>
     </div>
 </template>

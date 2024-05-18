@@ -6,7 +6,7 @@
     import ItemSelectionTable from '@/components/general/item-selection/ItemSelectionTable.vue';
     import { translate } from '@/modules/core/localization';
 
-    defineProps<{
+    const props = defineProps<{
         ingredients: ItemData[],
         itemService: ItemService
     }>();
@@ -14,6 +14,7 @@
     const dialogElement = ref();
     const dialogTitle = computed(() => `d`);
 
+    const ingredients = ref(props.ingredients);
     const service = new ItemService('ingredients', false);
     const data = ref<ItemData[]>();
     const searchQuery = ref('');
@@ -30,8 +31,14 @@
         emit('close');
     }
 
+    function save() {
+        emit('update', ingredients.value);
+        closeDialog();
+    }
+
     const emit = defineEmits([
-        "close"
+        "close",
+        "update"
     ]);
 </script>
 
@@ -45,10 +52,11 @@
                     :data="ingredients"
                     :item-service="itemService"
                     :action-name="translate('backoffice.itemselection.action.delete')"
+                    @item-action="id => ingredients = ingredients.filter(item => item.id !== id)"
                 />
                 <div class="controls">
                     <button @click.prevent="closeDialog" type="button">{{ translate('backoffice.itemselection.action.cancel') }}</button>
-                    <button class="save" type="button">{{ translate('backoffice.itemselection.action.save') }}</button>
+                    <button class="save" type="button" @click="save">{{ translate('backoffice.itemselection.action.save') }}</button>
                 </div>
             </div>
         </div>
