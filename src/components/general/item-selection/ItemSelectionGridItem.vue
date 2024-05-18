@@ -19,7 +19,7 @@
     async function refreshThumbnail() {
         props.itemService.getThumbnail(props.item.id)
             .then(res => thumbnail.value = res as File)
-            .catch(() => undefined); // image not found, so ignore error
+            .catch(() => thumbnail.value = undefined); // image not found, so ignore error
     }
     onMounted(refreshThumbnail);
     watch(() => props.item, refreshThumbnail);
