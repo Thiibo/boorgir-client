@@ -1,9 +1,10 @@
 type StringKeyValueObject = { [key: string]: string }
 type StringArrayKeyValueObject = {[key: string]: string[]}
+type AnyKeyValueObject = {[key: string]: any}
 
-type PaginatedApiResult = {
+type PaginatedApiResult<T = StringArrayKeyValueObject> = {
     current_page: number,
-    data: StringKeyValueObject[],
+    data: T[],
     first_page_url: string,
     from: number,
     last_page: number,

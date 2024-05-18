@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ItemService } from '@/modules/api-services/items';
+    import { ItemService, type ItemData } from '@/modules/api-services/items';
     import { currentLocale, translate } from '@/modules/core/localization';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -9,6 +9,7 @@
     import type { ValidationError } from '@/modules/core/validation-error';
     import NonTranslationInput from './NonTranslationInput.vue';
     import ItemTranslationsTable from './ItemTranslationsTable.vue';
+    import BurgerIngredientInput from './BurgerIngredientInput.vue';
 
     const props = defineProps<{
         itemId: number,
@@ -17,7 +18,7 @@
 
     const dialogElement = ref<HTMLDialogElement | null>(null);
 
-    const itemData = ref<{[key: string]: any}>({});
+    const itemData = ref<ItemData | null>(null);
     const isNewItem = ref(false);
     const thumbnail = ref<File>();
     const thumbnailChanged = ref(false);
@@ -25,9 +26,10 @@
 
     const itemTranslations = computed(() => itemData.value?.translations as StringKeyValueObject[]);
     const itemNonTranslationData = computed(() => {
-        const data = Object.assign({}, itemData.value);
+        const data: AnyKeyValueObject = Object.assign({}, itemData.value);
         delete data['id'];
         delete data['translations'];
+        delete data['ingredients'];
         return data;
     });
     const itemName = computed(() => {
@@ -35,9 +37,10 @@
         return name === '' ? translate("backoffice.itemselection.title.unnamed") : name;
     });
 
-    function setRegularProperty(property: string, value: any) {
-        const correctlyTypedValue = typeof itemData.value![property] === 'number' ? parseInt(value) : value;
-        itemData.value = { ...itemData.value, [property]: correctlyTypedValue}
+    function setItemProperty(property: string, value: any) {
+        const oldValue = (itemData.value as AnyKeyValueObject)[property];
+        const correctlyTypedValue = typeof oldValue === 'number' ? parseInt(value) : value;
+        itemData.value = { ...itemData.value!, [property]: correctlyTypedValue}
     }
 
     function deleteItem() {
@@ -48,9 +51,9 @@
     function saveItem() {
         const promises = [];
         if (isNewItem.value) {
-            promises.push(props.itemService.createItem(itemData.value));
+            promises.push(props.itemService.createItem(itemData.value!));
         } else {
-            promises.push(props.itemService.updateItem(props.itemId, itemData.value));
+            promises.push(props.itemService.updateItem(props.itemId, itemData.value!));
         }
 
         if (thumbnailChanged.value && thumbnail.value) {
@@ -102,7 +105,7 @@
 
 <template>
     <dialog ref="dialogElement" @keydown="closeWithEscape" @click.self="closeDialog">
-        <div>
+        <div v-if="itemData">
             <div class="title">
                 <button @click="closeDialog" :title="translate('general.action.closedialog')">
                     <FontAwesomeIcon :icon="faClose" />
@@ -116,10 +119,11 @@
                         :item-service="itemService"
                         :column="column"
                         :value="itemNonTranslationData[column]"
-                        @update="value => setRegularProperty(column, value)"
+                        @update="value => setItemProperty(column, value)"
                     />
                     <ValidationErrors :errors="validationErrors ? validationErrors[column] : undefined" />
                 </div>
+                <BurgerIngredientInput :ingredients="itemData['ingredients']" @update="newIngredients => setItemProperty('ingredients', newIngredients)" v-if="'ingredients' in itemData" />
                 <div class="thumbnail">
                     <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
                     <ImageInput :file="thumbnail" :alt="itemName" @upload="uploadThumbnail" />
@@ -191,7 +195,9 @@
         }
 
         .thumbnail label {
+            display: inline-block;
             vertical-align: top;
+            width: 8rem;
         }
 
         .controls {

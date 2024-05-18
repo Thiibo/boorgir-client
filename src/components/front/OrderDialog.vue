@@ -3,7 +3,7 @@
     import { translate } from '@/modules/core/localization';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import { computed, onMounted, ref } from 'vue';
+    import { onMounted, ref } from 'vue';
 
     const props = defineProps<{
         itemService: ItemService,
@@ -11,7 +11,7 @@
         orderAmount: number
     }>();
 
-    const itemData = ref<{[key: string]: any}>();
+    const itemData = ref<AnyKeyValueObject>();
     const itemAmount = ref(props.orderAmount);
     const dialogElement = ref();
 

@@ -5,12 +5,12 @@
   import { translate } from '@/modules/core/localization';
   import { computed, ref } from 'vue';
 
-  const itemAmounts = ref<{[id: string]: { data: {[key: string]: any}, amount: number }}>({})
+  const itemAmounts = ref<{[id: string]: { data: AnyKeyValueObject, amount: number }}>({})
   const itemIdOpen = ref<number | null>(null);
   const itemService = new ItemService('burgers', false, { "front.page.order.amountColumn": (id) => itemAmounts.value[id]?.amount ?? 0 });
   const subTotal = computed(() => Object.values(itemAmounts.value).reduce((acc, curr) => acc + curr.amount * curr.data.price, 0));
 
-  function setToOrderAmount(itemData: {[key: string]: any}, amount: number) {
+  function setToOrderAmount(itemData: AnyKeyValueObject, amount: number) {
     if (amount > 0) {
       itemAmounts.value[itemData.id] = {
         data: itemData,

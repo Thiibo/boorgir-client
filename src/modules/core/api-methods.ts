@@ -3,7 +3,7 @@ import { ValidationError } from "./validation-error";
 
 const API_URL = "http://localhost:8000/api";
 
-type RequestBody = {[key: string]: any} | File;
+type RequestBody = AnyKeyValueObject | File;
 type CacheOption = 'default' | 'no-cache';
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -22,7 +22,7 @@ async function handleRequestSuccess(res: Response) {
         return res.blob();
 
     } else if (contentType === 'application/json') {
-        const json = await res.json() as {[key: string]: any};
+        const json = await res.json() as AnyKeyValueObject;
         if ('errors' in json) throw new ValidationError(json.errors);
         return json;
 

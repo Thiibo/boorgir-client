@@ -1,9 +1,24 @@
 import API from '../core/api-methods';
 import { AVAILABLE_LOCALES, translate, type Locale } from '../core/localization';
 
+type ItemBaseData = {
+    id: number,
+    price: number,
+    translations?: {
+        name: string,
+        description: string,
+        lang: Locale
+    }[],
+    name?: string,
+    description?: string
+}
+type IngredientData = ItemBaseData & { vegetarian: boolean }
+type BurgerData = ItemBaseData & { ingredients: IngredientData[] }
+type ItemData = IngredientData | BurgerData
+
 type GetItemsApiRequestData = {
     lastPage: number,
-    data: StringKeyValueObject[]
+    data: ItemData[]
 }
 
 type GetItemsDataExtraColumnGenerators = {[untranslatedColumnName: string]: (rowId: number) => any}
@@ -33,38 +48,47 @@ class ItemService {
 
     public async getItems(perPage: number, page: number, query: string): Promise<GetItemsApiRequestData> {
         const body = this.createGetItemsBody(perPage, page, query);
-        const requestData = await API.get(this.endpoint, body) as PaginatedApiResult;
+        const requestData = await API.get(this.endpoint, body) as PaginatedApiResult<ItemData>;
 
         return {
             lastPage: requestData.last_page,
-            data: this.transformGetItemsRequestData(requestData.data)
+            data: requestData.data
         };
     }
 
-    public async getItem(id: number) {
-        return API.get(`${this.endpoint}/${id}`) as Promise<StringKeyValueObject>;
+    public getExtraTableColumns(item: ItemData): AnyKeyValueObject {
+        let res = this.createGeneratorColumns(item);
+        if (this.isAdmin) Object.assign(res, this.createTranslationColumns(item));
+        return res;
     }
 
-    public getBlankItem() {
-        const translations = Object.keys(AVAILABLE_LOCALES).map(locale => ({ name: '', description: '', lang: locale }));
-        const item: {[key: string]: any} = {
-            vegetarian: false,
+    public async getItem(id: number) {
+        return API.get(`${this.endpoint}/${id}`) as Promise<ItemData>;
+    }
+
+    public getBlankItem(): ItemData {
+        const translations = Object.keys(AVAILABLE_LOCALES).map(locale => ({ name: '', description: '', lang: locale as Locale }));
+        const itemBase: ItemBaseData = {
+            id: -1,
             price: 0,
             translations: translations
         }
 
-        if (this.itemType === 'burgers') {
-            delete item['vegetarian'];
+        let item: ItemData;
+        if (this.itemType === 'ingredients') {
+            item = {...itemBase, vegetarian: false };
+        } else {
+            item = { ...itemBase, ingredients: [] };
         }
 
         return item;
     }
 
-    public updateItem(id: number, data: Object) {
+    public updateItem(id: number, data: ItemData) {
         return API.put(`${this.endpoint}/${id}`, data);
     }
 
-    public createItem(data: Object) {
+    public createItem(data: ItemData) {
         return API.post(this.endpoint, data);
     }
 
@@ -91,27 +115,12 @@ class ItemService {
         return body;
     }
 
-    private transformGetItemsRequestData(data: StringKeyValueObject[]): StringKeyValueObject[] {
-        data.forEach((item) => this.transformAllColumns(item));
-        this.addExtraColumns(data);
-        return data;
+    public translateColumnName(columnName: string): string {
+        return translate(`general.itemselection.column.${this.itemType}.${columnName}`);
     }
 
-    private transformAllColumns(item: {[key: string]: any}): void {
-        const columnNames = Object.keys(item);
-        for (const columnName of columnNames) {
-            if (columnName === 'translations') {
-                this.transformTranslationsColumn(item);
-            } else {
-                const translatedColumnName = this.translateColumnName(columnName);
-                const columnValue = item[columnName];
-                delete item[columnName];
-                item[translatedColumnName] = columnValue;
-            }
-        }
-    }
-
-    private transformTranslationsColumn(item: {[key: string]: any}): void {
+    private createTranslationColumns(item: ItemData): AnyKeyValueObject {
+        const extraColumns: AnyKeyValueObject = {};
         const translations = item['translations'] as Record<string, any>[];
         translations.forEach(translationData => {
             const localeName = AVAILABLE_LOCALES[translationData.lang as Locale].name
@@ -119,26 +128,21 @@ class ItemService {
             for (const [columnName, localeColumnData] of Object.entries(translationData)) {
                 if (columnName === 'lang') break;
                 const translatedLocaleColumnName = this.translateColumnName(columnName);
-                item[`${translatedLocaleColumnName} (${localeName})`] = localeColumnData;
+                extraColumns[`${translatedLocaleColumnName} (${localeName})`] = localeColumnData;
             }
         });
-        
-        delete item['translations'];
+        return extraColumns;
     }
 
-    public translateColumnName(columnName: string): string {
-        return translate(`general.itemselection.column.${this.itemType}.${columnName}`);
-    }
-
-    private addExtraColumns(data: StringKeyValueObject[]): void {
+    private createGeneratorColumns(item: ItemData): AnyKeyValueObject {
+        const extraColumns: AnyKeyValueObject = {};
         for (let [untranslatedColumnName, generator] of Object.entries(this.extraColumnGenerators)) {
-            data.forEach(item => {
-                const columnName = translate(untranslatedColumnName);
-                item[columnName] = generator(parseInt(item.ID));
-            });
+            const columnName = translate(untranslatedColumnName);
+            extraColumns[columnName] = generator(item.id);
         }
+        return extraColumns;
     }
     // ======================
 }
 
-export { ItemService, type ItemType };
+export { ItemService, type ItemType, type IngredientData, type BurgerData, type ItemData };

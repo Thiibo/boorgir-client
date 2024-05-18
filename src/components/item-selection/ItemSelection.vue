@@ -4,7 +4,7 @@
     import ItemSelectionGrid from './ItemSelectionGrid.vue';
     import ItemSelectionTable from './ItemSelectionTable.vue';
     import { loadedLocale, translate } from '@/modules/core/localization';
-    import type { ItemService } from '@/modules/api-services/items';
+    import type { ItemData, ItemService } from '@/modules/api-services/items';
 
     const props = defineProps<{
         itemService: ItemService,
@@ -20,7 +20,7 @@
     const perPage = ref(10);
     const searchQuery = ref("");
 
-    const data = ref();
+    const data = ref<ItemData[] | null>(null);
 
     async function refreshPage() {
         if (props.itemIdEditing && props.itemIdEditing !== null) return;
@@ -54,9 +54,9 @@
             @prev-page="page -= 1"
             @next-page="page += 1"
         />
-        <div v-if="data?.length > 0">
+        <div v-if="data && data.length > 0">
             <ItemSelectionGrid :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-if="isGridView" />
-            <ItemSelectionTable :data="data" :item-type="itemType" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-else />
+            <ItemSelectionTable :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @click-item="id => $emit('clickItem', id)" v-else />
         </div>
         <p v-else>{{ translate("general.itemselection.noitems") }}</p>
     </div>

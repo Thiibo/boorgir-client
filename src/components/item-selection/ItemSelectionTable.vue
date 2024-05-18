@@ -1,15 +1,22 @@
 <script setup lang="ts">
-    import type { ItemType } from '@/modules/api-services/items';
+    import type { ItemData, ItemService } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { computed } from 'vue';
 
     const props = defineProps<{
-        data: StringKeyValueObject[],
-        actionName: string,
-        itemType: ItemType
+        data: ItemData[],
+        itemService: ItemService,
+        actionName: string
     }>();
 
-    const tableColumns = computed(() => Object.keys(props.data[0]));
+    const itemType = computed(() => props.itemService.getItemType());
+
+    const tableColumnNames = computed(() => Object.keys(props.data[0]).filter(column => column !== 'translations'));
+    const extraTableColumnNames = computed(() => Object.keys(props.itemService.getExtraTableColumns(props.data[0])));
+
+    function getColumnValues(item: AnyKeyValueObject) {
+        return tableColumnNames.value.map(column => item[column]);
+    }
 
     function formatCell(data: any) {
         if (typeof data === 'boolean') {
@@ -27,16 +34,20 @@
 <template>
     <table>
         <thead>
-            <th v-for="column in tableColumns">{{ column }}</th>
+            <th v-for="columnName in tableColumnNames">{{ translate(`general.itemselection.column.${itemType}.${columnName}`) }}</th>
+            <th v-for="columnName in extraTableColumnNames">{{ columnName }}</th>
             <th>{{ translate("general.itemselection.column.action") }}</th>
         </thead>
         <tbody>
             <tr v-for="item in data">
-                <td v-for="columnValue in Object.values(item)">
+                <td v-for="columnValue in getColumnValues(item)">
+                    {{ formatCell(columnValue) }}
+                </td>
+                <td v-for="columnValue in itemService.getExtraTableColumns(item)">
                     {{ formatCell(columnValue) }}
                 </td>
                 <td>
-                    <button @click="$emit('clickItem', item.ID)">{{ actionName }}</button>
+                    <button @click="$emit('clickItem', item.id)">{{ actionName }}</button>
                 </td>
             </tr>
         </tbody>
