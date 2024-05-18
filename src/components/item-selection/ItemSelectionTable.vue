@@ -6,7 +6,7 @@
     const props = defineProps<{
         data: ItemData[],
         itemService: ItemService,
-        actionName: string,
+        actionName?: string,
         columnNamesToHide?: string[]
     }>();
 
@@ -40,7 +40,7 @@
         <thead>
             <th v-for="columnName in tableColumnNames">{{ translate(`general.itemselection.column.${itemType}.${columnName}`) }}</th>
             <th v-for="columnName in extraTableColumnNames">{{ columnName }}</th>
-            <th>{{ translate("general.itemselection.column.action") }}</th>
+            <th v-if="actionName">{{ translate("general.itemselection.column.action") }}</th>
         </thead>
         <tbody>
             <tr v-for="item in data">
@@ -50,7 +50,7 @@
                 <td v-for="columnValue in itemService.getExtraTableColumns(item)">
                     {{ formatCell(columnValue) }}
                 </td>
-                <td>
+                <td v-if="actionName">
                     <button @click="$emit('clickItem', item.id)" type="button">{{ actionName }}</button>
                 </td>
             </tr>

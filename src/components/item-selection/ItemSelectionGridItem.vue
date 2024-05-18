@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { computed, onMounted, ref, watch } from 'vue';
     import { ItemService, type ItemData, getItemTranslatedProperties } from '../../modules/api-services/items';
-    import { currentLocale, translate } from '@/modules/core/localization';
+    import { translate } from '@/modules/core/localization';
     import { faAppleWhole } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import ItemImage from './ItemImage.vue';
@@ -9,7 +9,7 @@
     const props = defineProps<{
         itemService: ItemService,
         item: ItemData,
-        actionName: string
+        actionName?: string
     }>();
 
     const thumbnail = ref<File>();
@@ -40,7 +40,7 @@
             <span class="order-amount" v-if="extraColumns.amount?.length > 0">x{{ extraColumns.amount }}</span>
         </div>
         <h3>{{ itemName }}</h3>
-        <button @click="$emit('clickItem', item.id)">{{ actionName }}</button>
+        <button v-if="actionName" @click="$emit('clickItem', item.id)">{{ actionName }}</button>
     </div>
 </template>
 
