@@ -116,7 +116,7 @@
             </div>
             <ValidationErrors :errors="validationErrors?.file" />
             <div class="controls">
-                <button @click.prevent="deleteItem" type="button">{{ translate('backoffice.itemselection.action.delete') }}</button>
+                <button class="delete" @click.prevent="deleteItem" type="button" v-if="!isNewItem">{{ translate('backoffice.itemselection.action.delete') }}</button>
                 <button @click.prevent="closeDialog" type="button">{{ translate('backoffice.itemselection.action.cancel') }}</button>
                 <button>{{ translate('backoffice.itemselection.action.save') }}</button>
             </div>
@@ -168,7 +168,7 @@
             background-color: var(--color-background-mute);
             z-index: 1;
 
-            button:first-child {
+            .delete {
                 margin-right: auto;
             }
         }
