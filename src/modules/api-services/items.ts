@@ -1,5 +1,5 @@
 import API from '../core/api-methods';
-import { AVAILABLE_LOCALES, translate, type Locale } from '../core/localization';
+import { AVAILABLE_LOCALES, translate, type Locale, currentLocale } from '../core/localization';
 
 type ItemBaseData = {
     id: number,

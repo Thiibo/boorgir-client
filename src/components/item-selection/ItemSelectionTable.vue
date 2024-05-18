@@ -6,12 +6,14 @@
     const props = defineProps<{
         data: ItemData[],
         itemService: ItemService,
-        actionName: string
+        actionName: string,
+        columnNamesToHide?: string[]
     }>();
 
     const itemType = computed(() => props.itemService.getItemType());
 
-    const tableColumnNames = computed(() => Object.keys(props.data[0]).filter(column => column !== 'translations'));
+    const columnsToHide = computed(() => props.columnNamesToHide ?? []);
+    const tableColumnNames = computed(() => Object.keys(props.data[0]).filter(column => column !== 'translations' && !columnsToHide.value.includes(column)));
     const extraTableColumnNames = computed(() => Object.keys(props.itemService.getExtraTableColumns(props.data[0])));
 
     function getColumnValues(item: AnyKeyValueObject) {
@@ -49,7 +51,7 @@
                     {{ formatCell(columnValue) }}
                 </td>
                 <td>
-                    <button @click="$emit('clickItem', item.id)">{{ actionName }}</button>
+                    <button @click="$emit('clickItem', item.id)" type="button">{{ actionName }}</button>
                 </td>
             </tr>
         </tbody>
