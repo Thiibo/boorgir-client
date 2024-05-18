@@ -33,7 +33,7 @@
         if (ingredientIndex > -1) {
             ingredients.value.splice(ingredientIndex, 1);
         } else {
-            ingredients.value.push(item);
+            ingredients.value = [...ingredients.value, item].sort((a, b) => a.id - b.id);
         }
     }
 
