@@ -46,21 +46,30 @@
         closeDialog();
     }
 
-    function saveItem() {
-        const promises = [];
+    async function saveItem() {
+        validationErrors.value = {};
+
+        let itemId = item.value!.id;
         if (isNewItem.value) {
-            promises.push(props.itemService.createItem(item.value!));
+            await props.itemService.createItem(item.value!)
+                .then(item => itemId = item.id)
+                .catch(handleValidationErrors);
         } else {
-            promises.push(props.itemService.updateItem(props.itemId, item.value!));
+            await props.itemService.updateItem(props.itemId, item.value!)
+                .catch(handleValidationErrors);
         }
 
         if (thumbnailChanged.value && thumbnail.value) {
-            promises.push(props.itemService.uploadThumbnail(props.itemId, thumbnail.value));
+            await props.itemService.uploadThumbnail(itemId, thumbnail.value)
+                .then(() => thumbnailChanged.value = false)
+                .catch(handleValidationErrors);
         }
 
-        Promise.all(promises)
-            .then(() => closeDialog())
-            .catch(errors => validationErrors.value = (errors as ValidationError).errors)
+        if (Object.keys(validationErrors.value!).length === 0) closeDialog();
+    }
+
+    function handleValidationErrors(validationError: ValidationError) {
+        validationErrors.value = validationError.errors;
     }
 
     function uploadThumbnail(file: File) {

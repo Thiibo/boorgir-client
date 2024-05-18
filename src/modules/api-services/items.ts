@@ -82,11 +82,11 @@ class ItemService {
     }
 
     public updateItem(id: number, data: ItemData) {
-        return API.put(`${this.endpoint}/${id}`, data);
+        return API.put(`${this.endpoint}/${id}`, data) as Promise<ItemData>;
     }
 
     public createItem(data: ItemData) {
-        return API.post(this.endpoint, data);
+        return API.post(this.endpoint, data) as Promise<ItemData>;
     }
 
     public deleteItem(id: number) {
