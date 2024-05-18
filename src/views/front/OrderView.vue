@@ -30,6 +30,7 @@
       :item-id-editing="itemIdOpen"
       :default-view-is-grid="true"
       :action-name-generator="() => translate('front.itemselection.action.item')"
+      :column-names-to-hide="['id']"
       @item-action="item => itemIdOpen = item.id"
     />
     <OrderDialog

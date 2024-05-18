@@ -10,7 +10,8 @@
         itemService: ItemService,
         itemIdEditing?: number | null,
         defaultViewIsGrid?: boolean,
-        actionNameGenerator?: ItemActionNameGenerator
+        actionNameGenerator?: ItemActionNameGenerator,
+        columnNamesToHide?: string[]
     }>();
 
     const isGridView = ref(props.defaultViewIsGrid);
@@ -54,8 +55,23 @@
             @next-page="page += 1"
         />
         <div v-if="data && data.length > 0">
-            <ItemSelectionGrid class="grid" :data="data" :item-service="itemService" :action-name-generator="actionNameGenerator" @item-action="item => $emit('itemAction', item)" v-if="isGridView" />
-            <ItemSelectionTable class="table" :data="data" :item-service="itemService" :action-name-generator="actionNameGenerator" @item-action="item => $emit('itemAction', item)" v-else />
+            <ItemSelectionGrid
+                class="grid"
+                :data="data"
+                :item-service="itemService"
+                :action-name-generator="actionNameGenerator"
+                @item-action="item => $emit('itemAction', item)"
+                v-if="isGridView"
+            />
+            <ItemSelectionTable
+                class="table"
+                :data="data"
+                :item-service="itemService"
+                :action-name-generator="actionNameGenerator"
+                :column-names-to-hide="columnNamesToHide"
+                @item-action="item => $emit('itemAction', item)"
+                v-else
+            />
         </div>
         <p v-else>{{ translate("general.itemselection.noitems") }}</p>
     </div>
