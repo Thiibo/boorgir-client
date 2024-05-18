@@ -73,6 +73,7 @@
         padding: 1rem;
         border-radius: 1rem;
         background-color: var(--color-background-mute);
+        border: .1rem solid var(--color-border);
 
         .control-group {
             display: flex;

@@ -48,7 +48,7 @@
     .grid-item {
         position: relative;
         background-color: var(--color-background-mute);
-        border: .1rem solid gray;
+        border: .1rem solid var(--color-border);
         border-radius: 1rem;
         overflow: hidden;
 

@@ -68,6 +68,7 @@
         background-color: var(--color-background-mute);
         border-radius: 1rem;
         padding: .5rem;
+        border: .1rem solid var(--color-border);
 
         th {
             border-bottom: .1rem solid gray;
