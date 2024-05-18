@@ -63,6 +63,7 @@
             height: 100%;
             padding: 1rem;
             padding: 2rem;
+            overflow: auto;
         }
 
         .title {

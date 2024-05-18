@@ -50,6 +50,8 @@
         .current-ingredients-table {
             display: inline-block;
             width: unset;
+            max-height: 20rem;
+            overflow: auto;
             border: .1rem solid var(--color-border);
         }
 

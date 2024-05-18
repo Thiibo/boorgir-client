@@ -144,6 +144,7 @@
 
     form {
         padding: 1rem;
+        margin-bottom: 5rem;
 
         > div {
             margin-top: 2rem;
@@ -164,6 +165,8 @@
             gap: 1rem;
             width: 100%;
             justify-content: flex-end;
+            background-color: var(--color-background-mute);
+            z-index: 1;
 
             button:first-child {
                 margin-right: auto;

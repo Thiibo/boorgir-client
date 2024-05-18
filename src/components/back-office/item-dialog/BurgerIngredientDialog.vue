@@ -75,6 +75,7 @@
             <div class="current-items">
                 <h2>{{ translate('backoffice.itemselection.ingredientsdialog.currentitems') }}</h2>
                 <ItemSelectionTable
+                    class="current-items-table"
                     :data="ingredients"
                     :item-service="itemService"
                     :action-name-generator="() => translate('backoffice.itemselection.action.delete')"
@@ -110,6 +111,12 @@
 
                 h2 {
                     margin-bottom: 1rem;
+                }
+
+                .current-items-table {
+                    display: block;
+                    max-height: calc(75vh - 5rem);
+                    overflow: auto;
                 }
 
                 .controls {
