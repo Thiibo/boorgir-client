@@ -17,16 +17,7 @@
 
     const ingredients = ref([...props.initialIngredients]);
     const service = new ItemService('ingredients', false);
-    const data = ref<ItemData[]>();
-    const searchQuery = ref('');
 
-    async function refreshData() {
-        const requestData = await service.getItems(10, 1, searchQuery.value);
-        data.value = requestData.data;
-    }
-    onMounted(refreshData);
-    watch(searchQuery, refreshData);
-    
     function closeDialog() {
         if (dialogElement.value.open) dialogElement.value.close();
         emit('close');
