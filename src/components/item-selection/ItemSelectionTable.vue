@@ -23,8 +23,12 @@
     function formatCell(data: any) {
         if (typeof data === 'boolean') {
             return data ? '✅' : '❌';
-        } else if (Array.isArray(data) && data[0]?.hasOwnProperty('translations')) {
-            return (data as ItemData[]).map(item => getItemTranslatedProperties(item)?.name).join(', ');
+        } else if (Array.isArray(data)) {
+            if (data[0]?.hasOwnProperty('translations')) {
+                return (data as ItemData[]).map(item => getItemTranslatedProperties(item)?.name).join(', ');
+            } else {
+                return (data as ItemData[]).map(item => item.name).join(', ');
+            }
         }
 
         return data;
