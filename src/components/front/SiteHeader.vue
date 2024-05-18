@@ -14,7 +14,7 @@
   const profileDialogOpen = ref(false);
 
   function clickedSomewhere(e: MouseEvent) {
-    if (e.target !== profileElement.value && !profileElement.value.contains(e.target)) {
+    if (profileElement.value && e.target !== profileElement.value && !profileElement.value.contains(e.target)) {
       profileDialogOpen.value = false;
     }
   }
