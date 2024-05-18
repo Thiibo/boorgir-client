@@ -32,6 +32,11 @@
         emit('close');
     }
 
+    function getActionName(item: ItemData): string {
+        const isInList = ingredients.value.some(ingredient => ingredient.id === item.id);
+        return translate(`backoffice.itemselection.ingredientsdialog.${isInList ? 'remove' : 'add'}`);
+    }
+
     function toggleItem(item: ItemData) {
         const ingredientIndex = ingredients.value.findIndex(ingredient => ingredient.id === item.id);
         if (ingredientIndex > -1) {
@@ -64,6 +69,7 @@
             <ItemSelection
                 :item-service="service"
                 class="item-selection"
+                :action-name-generator="getActionName"
                 @item-action="toggleItem"
             />
             <div class="current-items">
@@ -71,7 +77,7 @@
                 <ItemSelectionTable
                     :data="ingredients"
                     :item-service="itemService"
-                    :action-name="translate('backoffice.itemselection.action.delete')"
+                    :action-name-generator="() => translate('backoffice.itemselection.action.delete')"
                     @item-action="item => ingredients = ingredients.filter(ingredient => ingredient.id !== item.id)"
                 />
                 <div class="controls">

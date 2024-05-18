@@ -1,12 +1,12 @@
 <script setup lang="ts">
-    import { getItemTranslatedProperties, type ItemData, type ItemService } from '@/modules/api-services/items';
+    import { getItemTranslatedProperties, type ItemActionNameGenerator, type ItemData, type ItemService } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { computed } from 'vue';
 
     const props = defineProps<{
         data: ItemData[],
         itemService: ItemService,
-        actionName?: string,
+        actionNameGenerator?: ItemActionNameGenerator,
         columnNamesToHide?: string[]
     }>();
 
@@ -44,7 +44,7 @@
         <thead>
             <th v-for="columnName in tableColumnNames">{{ translate(`general.itemselection.column.${itemType}.${columnName}`) }}</th>
             <th v-for="columnName in extraTableColumnNames">{{ columnName }}</th>
-            <th v-if="actionName">{{ translate("general.itemselection.column.action") }}</th>
+            <th v-if="actionNameGenerator">{{ translate("general.itemselection.column.action") }}</th>
         </thead>
         <tbody>
             <tr v-for="item in data">
@@ -54,8 +54,8 @@
                 <td v-for="columnValue in itemService.getExtraTableColumns(item)">
                     {{ formatCell(columnValue) }}
                 </td>
-                <td v-if="actionName">
-                    <button @click="$emit('itemAction', item)" type="button">{{ actionName }}</button>
+                <td v-if="actionNameGenerator">
+                    <button @click="$emit('itemAction', item)" type="button">{{ actionNameGenerator(item) }}</button>
                 </td>
             </tr>
         </tbody>
@@ -83,6 +83,7 @@
             padding: .2rem .3rem;
 
             button {
+                width: 100%;
                 z-index: 1;
             }
         }

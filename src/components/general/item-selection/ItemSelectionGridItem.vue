@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { computed, onMounted, ref, watch } from 'vue';
-    import { ItemService, type ItemData, getItemTranslatedProperties } from '@/modules/api-services/items';
+    import { ItemService, type ItemData, getItemTranslatedProperties, type ItemActionNameGenerator } from '@/modules/api-services/items';
     import { translate } from '@/modules/core/localization';
     import { faAppleWhole } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -9,7 +9,7 @@
     const props = defineProps<{
         itemService: ItemService,
         item: ItemData,
-        actionName?: string
+        actionNameGenerator?: ItemActionNameGenerator
     }>();
 
     const thumbnail = ref<File>();
@@ -40,7 +40,7 @@
             <span class="order-amount" v-if="extraColumns.amount?.length > 0">x{{ extraColumns.amount }}</span>
         </div>
         <h3>{{ itemName }}</h3>
-        <button v-if="actionName" @click="$emit('itemAction', item)">{{ actionName }}</button>
+        <button v-if="actionNameGenerator" @click="$emit('itemAction', item)">{{ actionNameGenerator(item) }}</button>
     </div>
 </template>
 

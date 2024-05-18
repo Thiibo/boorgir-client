@@ -23,7 +23,8 @@ type GetItemsApiRequestData = {
 
 type GetItemsDataExtraColumnGenerators = {[untranslatedColumnName: string]: (item: ItemData) => any}
 
-type ItemType = 'ingredients' | 'burgers';
+type ItemActionNameGenerator = (item: ItemData) => string
+type ItemType = 'ingredients' | 'burgers'
 class ItemService {
     private itemType: ItemType;
     private isAdmin: boolean;
@@ -40,10 +41,6 @@ class ItemService {
 
     public getItemType(): ItemType {
         return this.itemType;
-    }
-
-    public getActionName(): string {
-        return translate(`${this.isAdmin ? 'backoffice' : 'front'}.itemselection.action.item`);
     }
 
     public async getItems(perPage: number, page: number, query: string): Promise<GetItemsApiRequestData> {
@@ -149,4 +146,4 @@ function getItemTranslatedProperties(item: ItemData, lang: Locale = currentLocal
     return item.translations?.find(translation => translation.lang === lang);
 }
 
-export { ItemService, type ItemType, type IngredientData, type BurgerData, type ItemData, getItemTranslatedProperties };
+export { ItemService, type ItemActionNameGenerator, type ItemType, type IngredientData, type BurgerData, type ItemData, getItemTranslatedProperties };

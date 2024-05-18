@@ -4,12 +4,13 @@
     import ItemSelectionGrid from './ItemSelectionGrid.vue';
     import ItemSelectionTable from './ItemSelectionTable.vue';
     import { loadedLocale, translate } from '@/modules/core/localization';
-    import type { ItemData, ItemService } from '@/modules/api-services/items';
+    import type { ItemActionNameGenerator, ItemData, ItemService } from '@/modules/api-services/items';
 
     const props = defineProps<{
         itemService: ItemService,
         itemIdEditing?: number | null,
-        defaultViewIsGrid?: boolean
+        defaultViewIsGrid?: boolean,
+        actionNameGenerator?: ItemActionNameGenerator
     }>();
 
     const isGridView = ref(props.defaultViewIsGrid);
@@ -53,8 +54,8 @@
             @next-page="page += 1"
         />
         <div v-if="data && data.length > 0">
-            <ItemSelectionGrid class="grid" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @item-action="item => $emit('itemAction', item)" v-if="isGridView" />
-            <ItemSelectionTable class="table" :data="data" :item-service="itemService" :action-name="itemService.getActionName()" @item-action="item => $emit('itemAction', item)" v-else />
+            <ItemSelectionGrid class="grid" :data="data" :item-service="itemService" :action-name-generator="actionNameGenerator" @item-action="item => $emit('itemAction', item)" v-if="isGridView" />
+            <ItemSelectionTable class="table" :data="data" :item-service="itemService" :action-name-generator="actionNameGenerator" @item-action="item => $emit('itemAction', item)" v-else />
         </div>
         <p v-else>{{ translate("general.itemselection.noitems") }}</p>
     </div>

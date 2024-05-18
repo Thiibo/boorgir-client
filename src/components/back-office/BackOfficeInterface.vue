@@ -17,7 +17,12 @@
 
 <template>
     <main>
-        <ItemSelection :item-service="itemService" :item-id-editing="itemIdEditing" @item-action="item => itemIdEditing = item.id" />
+        <ItemSelection
+            :item-service="itemService"
+            :item-id-editing="itemIdEditing"
+            :action-name-generator="() => translate('backoffice.itemselection.action.item')"
+            @item-action="item => itemIdEditing = item.id"
+        />
         <ItemDialog :item-id="itemIdEditing" :item-service="itemService" @close="itemIdEditing = null" v-if="itemIdEditing" />
         <button id="new-item" :title="translate('backoffice.itemselection.action.new')" @click="itemIdEditing = -1">
             <FontAwesomeIcon :icon="faPlus" />
