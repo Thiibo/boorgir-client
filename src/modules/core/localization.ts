@@ -31,8 +31,10 @@ async function refreshStaticTranslations() {
 refreshStaticTranslations();
 watch(currentLocale, refreshStaticTranslations);
 
-function translate(key: string) {
-    return staticTranslations.value[key] ?? key;
+function translate(key: string, ...args: string[]) {
+    let translation = staticTranslations.value[key] ?? key;
+    args.forEach(arg => translation = translation.replace('%s', arg));
+    return translation;
 }
 
 export { AVAILABLE_LOCALES, type Locale, currentLocale, loadedLocale, translate };

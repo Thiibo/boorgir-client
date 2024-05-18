@@ -104,7 +104,12 @@
                 />
                 <ValidationErrors :errors="validationErrors ? validationErrors[column] : undefined" />
             </div>
-            <BurgerIngredientInput :ingredients="item['ingredients']" @update="newIngredients => setItemProperty('ingredients', newIngredients)" v-if="'ingredients' in item" />
+            <BurgerIngredientInput
+                :item-name="itemName"
+                :ingredients="item['ingredients']"
+                @update="newIngredients => setItemProperty('ingredients', newIngredients)"
+                v-if="'ingredients' in item"
+            />
             <div class="thumbnail">
                 <label for="thumbnail">{{ translate('general.itemselection.column.thumbnail') }}</label>
                 <ImageInput :file="thumbnail" :alt="itemName" @upload="uploadThumbnail" />

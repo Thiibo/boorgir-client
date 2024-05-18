@@ -6,6 +6,7 @@
     import BurgerIngredientDialog from './BurgerIngredientDialog.vue';
 
     defineProps<{
+        itemName: string,
         ingredients: IngredientData[]
     }>();
 
@@ -32,6 +33,7 @@
             />
             <button type="button" @click="editDialogOpen = !editDialogOpen">{{ translate('backoffice.itemselection.action.editingredients') }}</button>
             <BurgerIngredientDialog
+                :item-name="itemName"
                 :initial-ingredients="ingredients"
                 :item-service="service"
                 @update="newIngredients => $emit('update', newIngredients)"

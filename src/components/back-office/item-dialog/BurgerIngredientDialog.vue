@@ -7,12 +7,13 @@
     import { currentLocale, translate } from '@/modules/core/localization';
 
     const props = defineProps<{
+        itemName: string,
         initialIngredients: ItemData[],
         itemService: ItemService
     }>();
 
     const dialogElement = ref();
-    const dialogTitle = computed(() => `d`);
+    const dialogTitle = computed(() => translate('backoffice.itemselection.ingredientsdialog.title', props.itemName));
 
     const ingredients = ref([...props.initialIngredients]);
     const service = new ItemService('ingredients', false);
@@ -66,7 +67,7 @@
                 @item-action="toggleItem"
             />
             <div class="current-items">
-                <h2>Current items:</h2>
+                <h2>{{ translate('backoffice.itemselection.ingredientsdialog.currentitems') }}</h2>
                 <ItemSelectionTable
                     :data="ingredients"
                     :item-service="itemService"
