@@ -2,25 +2,17 @@
     import { translate } from '@/modules/core/localization';
     import ItemSelectionTable from '@/components/general/item-selection/ItemSelectionTable.vue';
     import { ItemService, type IngredientData, type ItemData, getItemTranslatedProperties } from '@/modules/api-services/items';
-    import { onMounted, ref, watch } from 'vue';
+    import { ref } from 'vue';
+    import BurgerIngredientDialog from './BurgerIngredientDialog.vue';
 
     defineProps<{
         ingredients: IngredientData[]
     }>();
 
-    const currentIngredientsService = new ItemService('ingredients', false, {
+    const service = new ItemService('ingredients', false, {
         'general.itemselection.column.ingredients.name': item => getItemTranslatedProperties(item)?.name
     });
-    const addIngredientsService = new ItemService('ingredients', false);
-    const data = ref<ItemData[]>();
-    const searchQuery = ref('');
-
-    async function refreshData() {
-        const requestData = await addIngredientsService.getItems(10, 1, searchQuery.value);
-        data.value = requestData.data;
-    }
-    onMounted(refreshData);
-    watch(searchQuery, refreshData);
+    const editDialogOpen = ref(false);
 
     const emit = defineEmits([
         "update"
@@ -28,17 +20,18 @@
 </script>
 
 <template>
-    <div v-if="data">
+    <div>
         <p>{{ translate('general.itemselection.column.burgers.ingredients') }}</p>
         <div class="content">
             <ItemSelectionTable
                 class="current-ingredients-table"
                 :data="ingredients"
-                :item-service="currentIngredientsService"
+                :item-service="service"
                 :column-names-to-hide="['description']"
                 v-if="ingredients.length > 0"
             />
-            <button type="button">{{ translate('backoffice.itemselection.action.editingredients') }}</button>
+            <button type="button" @click="editDialogOpen = !editDialogOpen">{{ translate('backoffice.itemselection.action.editingredients') }}</button>
+            <BurgerIngredientDialog :ingredients="ingredients" :item-service="service" @close="editDialogOpen = false" v-if="editDialogOpen" />
         </div>
     </div>
 </template>
