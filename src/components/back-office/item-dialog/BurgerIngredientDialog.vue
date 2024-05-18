@@ -1,10 +1,10 @@
 <script setup lang="ts">
-    import { computed, onMounted, ref, watch } from 'vue';
+    import { computed, ref } from 'vue';
     import AppDialog from '@/components/general/AppDialog.vue';
     import { ItemService, type ItemData } from '@/modules/api-services/items';
     import ItemSelection from '@/components/general/item-selection/ItemSelection.vue';
     import ItemSelectionTable from '@/components/general/item-selection/ItemSelectionTable.vue';
-    import { currentLocale, translate } from '@/modules/core/localization';
+    import { translate } from '@/modules/core/localization';
 
     const props = defineProps<{
         itemName: string,
@@ -33,13 +33,7 @@
         if (ingredientIndex > -1) {
             ingredients.value.splice(ingredientIndex, 1);
         } else {
-            const itemToAdd = Object.assign({}, item);
-            itemToAdd.translations = [{
-                name: item.name!,
-                description: item.description!,
-                lang: currentLocale.value
-            }];
-            ingredients.value.push(itemToAdd);
+            ingredients.value.push(item);
         }
     }
 
@@ -70,6 +64,7 @@
                     :data="ingredients"
                     :item-service="itemService"
                     :action-name-generator="() => translate('backoffice.itemselection.action.delete')"
+                    :column-names-to-hide="['description']"
                     @item-action="item => ingredients = ingredients.filter(ingredient => ingredient.id !== item.id)"
                     v-if="ingredients.length > 0"
                 />

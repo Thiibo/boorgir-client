@@ -2,17 +2,23 @@
     import { translate } from '@/modules/core/localization';
     import ItemSelectionTable from '@/components/general/item-selection/ItemSelectionTable.vue';
     import { ItemService, type IngredientData, getItemTranslatedProperties } from '@/modules/api-services/items';
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import BurgerIngredientDialog from './BurgerIngredientDialog.vue';
 
-    defineProps<{
+    const props = defineProps<{
         itemName: string,
         ingredients: IngredientData[]
     }>();
 
-    const service = new ItemService('ingredients', false, {
-        'general.itemselection.column.ingredients.name': item => getItemTranslatedProperties(item)?.name
+    const ingredients = computed(() => {
+        return [...props.ingredients].map(ingredient => ({
+            id: ingredient.id,
+            name: ingredient.name ?? getItemTranslatedProperties(ingredient)?.name,
+            vegetarian: ingredient.vegetarian,
+            price: ingredient.price
+        }));
     });
+    const service = new ItemService('ingredients', false);
     const editDialogOpen = ref(false);
 
     const emit = defineEmits([
