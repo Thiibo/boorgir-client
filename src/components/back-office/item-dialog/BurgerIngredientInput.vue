@@ -31,6 +31,7 @@
                 :column-names-to-hide="['description']"
                 v-if="ingredients.length > 0"
             />
+            <p v-else>{{ translate('general.itemselection.noingredients') }}</p>
             <button type="button" @click="editDialogOpen = !editDialogOpen">{{ translate('backoffice.itemselection.action.editingredients') }}</button>
             <BurgerIngredientDialog
                 :item-name="itemName"
@@ -53,6 +54,11 @@
             max-height: 20rem;
             overflow: auto;
             border: .1rem solid var(--color-border);
+        }
+
+        p {
+            font-style: italic;
+            white-space: nowrap;
         }
 
         button {

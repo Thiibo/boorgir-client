@@ -80,7 +80,9 @@
                     :item-service="itemService"
                     :action-name-generator="() => translate('backoffice.itemselection.action.delete')"
                     @item-action="item => ingredients = ingredients.filter(ingredient => ingredient.id !== item.id)"
+                    v-if="ingredients.length > 0"
                 />
+                <p v-else>{{ translate('general.itemselection.noingredients') }}</p>
                 <div class="controls">
                     <button @click.prevent="closeDialog" type="button">{{ translate('backoffice.itemselection.action.cancel') }}</button>
                     <button class="save" type="button" @click="save">{{ translate('backoffice.itemselection.action.save') }}</button>
@@ -117,6 +119,10 @@
                     display: block;
                     max-height: calc(75vh - 5rem);
                     overflow: auto;
+                }
+
+                p {
+                    font-style: italic;
                 }
 
                 .controls {

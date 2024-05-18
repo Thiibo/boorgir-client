@@ -42,7 +42,7 @@
         <ul v-if="itemData?.ingredients.length > 0">
             <li v-for="ingredient in itemData?.ingredients">{{ ingredient }}</li>
         </ul>
-        <p v-else>{{ translate('front.itemselection.noingredients') }}</p>
+        <p v-else>{{ translate('general.itemselection.noingredients') }}</p>
         <div class="order-amount">
             <span>€ {{ itemData?.price.toFixed(2) }} x</span>
             <input type="number" name="amount" id="amount" min="0" max="99" v-model="itemAmount">
