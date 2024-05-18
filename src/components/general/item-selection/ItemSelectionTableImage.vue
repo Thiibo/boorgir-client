@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { ItemService, type ItemData, getItemName } from '@/modules/api-services/items';
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import ItemImage from '../ItemImage.vue';
 
     const props = defineProps<{
@@ -10,11 +10,14 @@
 
     const image = ref<File>();
 
-    onMounted(async () => {
+    function refreshImage() {
         props.itemService.getThumbnail(props.item.id)
             .then(res => image.value = res as File)
-            .catch(() => undefined); // image not found, so ignore error
-    })
+            .catch(() => image.value = undefined); // image not found, so ignore error
+    }
+
+    onMounted(refreshImage);
+    watch(() => props.item, refreshImage);
 </script>
 
 <template>
