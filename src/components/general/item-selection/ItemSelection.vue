@@ -12,8 +12,6 @@
         defaultViewIsGrid?: boolean
     }>();
 
-    const itemType = computed(() => props.itemService.getItemType());
-
     const isGridView = ref(props.defaultViewIsGrid);
     const page = ref(1);
     const maxPage = ref(1);
