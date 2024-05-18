@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { computed, onMounted, ref, watch } from 'vue';
-    import { ItemService, type ItemData } from '../../modules/api-services/items';
+    import { ItemService, type ItemData, getItemTranslatedProperties } from '../../modules/api-services/items';
     import { currentLocale, translate } from '@/modules/core/localization';
     import { faAppleWhole } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -13,7 +13,7 @@
     }>();
 
     const thumbnail = ref<File>();
-    const itemName = computed(() => props.item.translations?.find(translation => translation.lang === currentLocale.value)!.name ?? props.item.name!);
+    const itemName = computed(() => getItemTranslatedProperties(props.item)?.name ?? props.item.name!);
     const extraColumns = props.itemService.getExtraTableColumns(props.item);
     
     async function refreshThumbnail() {

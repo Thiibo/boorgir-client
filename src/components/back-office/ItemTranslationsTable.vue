@@ -1,27 +1,23 @@
 <script setup lang="ts">
-    import type { ItemService } from '@/modules/api-services/items';
+    import { getItemTranslatedProperties, type ItemData, type ItemService } from '@/modules/api-services/items';
     import { AVAILABLE_LOCALES, type Locale } from '@/modules/core/localization';
     import { computed } from 'vue';
 
     const props = defineProps<{
         itemService: ItemService,
-        itemTranslations: StringKeyValueObject[]
+        item: ItemData
     }>();
 
     const availableLocaleCodes = computed(() => Object.keys(AVAILABLE_LOCALES) as Locale[]);
-    const itemTranslationProperties = computed(() => Object.keys(props.itemTranslations ? props.itemTranslations[0] : []).filter(property => property !== 'lang'));
-
-    function getTranslationProperties(lang: Locale) {
-        return props.itemTranslations.find(translation => translation.lang === lang);
-    }
+    const itemTranslationProperties = computed(() => Object.keys(props.item.translations![0]).filter(property => property !== 'lang'));
 
     function getTranslationProperty(lang: Locale, property: string) {
-        const translationData = getTranslationProperties(lang);
+        const translationData = getItemTranslatedProperties(props.item, lang) as AnyKeyValueObject;
         return translationData ? translationData[property] : "";
     }
 
     function setTranslationProperty(lang: Locale, property: string, value: any) {
-        const translationData = getTranslationProperties(lang);
+        const translationData = getItemTranslatedProperties(props.item, lang) as AnyKeyValueObject;
         translationData![property] = value;
     }
 </script>

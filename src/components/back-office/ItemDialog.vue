@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import { ItemService, type ItemData } from '@/modules/api-services/items';
-    import { currentLocale, translate } from '@/modules/core/localization';
+    import { ItemService, type ItemData, getItemTranslatedProperties } from '@/modules/api-services/items';
+    import { translate } from '@/modules/core/localization';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { computed, onMounted, ref } from 'vue';
@@ -24,7 +24,6 @@
     const thumbnailChanged = ref(false);
     const validationErrors = ref<StringArrayKeyValueObject>();
 
-    const itemTranslations = computed(() => itemData.value?.translations as StringKeyValueObject[]);
     const itemNonTranslationData = computed(() => {
         const data: AnyKeyValueObject = Object.assign({}, itemData.value);
         delete data['id'];
@@ -33,7 +32,7 @@
         return data;
     });
     const itemName = computed(() => {
-        const name = itemTranslations.value?.find(item => item.lang === currentLocale.value)?.name ?? '';
+        const name = getItemTranslatedProperties(itemData.value!)?.name ?? '';
         return name === '' ? translate("backoffice.itemselection.title.unnamed") : name;
     });
 
@@ -113,7 +112,7 @@
                 <h2>{{ itemName }}</h2>
             </div>
             <form @submit.prevent="saveItem">
-                <ItemTranslationsTable :item-service="itemService" :itemTranslations="itemTranslations" v-if="itemTranslations" />
+                <ItemTranslationsTable :item-service="itemService" :item="itemData" />
                 <div v-for="column in Object.keys(itemNonTranslationData)">
                     <NonTranslationInput
                         :item-service="itemService"
