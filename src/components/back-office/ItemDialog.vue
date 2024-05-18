@@ -38,7 +38,7 @@
 
     function setItemProperty(property: string, value: any) {
         const oldValue = (item.value as AnyKeyValueObject)[property];
-        const correctlyTypedValue = typeof oldValue === 'number' ? parseInt(value) : value;
+        const correctlyTypedValue = typeof oldValue === 'number' ? parseFloat(value) : value;
         item.value = { ...item.value!, [property]: correctlyTypedValue}
     }
 
