@@ -46,6 +46,8 @@
 
 <style lang="scss" scoped>
     .grid-item {
+        display: flex;
+        flex-direction: column;
         position: relative;
         background-color: var(--color-background-mute);
         border: .1rem solid var(--color-border);
@@ -54,7 +56,7 @@
 
         .item-image {
             width: 100%;
-            height: 8rem;
+            height: 10rem;
             object-fit: cover;
 
             &:is(img) {
@@ -63,9 +65,9 @@
         }
 
         h3 {
-            padding: .2rem 1rem;
+            margin: 1rem 1rem 2rem 1rem;
             font-weight: bold;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
 
         .top {
@@ -94,9 +96,8 @@
 
         button {
             display: block;
-            z-index: 3;
-            margin: .6rem 1rem;
-            margin-left: auto;
+            margin: auto 1rem .6rem auto;
+            z-index: 1;
         }
     }
 </style>../ItemImage.vue

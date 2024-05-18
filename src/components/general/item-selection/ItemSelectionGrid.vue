@@ -24,7 +24,7 @@
 
     .selection-grid {
         display: grid;
-        gap: 4rem;
-        @include gridAutoColumns(8rem, 2%);
+        gap: 2rem;
+        @include gridAutoColumns(12rem, 2%);
     }
 </style>
