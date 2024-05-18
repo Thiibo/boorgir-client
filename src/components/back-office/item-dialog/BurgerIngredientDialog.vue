@@ -98,6 +98,8 @@
 
             .current-items {
                 height: 100%;
+                width: 20vw;
+                min-width: 30rem;
 
                 h2 {
                     margin-bottom: 1rem;
