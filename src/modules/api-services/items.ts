@@ -33,6 +33,8 @@ class ItemService {
         return (this.isAdmin ? 'admin/' : '') + this.itemType;
     }
 
+    private thumbnailCache: {[id: number]: File} = {};
+
     constructor(itemType: ItemType, isAdmin: boolean, extraColumnGenerators: GetItemsDataExtraColumnGenerators = {}) {
         this.itemType = itemType;
         this.isAdmin = isAdmin;
@@ -93,12 +95,19 @@ class ItemService {
         return API.del(`${this.endpoint}/${id}`);
     }
 
-    public getThumbnail(id: number) {
-        return API.get(`${this.itemType}/${id}/thumbnail`, {}, 'no-cache') as Promise<Blob>;
+    public async getThumbnail(id: number) {
+        // Use cache if image already queried
+        if (id in this.thumbnailCache) return Promise.resolve(this.thumbnailCache[id]);
+
+        const res = await API.get(`${this.itemType}/${id}/thumbnail`, {}) as File;
+        this.thumbnailCache[id] = res;
+        return res;
     }
 
-    public uploadThumbnail(id: number, file: File) {
-        return API.post(`${this.endpoint}/${id}/thumbnail`, file);
+    public async uploadThumbnail(id: number, file: File) {
+        const res = await API.post(`${this.endpoint}/${id}/thumbnail`, file);
+        this.thumbnailCache[id] = file;
+        return res;
     }
 
     // === Helper methods ===
