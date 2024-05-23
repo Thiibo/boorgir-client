@@ -4,13 +4,12 @@ import { ValidationError } from "./validation-error";
 const API_URL = "https://api.test/api";
 
 type RequestBody = AnyKeyValueObject | File;
-type CacheOption = 'default' | 'no-cache';
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-function request(endpoint: string, cacheOption?: CacheOption, queryParams: StringKeyValueObject = {}, httpMethod: HttpMethod = 'GET', body?: RequestBody) {
+function request(endpoint: string, queryParams: StringKeyValueObject = {}, httpMethod: HttpMethod = 'GET', body?: RequestBody) {
     const searchParams = createSearchParams({...queryParams, lang: currentLocale.value});
     const fetchUrl = `${API_URL}/${endpoint}?${searchParams}`;
-    const fetchOptions = createFetchOptions(httpMethod, body, cacheOption);
+    const fetchOptions = createFetchOptions(httpMethod, body);
 
     return fetch(fetchUrl, fetchOptions).then(handleRequestSuccess).catch(handleRequestFetchError);
 }
@@ -49,7 +48,7 @@ function createSearchParams(queryParams: StringKeyValueObject): URLSearchParams 
     return searchParams;
 }
 
-function createFetchOptions(httpMethod: HttpMethod, body?: RequestBody, cacheOption: CacheOption = 'default'): Object {
+function createFetchOptions(httpMethod: HttpMethod, body?: RequestBody): Object {
     let fetchBody: BodyInit;
     const fetchHeaders: StringKeyValueObject = { 'Accept': 'application/json' };
 
@@ -65,25 +64,24 @@ function createFetchOptions(httpMethod: HttpMethod, body?: RequestBody, cacheOpt
         method: httpMethod,
         credentials: "include",
         headers: fetchHeaders,
-        cache: cacheOption,
         body: fetchBody
     };
 }
 
-async function get(endpoint: string, queryParams: StringKeyValueObject = {}, cacheOption?: CacheOption) {
-    return request(endpoint, cacheOption, queryParams);
+async function get(endpoint: string, queryParams: StringKeyValueObject = {}) {
+    return request(endpoint, queryParams);
 }
 
-async function post(endpoint: string, body?: RequestBody, cacheOption?: CacheOption) {
-    return request(endpoint, cacheOption, {}, 'POST', body);
+async function post(endpoint: string, body?: RequestBody) {
+    return request(endpoint, {}, 'POST', body);
 }
 
-async function put(endpoint: string, body: RequestBody, cacheOption?: CacheOption) {
-    return request(endpoint, cacheOption, {}, 'PUT', body);
+async function put(endpoint: string, body: RequestBody) {
+    return request(endpoint, {}, 'PUT', body);
 }
 
-async function del(endpoint: string, cacheOption?: CacheOption) {
-    return request(endpoint, cacheOption, {}, 'DELETE');
+async function del(endpoint: string) {
+    return request(endpoint, {}, 'DELETE');
 }
 
 export default { get, post, put, del };
