@@ -1,7 +1,7 @@
 import { currentLocale } from "./localization";
 import { ValidationError } from "./validation-error";
 
-const API_URL = "http://localhost:8000/api";
+const API_URL = "https://api.test/api";
 
 type RequestBody = AnyKeyValueObject | File;
 type CacheOption = 'default' | 'no-cache';
