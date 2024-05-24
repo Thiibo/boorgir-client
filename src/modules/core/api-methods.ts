@@ -1,4 +1,4 @@
-import { currentLocale } from "./localization";
+import { currentLocale, translate } from "./localization";
 import Notification from "./notifications";
 import { ValidationError } from "./validation-error";
 
@@ -36,7 +36,7 @@ function handleRequestFetchError(err: Error) {
     // Ignore validation errors
     if (err instanceof ValidationError) throw err;
 
-    Notification.create("An API error occured", "error");
+    Notification.create(translate('general.error.api'), "error");
     console.error("An API error occured");
 }
 
