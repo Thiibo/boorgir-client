@@ -52,10 +52,11 @@ button.icon-button {
   font-size: inherit;
   padding: 0;
   color: inherit;
+}
 
-  &::before, &::after {
-    display: none;
-  }
+button.icon-button::before,
+button.icon-button::after {
+  display: none;
 }
 
 input, textarea {
