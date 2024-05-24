@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/front/HomeView.vue'
 import { profileData } from '@/modules/api-services/auth';
+import Notification from '@/modules/core/notifications';
 
 function defineRoutes(routes: RouteRecordRaw[], globalRouteProperties: (route: RouteRecordRaw) => Object): RouteRecordRaw[] {
     routes.forEach(route => Object.assign(route, globalRouteProperties(route)));
@@ -76,6 +77,7 @@ const router = createRouter({
 router.beforeEach(async (to, _, next) => {
   if (!to.meta.isFront && !profileData.value?.is_admin) {
     next({ path: '/' });
+    Notification.create('general.error.unauthorized', 'error');
   } else {
     next();
   }
