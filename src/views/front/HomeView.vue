@@ -30,8 +30,8 @@
     overflow: hidden;
 
     .wrapper {
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(.3rem);
+      background-color: var(--color-home-intro-overlay);
+      backdrop-filter: blur(.5rem);
       padding-top: 10rem;
       padding-bottom: 10rem;
     }

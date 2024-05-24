@@ -42,6 +42,8 @@
   --color-notification-error: rgb(255, 101, 101);
   --color-notification-error-progress: rgb(170, 58, 58);
 
+  --color-home-intro-overlay: rgba(255, 255, 255, 0.6);
+
   --color-theme: rgb(182, 58, 37);
   --color-theme-darker: rgb(167, 52, 31);
 
@@ -64,6 +66,8 @@
 
     --color-notification-error: rgb(184, 51, 51);
     --color-notification-error-progress: rgb(255, 124, 124);
+
+    --color-home-intro-overlay: rgba(0, 0, 0, 0.5);
   }
 }
 
