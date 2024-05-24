@@ -51,7 +51,7 @@ button:hover::after, .button:hover::after, a.button.router-link-active::after {
 button.icon-button {
   font-size: inherit;
   padding: 0;
-  color: var(--color-text);
+  color: inherit;
 
   &::before, &::after {
     display: none;

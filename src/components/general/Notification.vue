@@ -55,8 +55,9 @@
         }
 
         &.error {
-            background-color: rgb(184, 51, 51);
-            .progress { background-color: rgb(255, 124, 124); }
+            background-color: var(--color-notification-error);
+            color: white;
+            .progress { background-color: var(--color-notification-error-progress); }
         }
     }
 
