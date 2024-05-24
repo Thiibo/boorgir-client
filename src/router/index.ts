@@ -75,11 +75,17 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _, next) => {
-  if (!to.meta.isFront && !profileData.value?.is_admin) {
+  if (to.matched.length === 0) {
+    next({ path: '/' });
+    Notification.create('general.error.notfound', 'error');
+
+  } else if (!to.meta.isFront && !profileData.value?.is_admin) {
     next({ path: '/' });
     Notification.create('general.error.unauthorized', 'error');
+
   } else {
     next();
+
   }
 });
 
