@@ -1,4 +1,5 @@
 import { currentLocale } from "./localization";
+import Notification from "./notifications";
 import { ValidationError } from "./validation-error";
 
 const API_URL = "https://boorgir.test/api";
@@ -35,7 +36,7 @@ function handleRequestFetchError(err: Error) {
     // Ignore validation errors
     if (err instanceof ValidationError) throw err;
 
-    // todo: show message on screen
+    Notification.create("An API error occured", "error");
     console.error("An API error occured");
 }
 

@@ -5,6 +5,8 @@
   import ValidationErrors from '@/components/general/ValidationErrors.vue';
   import type { ValidationError } from '@/modules/core/validation-error';
   import { translate } from '@/modules/core/localization';
+  import Notification from '@/modules/core/notifications';
+  import router from '@/router';
 
   const validationErrors = ref<StringArrayKeyValueObject>();
 
@@ -14,7 +16,10 @@
   const passwordConfirmation = ref("");
   function submit() {
     register(name.value, email.value, password.value, passwordConfirmation.value)
-      .then(res => console.log(res))
+      .then(() => {
+        Notification.create(translate('front.page.register.success'));
+        router.push('/login');
+      })
       .catch((error: ValidationError) => validationErrors.value = error.errors);
   }
 </script>

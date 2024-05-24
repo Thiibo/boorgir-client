@@ -3,6 +3,8 @@
   import SiteHeader from '@/components/front/SiteHeader.vue';
   import { computed } from 'vue';
   import NavigationSidebar from './components/back-office/NavigationSidebar.vue';
+  import NotificationComponent from '@/components/general/Notification.vue';
+  import Notification from './modules/core/notifications';
 
   const route = useRoute();
   const isFront = computed(() => route?.meta?.isFront ?? true);
@@ -10,6 +12,11 @@
 
 <template>
   <div>
+    <ul class="notifications">
+        <li v-for="notification in Notification.instances.value">
+          <NotificationComponent :notification="notification" />
+        </li>
+    </ul>
     <div class="front" v-if="isFront">
       <SiteHeader />
       <RouterView />
@@ -22,6 +29,14 @@
 </template>
 
 <style lang="scss" scoped>
+  .notifications {
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    list-style: none;
+    z-index: 6;
+  }
+
   div {
     flex-direction: column;
     position: relative;
