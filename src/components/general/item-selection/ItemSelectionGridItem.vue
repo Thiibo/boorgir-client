@@ -19,7 +19,7 @@
     async function refreshThumbnail() {
         props.itemService.getThumbnail(props.item.id)
             .then(res => thumbnail.value = res as File)
-            .catch(() => thumbnail.value = undefined); // image not found, so ignore error
+            .catch(() => thumbnail.value = undefined);
     }
     onMounted(refreshThumbnail);
     watch(() => props.item, refreshThumbnail);
@@ -100,4 +100,4 @@
             z-index: 1;
         }
     }
-</style>../ItemImage.vue
+</style>
