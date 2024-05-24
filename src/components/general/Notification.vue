@@ -26,7 +26,7 @@
 <template>
     <div :class="[ 'notification', notification.type ]">
         <p>{{ translate(notification.untranslatedMessage) }}</p>
-        <button @click="notification.dismiss" class="icon-button" type="button">
+        <button @click="notification.dismiss" class="icon-button" :title="translate('general.notification.dismiss')" type="button">
             <FontAwesomeIcon :icon="faClose" />
         </button>
         <div :style="{ '--progress': `${autoDismissProgress}%` }" class="progress"></div>
