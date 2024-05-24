@@ -26,7 +26,7 @@
   <header>
     <nav>
       <RouterLink to="/">{{ translate('front.page.home') }}</RouterLink>
-      <RouterLink to="/order">{{ translate('front.page.order') }}</RouterLink>
+      <RouterLink to="/order" v-if="isLoggedIn">{{ translate('front.page.order') }}</RouterLink>
       <div class="wrapper">
         <h1 :class="{ enlarge: routeName === 'home' }">Boorgir</h1>
       </div>
