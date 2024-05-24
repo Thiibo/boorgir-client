@@ -1,7 +1,7 @@
 import { currentLocale } from "./localization";
 import { ValidationError } from "./validation-error";
 
-const API_URL = "https://api.test/api";
+const API_URL = "https://boorgir.test/api";
 
 type RequestBody = AnyKeyValueObject | File;
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
