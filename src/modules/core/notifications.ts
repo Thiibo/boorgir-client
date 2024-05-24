@@ -4,7 +4,7 @@ type NotificationType = "info" | "error";
 
 export default class Notification {
     type: NotificationType;
-    message: string;
+    untranslatedMessage: string;
     creationTimeEpochMs: number;
     dismissTimeMs: number;
     get autoDismissProgress() {
@@ -14,19 +14,19 @@ export default class Notification {
     static instances = ref<Notification[]>([]);
 
     private constructor(
-        message: string,
+        untranslatedMessage: string,
         type: NotificationType = "info",
         dismissTimeMs: number = 5000
     ) {
         this.type = type;
-        this.message = message;
+        this.untranslatedMessage = untranslatedMessage;
         this.creationTimeEpochMs = Date.now();
         this.dismissTimeMs = dismissTimeMs;
         Notification.instances.value.push(this);
     }
 
-    public static create(message: string, type?: NotificationType, dismissTimeMs?: number): Notification {
-        return new this(message, type, dismissTimeMs);
+    public static create(untranslatedMessage: string, type?: NotificationType, dismissTimeMs?: number): Notification {
+        return new this(untranslatedMessage, type, dismissTimeMs);
     }
 
     public dismiss(): void {

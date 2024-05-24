@@ -17,7 +17,7 @@
   function submit() {
     register(name.value, email.value, password.value, passwordConfirmation.value)
       .then(() => {
-        Notification.create(translate('front.page.register.success'));
+        Notification.create('front.page.register.success');
         router.push('/login');
       })
       .catch((error: ValidationError) => validationErrors.value = error.errors);

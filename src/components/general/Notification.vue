@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { translate } from '@/modules/core/localization';
     import Notification from '@/modules/core/notifications';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -24,7 +25,7 @@
 
 <template>
     <div :class="[ 'notification', notification.type ]">
-        <p>{{ notification.message }}</p>
+        <p>{{ translate(notification.untranslatedMessage) }}</p>
         <button @click="notification.dismiss" class="icon-button" type="button">
             <FontAwesomeIcon :icon="faClose" />
         </button>
