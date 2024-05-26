@@ -6,7 +6,6 @@
   <main>
     <section id="intro">
       <div class="wrapper">
-        <p>{{ translate('front.page.home.intro') }}</p>
         <RouterLink to="/order" class="button">{{ translate('front.page.home.cta') }}</RouterLink>
       </div>
     </section>
