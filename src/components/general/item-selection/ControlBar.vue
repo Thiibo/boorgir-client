@@ -53,9 +53,6 @@
         </div>
 
         <div class="control-group">
-            <button class="icon-button" :aria-label="translate('general.itemselection.controlbar.filter')" type="button">
-                <FontAwesomeIcon :icon="faFilter" />
-            </button>
             <SearchBar id="search-bar" :model-value="searchQuery" @update:model-value="value => $emit('update:searchQuery', value)" />
         </div>
     </div>
