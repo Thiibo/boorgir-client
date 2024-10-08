@@ -3,6 +3,9 @@
 Boorgir is an app that allows customers to order burgers and view detailed information about them, such as the ingredients that they are made of.
 The app consists of a front interface for the clients and a back-office for administrators.
 
+> [!NOTE]
+> You are currently looking at the app repository of the Boorgir project. To view the API repository, view [Thiibo/boorgir-api](https://github.com/Thiibo/boorgir-api).
+
 Once all set up and seeded, you can use `admin@boorgir.be` with password `admin` to log in as an administrative user. To log in as a non-administrative user, use `joe@gmail.com` with password `password` or register an account before signing in.
 
 ## Features
